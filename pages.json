@@ -1,0 +1,148 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{ //登录页
+			"path": "pages/login/index",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //整车页面
+			"path": "pages/3pl_user/car_info",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //整车下单页面
+			"path": "pages/3pl_user/form",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //零担列表页面
+			"path": "pages/3pl_line/index",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"enablePullDownRefresh": true
+			}
+		},
+		{ //我的页面
+			"path": "pages/user/index",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ // 角色列表页面
+			"path": "pages/role/index",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ // 角色列表认证页面
+			"path": "pages/role/certification",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ // 角色列表绑定页面
+			"path": "pages/role/binding",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //设置页面
+			"path": "pages/setting/index",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //设置页面 用户指南
+			"path": "pages/setting/user_guide",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //设置页面 法律条款
+			"path": "pages/setting/Legal_provisions",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //设置页面 用户协议
+			"path": "pages/setting/User_agreement",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //设置页面 隐私政策
+			"path": "pages/setting/Privacy_policy",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //设置页面 关于我们
+			"path": "pages/setting/About_us",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //设置页面 密码设置
+			"path": "pages/setting/password",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //常用地址列表
+			"path": "pages/address/index",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"enablePullDownRefresh": true
+
+			}
+		},
+		{ //添加常用地址列表
+			"path": "pages/address/add",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+
+			}
+		},
+		{ //编辑常用地址列表
+			"path": "pages/address/editor",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		}
+
+	],
+	"tabBar": {
+		"color": "#333",
+		"selectedColor": "deepskyblue",
+		"backgroundColor": "#eee",
+		"borderStyle": "black",
+		"list": [{
+				"pagePath": "pages/3pl_user/car_info",
+				"text": "整车"
+			},
+			{
+				"pagePath": "pages/3pl_line/index",
+				"text": "零担"
+			},
+			{
+				"pagePath": "pages/user/index",
+				"text": "零担"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#eee",
+		"app-plus": {
+			"titleNView": false
+		}
+	}
+}
