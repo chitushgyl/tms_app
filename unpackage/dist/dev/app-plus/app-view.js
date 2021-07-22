@@ -10377,7 +10377,12 @@ var render = function() {
                                   "sc"
                                 ),
                                 staticStyle: { "margin-bottom": "10px" },
-                                attrs: { _i: "32-" + $30 + "-" + $32 }
+                                attrs: { _i: "32-" + $30 + "-" + $32 },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.$handleViewEvent($event)
+                                  }
+                                }
                               },
                               [
                                 _c("v-uni-image", {
@@ -10419,7 +10424,8 @@ var render = function() {
           ],
           1
         )
-      })
+      }),
+      _c("tabBar", { attrs: { _i: 35 } })
     ],
     2
   )

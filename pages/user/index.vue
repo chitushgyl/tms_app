@@ -68,7 +68,8 @@
 				</u-row>
 				<u-row gutter="16">
 					<u-col span="3" v-for="(item2,index2) in item.sys_foot" :key='index2'>
-						<view class="demo-layout bg-purple u-text-center" style="margin-bottom: 10px;">
+						<view class="demo-layout bg-purple u-text-center" style="margin-bottom: 10px;"
+							@click="uesr_path(item2)">
 							<image :src="item2.inactive_img" style="width:35px;height: 35px;" mode=""></image>
 							<p>{{item2.name}}</p>
 						</view>
@@ -76,10 +77,8 @@
 				</u-row>
 			</view>
 		</view>
-
-
-
 		<!-- <tabBar></tabBar> -->
+		<tabBar :app_url="'/pages/user/user'"></tabBar>
 	</view>
 </template>
 
@@ -99,7 +98,7 @@
 			}
 		},
 		onLoad: function() {
-			console.log(1)
+			// console.log(1)
 		},
 		created() {
 			this.user_owm()
@@ -113,15 +112,26 @@
 					project_type: projectType
 				};
 				api.user_owm(data).then(res => {
+					// console.log(JSON.stringify(res))
 					that.user = res.data;
 					that.userlist = res.info;
 					that.group_name = res.data.group_code;
 					that.tel = res.data.tel;
-					if (res.data.type == user) {
+					if (res.data.type == 'user') {
 						that.type_name = '司机'
+					} else {
+						console.log('1234')
+						that.type_name = res.data.group_name + '货主公司'
 					}
 					uni.setStorageSync('group_code', res.data.group_code);
-					console.log('我的页面返回数据' + JSON.stringify(res))
+					// console.log('我的页面返回数据' + JSON.stringify(res))
+				})
+			},
+			// 页面跳转
+			uesr_path(item) {
+				var path = item.app_url;
+				uni.navigateTo({
+					url: path
 				})
 			},
 			//页面跳转

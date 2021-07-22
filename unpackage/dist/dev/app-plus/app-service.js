@@ -15147,7 +15147,12 @@ var render = function() {
                                     "sc",
                                     "demo-layout bg-purple u-text-center"
                                   ),
-                                  attrs: { _i: "32-" + $30 + "-" + $32 }
+                                  attrs: { _i: "32-" + $30 + "-" + $32 },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.uesr_path(item2)
+                                    }
+                                  }
                                 },
                                 [
                                   _c("image", {
@@ -15183,7 +15188,8 @@ var render = function() {
               : _vm._e()
           ]
         )
-      })
+      }),
+      _c("tabBar", { attrs: { app_url: "/pages/user/user", _i: 35 } })
     ],
     2
   )
@@ -15239,7 +15245,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(__f__) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-
 
 
 
@@ -15408,9 +15413,12 @@ var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));f
 //
 //
 //
-//
-var _default = { data: function data() {return { background: { backgroundColor: '#0088F4' }, user: [], userlist: [], group_name: '', tel: '', type_name: '' };}, onLoad: function onLoad() {__f__("log", 1, " at pages/user/index.vue:102");}, created: function created() {this.user_owm();}, methods: { //我的页面数据
-    user_owm: function user_owm() {var that = this;var projectType = uni.getStorageSync("project_type");var data = { project_type: projectType };_api.default.user_owm(data).then(function (res) {that.user = res.data;that.userlist = res.info;that.group_name = res.data.group_code;that.tel = res.data.tel;if (res.data.type == user) {that.type_name = '司机';}uni.setStorageSync('group_code', res.data.group_code);__f__("log", '我的页面返回数据' + JSON.stringify(res), " at pages/user/index.vue:124");});}, //页面跳转
+var _default = { data: function data() {return { background: { backgroundColor: '#0088F4' }, user: [], userlist: [], group_name: '', tel: '', type_name: '' };}, onLoad: function onLoad() {// console.log(1)
+  }, created: function created() {this.user_owm();}, methods: { //我的页面数据
+    user_owm: function user_owm() {var that = this;var projectType = uni.getStorageSync("project_type");var data = { project_type: projectType };_api.default.user_owm(data).then(function (res) {// console.log(JSON.stringify(res))
+        that.user = res.data;that.userlist = res.info;that.group_name = res.data.group_code;that.tel = res.data.tel;if (res.data.type == 'user') {that.type_name = '司机';} else {__f__("log", '1234', " at pages/user/index.vue:123");that.type_name = res.data.group_name + '货主公司';}uni.setStorageSync('group_code', res.data.group_code); // console.log('我的页面返回数据' + JSON.stringify(res))
+      });}, // 页面跳转
+    uesr_path: function uesr_path(item) {var path = item.app_url;uni.navigateTo({ url: path });}, //页面跳转
     role: function role() {uni.navigateTo({ url: '/pages/role/index' });}, setting: function setting() {uni.navigateTo({ url: '/pages/setting/index' });} } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/lib/format-log.js */ 26)["default"]))
 
