@@ -16,15 +16,17 @@
 	</view> -->
 	<view class="uni-tabbar">
 		<view class="uni-tabbar__item" v-for="(item,index) in list" :key="index" @tap="changeTab(item)">
-			<!-- <view class="icon" :class="[item.fontIcon , item.pagePath == pagePath?'uni-active':'']"></view>
-			<view v-if="false" class="uni-tabbar__bd">
+			<!-- 	<view class="icon" :class="[item.fontIcon , item.app_url == app_url?'uni-active':'']"></view> -->
+			<view class="uni-tabbar__bd">
 				<view class="uni-tabbar__icon">
-					<image v-if="item.pagePath == pagePath" class="uni-w-42 uni-h-42" mode="aspectFit"
-						:src="item.active_img"></image>
-					<image v-else class="uni-w-42 uni-h-42" mode="aspectFit" :src="item.iconPath"></image>
+					<image v-if="item.app_url == app_url" style="width:22px; height: 22px;" class="uni-w-42 uni-h-42"
+						mode="aspectFit" :src="item.active_img"></image>
+					<image v-else style="width:22px; height: 22px;" class="uni-w-42 uni-h-42" mode="aspectFit"
+						:src="item.inactive_img"></image>
 				</view>
-			</view> -->
-			<view class="uni-tabbar__label" style="color: black;" :class="{'active': item.pagePath == pagePath}">
+			</view>
+
+			<view class="uni-tabbar__label" :class="{'active': item.app_url == app_url}">
 				{{item.name}}
 			</view>
 		</view>
@@ -34,6 +36,9 @@
 <script>
 	import api from '@/api/api.js'
 	export default {
+		props: {
+			app_url: null
+		},
 		data() {
 			return {
 				current: 0,
@@ -72,16 +77,17 @@
 					project_type: projectType
 				};
 				api.user_foot(data).then(res => {
-					console.log(res);
+					// console.log(res);
 					if (res.code == 200) {
 						this.list = res.data
 					}
 				});
 			},
 			changeTab(item) {
-				console.log(item)
-				var page = item.app_path;
+				// console.log(item)
+				var page = item.app_url;
 				// 这里使用reLaunch关闭所有的页面，打开新的栏目页面
+				// console.log(page)
 				uni.reLaunch({
 					url: page
 				});
@@ -91,6 +97,10 @@
 </script>
 
 <style lang="scss" scoped>
+	.active {
+		color: #1ca6ec;
+	}
+
 	[nvue] uni-scroll-view,
 	[nvue] uni-swiper-item,
 	[nvue] uni-view {
@@ -109,7 +119,7 @@
 		width: 100%;
 		display: flex;
 		justify-content: space-around;
-		height: 98upx;
+		height: 60px;
 		padding: 16upx 0;
 		box-sizing: border-box;
 		border-top: solid 1upx #ccc;

@@ -114,7 +114,64 @@
 			"style": {
 				"navigationBarTitleText": "uni-app"
 			}
+		},
+		{ //客户列表
+			"path": "pages/customer/list",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //添加客户列表
+			"path": "pages/customer/add",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //编辑客户列表
+			"path": "pages/customer/editor",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //车辆列表
+			"path": "pages/car/list",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"enablePullDownRefresh": true
+			}
+		},
+		{ //添加车辆列表
+			"path": "pages/car/add",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //编辑车辆列表
+			"path": "pages/car/editor",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //承运商列表
+			"path": "pages/carriers/list",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		
+		{ //编辑承运商列表
+			"path": "pages/carriers/editor",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //添加承运商列表
+			"path": "pages/carriers/add",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
 		}
+		
 
 	],
 	"tabBar": {
@@ -132,7 +189,7 @@
 			},
 			{
 				"pagePath": "pages/user/index",
-				"text": "零担"
+				"text": "我的"
 			}
 		]
 	},

@@ -25,7 +25,7 @@
 						v-model="password" placeholder="请输入密码" style="height: 50px;border-bottom: 1px solid #ccc;" />
 					<span class="Eyes">
 						<image src="../../images/login/noeye.png" v-if="showPassword" style=" width:20px; height:12px;"
-							@click="xs" title="显示密码" />
+							v-model="codeVal" @click="xs" title="显示密码" />
 						<image src="../../images/login/eyes.png" v-else style=" width:20px; height:12px;" @click="xs"
 							title="隐藏密码" />
 					</span>
@@ -65,6 +65,7 @@
 				showPassword: true,
 				type_password: 'password',
 				type_text: "text",
+				codeVal: ''
 			}
 		},
 		onLoad() {
@@ -94,33 +95,20 @@
 					}
 					var time = 60;
 					var timer = null;
-					// document.getElementById('submit').innerText = time + ' S后重新发送';
-					// document.getElementById('submit').setAttribute('disabled', 'disabled'); // 禁用按钮
-					// document.getElementById('submit').setAttribute('class', 'disabled');   // 添加class 按钮样式变灰
 					timer = setInterval(function() {
 						// 定时器到底了 兄弟们回家啦
 						if (that.second == 1) {
 							clearInterval(timer);
 							that.showText = true;
 							that.second = 0
-							// document.getElementById('submit').innerText = '获取验证码';
-							// document.getElementById('submit').removeAttribute('disabled');
-							// document.getElementById('submit').removeAttribute('class');  
 						} else {
 							console.log('hehe')
 							that.second--;
 						}
 					}, 1000)
-					// var url = request.message_send
-					// request.PostInfo_new(url, data, function(res) {
-					// 	console.log('res' + res)
-					// }, function(error) {
-					// 	// console.log('error'+ js)
-					// });
 
 				} else if (switchStatus == 2) { // 密码登录
 					console.log('12345')
-					// passLogin();
 				}
 			},
 			//切换登录方式
@@ -138,33 +126,75 @@
 			},
 
 			foot() {
-				var data = {
-					clientid: "clientid",
-					tel: this.phone,
-					password: this.password,
-					id_type: "user",
-				};
-				api.login(data).then(res => {
-					// console.log(res);
-					if (res.code == '200') {
-						uni.setStorageSync('ftoken', res.ftoken);
-						uni.setStorageSync('dtoken', res.dtoken);
-						uni.setStorageSync('project_type', res.project_type);
-						uni.switchTab({
-							url: '/pages/3pl_user/car_info'
-						});
-						// uni.navigateTo({
-						// 	url: '/pages/3pl_user/car_info'
-						// });
-					} else {
+				console.log('这是数据' + this.uniurl)
+				if (this.showpass) {
+					var data = {
+						clientid: "clientid",
+						tel: this.phone,
+						code: this.codeVal,
+						id_type: "carriage",
+					};
+					api.login_tel_login(data).then(res => {
+						// console.log(JSON.stringify(res))
+						// return false
+						if (res.code == '200') {
+							uni.setStorageSync('ftoken', res.ftoken);
+							uni.setStorageSync('dtoken', res.dtoken);
+							uni.setStorageSync('project_type', res.project_type);
+							// uni.switchTab({
+							// 	url: '/pages/3pl_user/car_info'
+							// });
+							uni.navigateTo({
+								url: '/pages/3pl_user/car_info'
+							});
+						} else {
+							this.$refs.uToast.show({
+								title: res.msg,
+								type: 'warning',
+								position: 'bottom'
+							})
+						}
+					});
+				} else {
+					if (!(/^1[345789]\d{9}$/.test(this.phone))) {
 						this.$refs.uToast.show({
-							title: res.msg,
+							title: '请填写正确的手机号码',
 							type: 'warning',
-							position: 'bottom'
 						})
+						return false;
 					}
-
-				});
+					console.log('123')
+					var data = {
+						clientid: "clientid",
+						tel: this.phone,
+						password: this.password,
+						id_type: "carriage",
+					};
+					api.login(data).then(res => {
+						// console.log(JSON.stringify(res))
+						// return false
+						if (res.code == '200') {
+							uni.setStorageSync('ftoken', res.ftoken);
+							uni.setStorageSync('dtoken', res.dtoken);
+							uni.setStorageSync('project_type', res.project_type);
+							uni.switchTab({
+								url: '/pages/3pl_user/car_info'
+							});
+							// if (self.list[index].system_admin) {
+							// 	localStorage.group_code = self.list[index].system_admin.group_code
+							// }
+							// uni.navigateTo({
+							// 	url: '/pages/3pl_user/car_info'
+							// });
+						} else {
+							this.$refs.uToast.show({
+								title: res.msg,
+								type: 'warning',
+								position: 'bottom'
+							})
+						}
+					});
+				}
 			}
 		}
 	}
