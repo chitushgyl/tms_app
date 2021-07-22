@@ -18732,7 +18732,16 @@ var render = function() {
               staticStyle: { "margin-left": "10px" },
               attrs: { _i: 2 }
             },
-            [_c("u-icon", { attrs: { _i: 3 } })],
+            [
+              _c("u-icon", {
+                attrs: { _i: 3 },
+                on: {
+                  click: function($event) {
+                    return _vm.$handleViewEvent($event)
+                  }
+                }
+              })
+            ],
             1
           )
         ],
@@ -20265,7 +20274,16 @@ var render = function() {
               staticStyle: { "margin-left": "10px" },
               attrs: { _i: 2 }
             },
-            [_c("u-icon", { attrs: { _i: 3 } })],
+            [
+              _c("u-icon", {
+                attrs: { _i: 3 },
+                on: {
+                  click: function($event) {
+                    return _vm.$handleViewEvent($event)
+                  }
+                }
+              })
+            ],
             1
           )
         ],
@@ -22788,7 +22806,12 @@ var render = function() {
             {
               staticClass: _vm._$g(2, "sc"),
               staticStyle: { "margin-left": "10px" },
-              attrs: { _i: 2 }
+              attrs: { _i: 2 },
+              on: {
+                click: function($event) {
+                  return _vm.$handleViewEvent($event)
+                }
+              }
             },
             [_c("u-icon", { attrs: { _i: 3 } })],
             1

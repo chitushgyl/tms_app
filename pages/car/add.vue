@@ -15,7 +15,7 @@
 						车辆号码
 					</u-col>
 					<u-col span="5" class="a">
-						<u-keyboard @change="valChange" @backspace="backspace" ref="uKeyboard" mode="car" v-model="show1" ></u-keyboard>
+						<u-keyboard :mask="false" @change="valChange" @backspace="backspace" ref="uKeyboard" mode="car" v-model="show1" ></u-keyboard>
 						<!-- <u-picker v-model="show1" mode="selector" :default-selector="[0]" :range="selector" @confirm="returndata"></u-picker> -->
 						<span>{{form.car_number}}</span>
 					<!-- <input @click="openpicker(1)" v-model="form.companyname" id="all_name" type="text" style="" :placeholder="form.companyname" style="color: #1D2026;float: right;"  > -->
@@ -278,9 +278,7 @@
 					console.log(res.code)
 					if(res.code == 200){
 						console.log("添加成功")
-						uni.navigateTo({
-							url:"/pages/car/list"
-						})
+						this.back()
 					}else{
 						thi.$refs.uToast.show({
 							title: "添加失败",

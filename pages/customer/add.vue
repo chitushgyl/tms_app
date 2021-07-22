@@ -78,9 +78,9 @@
 		data(){
 			return{
 				// 公司名
-				selector:["请选择","东风快递"],
+				selector:["东风快递"],
 				// 支付方式
-				paymethod:["请选择","月结","周结","日结","现付"],
+				paymethod:["月结","周结","日结","现付"],
 				// 控制选择器弹出
 				show1: false,
 				show3: false,

@@ -15327,11 +15327,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
-//
-//
 //
 //
 //
@@ -15416,7 +15412,7 @@ var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));f
 var _default = { data: function data() {return { background: { backgroundColor: '#0088F4' }, user: [], userlist: [], group_name: '', tel: '', type_name: '' };}, onLoad: function onLoad() {// console.log(1)
   }, created: function created() {this.user_owm();}, methods: { //我的页面数据
     user_owm: function user_owm() {var that = this;var projectType = uni.getStorageSync("project_type");var data = { project_type: projectType };_api.default.user_owm(data).then(function (res) {// console.log(JSON.stringify(res))
-        that.user = res.data;that.userlist = res.info;that.group_name = res.data.group_code;that.tel = res.data.tel;if (res.data.type == 'user') {that.type_name = '司机';} else {__f__("log", '1234', " at pages/user/index.vue:123");that.type_name = res.data.group_name + '货主公司';}uni.setStorageSync('group_code', res.data.group_code); // console.log('我的页面返回数据' + JSON.stringify(res))
+        that.user = res.data;that.userlist = res.info;that.group_name = res.data.group_code;that.tel = res.data.tel;if (res.data.type == 'user') {that.type_name = '司机';} else {__f__("log", '1234', " at pages/user/index.vue:121");that.type_name = res.data.group_name + '货主公司';}uni.setStorageSync('group_code', res.data.group_code); // console.log('我的页面返回数据' + JSON.stringify(res))
       });}, // 页面跳转
     uesr_path: function uesr_path(item) {var path = item.app_url;uni.navigateTo({ url: path });}, //页面跳转
     role: function role() {uni.navigateTo({ url: '/pages/role/index' });}, setting: function setting() {uni.navigateTo({ url: '/pages/setting/index' });} } };exports.default = _default;
@@ -26154,7 +26150,8 @@ var render = function() {
             { staticClass: _vm._$s(2, "sc", "slot-wrap"), attrs: { _i: 2 } },
             [
               _c("u-icon", {
-                attrs: { name: "arrow-leftward", size: "28", _i: 3 }
+                attrs: { name: "arrow-leftward", size: "28", _i: 3 },
+                on: { click: _vm.toindex }
               })
             ],
             1
@@ -26477,12 +26474,18 @@ var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));f
 //
 //
 //
-var _default = { data: function data() {return { customer: [], show: false, content: '', cancel_style: { borderRight: '1px solid #e4e7ed' }, self_id: '', index: 0 };}, onLoad: function onLoad() {}, created: function created() {this.loaddata();}, methods: { //删除
-    del: function del(item, index) {__f__("log", item, " at pages/customer/list.vue:79");__f__("log", index, " at pages/customer/list.vue:80");this.content = '你确定要删除当前这条数据吗';this.show = true;this.self_id = item.self_id;this.index = index;__f__("log", this.index, " at pages/customer/list.vue:85");}, confirm: function confirm() {var _this = this;var data = { self_id: this.self_id };__f__("log", "我是self_id" + data.self_id, " at pages/customer/list.vue:91");_api.default.tms_group_groupDelFlag(data).then(function (res) {if (res.code == 200) {__f__("log", res, " at pages/customer/list.vue:94");__f__("log", "删除成功", " at pages/customer/list.vue:95");_this.loaddata();}});}, // 加载客户数据
-    loaddata: function loaddata() {var _this2 = this;var data = { page: 1, type: 'customer' };uni.showNavigationBarLoading();_api.default.tms_group_groupPage(data).then(function (res) {__f__("log", "加载客户数据已完成", " at pages/customer/list.vue:108");__f__("log", res.data.items, " at pages/customer/list.vue:109");uni.stopPullDownRefresh();
+var _default = { data: function data() {return { customer: [], show: false, content: '', cancel_style: { borderRight: '1px solid #e4e7ed' }, self_id: '', index: 0 };}, onLoad: function onLoad() {}, created: function created() {this.loaddata();}, methods: { //返回主页
+    toindex: function toindex() {uni.switchTab({ url: '/pages/user/index' });}, //删除
+    del: function del(item, index) {__f__("log", item, " at pages/customer/list.vue:85");__f__("log", index, " at pages/customer/list.vue:86");this.content = '你确定要删除当前这条数据吗';this.show = true;this.self_id = item.self_id;this.index = index;__f__("log", this.index, " at pages/customer/list.vue:91");}, confirm: function confirm() {var _this = this;var data = { self_id: this.self_id };__f__("log", "我是self_id" + data.self_id, " at pages/customer/list.vue:97");_api.default.tms_group_groupDelFlag(data).then(function (res) {if (res.code == 200) {__f__("log", res, " at pages/customer/list.vue:100");__f__("log", "删除成功", " at pages/customer/list.vue:101");_this.loaddata();}});}, // 加载客户数据
+    loaddata: function loaddata() {var _this2 = this;var data = { page: 1, type: 'customer' };
+      uni.showNavigationBarLoading();
+      _api.default.tms_group_groupPage(data).then(function (res) {
+        __f__("log", "加载客户数据已完成", " at pages/customer/list.vue:114");
+        __f__("log", res.data.items, " at pages/customer/list.vue:115");
+        uni.stopPullDownRefresh();
         uni.hideNavigationBarLoading();
         _this2.customer = res.data.items;
-        __f__("log", _this2.customer, " at pages/customer/list.vue:113");
+        __f__("log", _this2.customer, " at pages/customer/list.vue:119");
 
       });
     },
@@ -26494,8 +26497,8 @@ var _default = { data: function data() {return { customer: [], show: false, cont
     },
     // 跳转至编辑页面
     toeditor: function toeditor(item, index) {
-      __f__("log", item, " at pages/customer/list.vue:125");
-      __f__("log", index, " at pages/customer/list.vue:126");
+      __f__("log", item, " at pages/customer/list.vue:131");
+      __f__("log", index, " at pages/customer/list.vue:132");
       var data = {};
       // group_code:self.group_id,
       // company_name:name,
@@ -27126,8 +27129,8 @@ var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));f
 //
 //
 var _default = { data: function data() {return { // 公司名
-      selector: ["请选择", "东风快递"], // 支付方式
-      paymethod: ["请选择", "月结", "周结", "日结", "现付"], // 控制选择器弹出
+      selector: ["东风快递"], // 支付方式
+      paymethod: ["月结", "周结", "日结", "现付"], // 控制选择器弹出
       show1: false, show3: false, pay1: "", form: { companyname: '请选择公司', //公司名称
         pay: '请选择结算方式', name: '', //客户名称	
         contact: '', //联系人
@@ -27786,7 +27789,7 @@ var _default = { data: function data() {return { // 公司名
     },
     back: function back() {
       uni.navigateTo({
-        url: '/pages/carriers/list' });
+        url: '/pages/customer/list' });
 
     } },
 
@@ -27939,7 +27942,8 @@ var render = function() {
             { staticClass: _vm._$s(2, "sc", "slot-wrap"), attrs: { _i: 2 } },
             [
               _c("u-icon", {
-                attrs: { name: "arrow-leftward", size: "28", _i: 3 }
+                attrs: { name: "arrow-leftward", size: "28", _i: 3 },
+                on: { click: _vm.toindex }
               })
             ],
             1
@@ -28275,10 +28279,16 @@ var _default = { data: function data() {return { cars: [], show: false, content:
   created: function created() {this.loadcarlist();}, // 下拉刷新
   onPullDownRefresh: function onPullDownRefresh() {// var page = 1
     // this.api_address_addressPage(page)
-    this.loadcarlist();}, methods: { //删除
-    del: function del(item, index) {__f__("log", item, " at pages/car/list.vue:93");__f__("log", index, " at pages/car/list.vue:94");this.content = '你确定要删除当前这条数据吗';this.show = true;this.self_id = item.self_id;this.index = index;__f__("log", this.index, " at pages/car/list.vue:99");__f__("log", this.show, " at pages/car/list.vue:100");}, confirm: function confirm() {var _this = this;var data = { self_id: this.self_id };__f__("log", "我是self_id" + data.self_id, " at pages/car/list.vue:106");_api.default.tms_car_carDelFlag(data).then(function (res) {if (res.code == 200) {__f__("log", "删除成功", " at pages/car/list.vue:109");_this.loadcarlist();}});}, //加载列表数据
-    loadcarlist: function loadcarlist() {var _this2 = this;var data = {};uni.showNavigationBarLoading();_api.default.tms_car_carPage(data).then(function (res) {if (res.code == 200) {uni.stopPullDownRefresh();uni.hideNavigationBarLoading();_this2.cars = res.data.items;__f__("log", _this2.cars, " at pages/car/list.vue:123");
-          __f__("log", "加载数据成功", " at pages/car/list.vue:124");
+    this.loadcarlist();}, methods: { //返回主页
+    toindex: function toindex() {uni.switchTab({ url: '/pages/user/index' });}, //删除
+    del: function del(item, index) {__f__("log", item, " at pages/car/list.vue:99");__f__("log", index, " at pages/car/list.vue:100");this.content = '你确定要删除当前这条数据吗';this.show = true;this.self_id = item.self_id;this.index = index;__f__("log", this.index, " at pages/car/list.vue:105");__f__("log", this.show, " at pages/car/list.vue:106");}, confirm: function confirm() {var _this = this;var data = { self_id: this.self_id };__f__("log", "我是self_id" + data.self_id, " at pages/car/list.vue:112");_api.default.tms_car_carDelFlag(data).then(function (res) {if (res.code == 200) {__f__("log", "删除成功", " at pages/car/list.vue:115");_this.loadcarlist();}});}, //加载列表数据
+    loadcarlist: function loadcarlist() {var _this2 = this;var data = {};uni.showNavigationBarLoading();_api.default.tms_car_carPage(data).then(function (res) {
+        if (res.code == 200) {
+          uni.stopPullDownRefresh();
+          uni.hideNavigationBarLoading();
+          _this2.cars = res.data.items;
+          __f__("log", _this2.cars, " at pages/car/list.vue:129");
+          __f__("log", "加载数据成功", " at pages/car/list.vue:130");
         }
       });
     },
@@ -28290,8 +28300,8 @@ var _default = { data: function data() {return { cars: [], show: false, content:
     },
     // 跳转至编辑页面
     toeditor: function toeditor(item, index) {
-      __f__("log", item, " at pages/car/list.vue:136");
-      __f__("log", index, " at pages/car/list.vue:137");
+      __f__("log", item, " at pages/car/list.vue:142");
+      __f__("log", index, " at pages/car/list.vue:143");
       var data = {
         self_id: item.self_id, //车代号
         tms_control_type_show: item.tms_control_type_show, //温控
@@ -28481,7 +28491,7 @@ var render = function() {
                     [
                       _c("u-keyboard", {
                         ref: "uKeyboard",
-                        attrs: { mode: "car", _i: 9 },
+                        attrs: { mask: false, mode: "car", _i: 9 },
                         on: { change: _vm.valChange, backspace: _vm.backspace },
                         model: {
                           value: _vm._$s(9, "v-model", _vm.show1),
@@ -30298,7 +30308,7 @@ var _default = { data: function data() {return { show: false, // 公司名
       this.form.cardate = item.year + "-" + item.day + "-" + item.month;
       __f__("log", this.form.cardate, " at pages/car/add.vue:260");
     },
-    submit: function submit() {
+    submit: function submit() {var _this = this;
       var submitdata = {
         token: "",
         control: this.control,
@@ -30317,9 +30327,7 @@ var _default = { data: function data() {return { show: false, // 公司名
         __f__("log", res.code, " at pages/car/add.vue:278");
         if (res.code == 200) {
           __f__("log", "添加成功", " at pages/car/add.vue:280");
-          uni.navigateTo({
-            url: "/pages/car/list" });
-
+          _this.back();
         } else {
           thi.$refs.uToast.show({
             title: "添加失败",
@@ -30329,24 +30337,24 @@ var _default = { data: function data() {return { show: false, // 公司名
       });
     },
     //车辆类型
-    carType: function carType() {var _this = this;
+    carType: function carType() {var _this2 = this;
       var data = {
         token: null };
 
       _api.default.api_car_getType(data).then(function (res) {
         if (res.code == 200) {
-          __f__("log", JSON.stringify(res), " at pages/car/add.vue:299");
-          __f__("log", res.data.info, " at pages/car/add.vue:300");
-          _this.car_type_list = res.data.info;
+          __f__("log", JSON.stringify(res), " at pages/car/add.vue:297");
+          __f__("log", res.data.info, " at pages/car/add.vue:298");
+          _this2.car_type_list = res.data.info;
           var carTypeData = [];
           var index = i;
-          for (var i = 0; i < _this.car_type_list.length; i++) {
+          for (var i = 0; i < _this2.car_type_list.length; i++) {
             carTypeData.push({
-              value: _this.car_type_list[i].self_id,
-              text: _this.car_type_list[i].parame_name });
+              value: _this2.car_type_list[i].self_id,
+              text: _this2.car_type_list[i].parame_name });
 
           }
-          __f__("log", carTypeData, " at pages/car/add.vue:310");
+          __f__("log", carTypeData, " at pages/car/add.vue:308");
         }
 
       });
@@ -30573,7 +30581,7 @@ var render = function() {
                     [
                       _c("u-keyboard", {
                         ref: "uKeyboard",
-                        attrs: { mode: "car", _i: 9 },
+                        attrs: { mask: false, mode: "car", _i: 9 },
                         on: { change: _vm.valChange, backspace: _vm.backspace },
                         model: {
                           value: _vm._$s(9, "v-model", _vm.show1),
@@ -31367,7 +31375,11 @@ var render = function() {
         [
           _c(
             "view",
-            { staticClass: _vm._$s(2, "sc", "slot-wrap"), attrs: { _i: 2 } },
+            {
+              staticClass: _vm._$s(2, "sc", "slot-wrap"),
+              attrs: { _i: 2 },
+              on: { click: _vm.toindex }
+            },
             [
               _c("u-icon", {
                 attrs: { name: "arrow-leftward", size: "28", _i: 3 }
@@ -31694,24 +31706,33 @@ var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));f
 var _default = { data: function data() {return { // 承运端列表
       carriers: [], show: false, content: '', cancel_style: { borderRight: '1px solid #e4e7ed' }, self_id: '', index: 0 };}, onLoad: function onLoad() {}, created: function created() {this.loaddata();}, onPullDownRefresh: function onPullDownRefresh() {// var page = 1
     // this.api_address_addressPage(page)
-    this.loaddata();}, methods: { // 加载列表数据
-    loaddata: function loaddata() {var _this = this;var data = {};uni.showNavigationBarLoading();_api.default.tms_group_groupPage(data).then(function (res) {if (res.code == 200) {uni.stopPullDownRefresh();uni.hideNavigationBarLoading();_this.carriers = res.data.items;__f__("log", "加载数据成功", " at pages/carriers/list.vue:91");__f__("log", _this.carriers, " at pages/carriers/list.vue:92");}});}, // 编辑
-    editcarriers: function editcarriers(item, index) {__f__("log", item, " at pages/carriers/list.vue:99");__f__("log", index, " at pages/carriers/list.vue:100");var data = {};data.self_id = item.self_id;data.company_name = item.company_name;data.create_user_name = item.create_user_name;data.type = item.type;data.group_name = item.group_name;data.cost_type = item.cost_type;data.contacts = item.contacts;data.address = item.address;data.tel = item.tel;data.group_code = item.group_code;data.cost_type_show = item.cost_type_show;data.use_flag = item.use_flag;
+    this.loaddata();}, methods: { //返回主页
+    toindex: function toindex() {uni.switchTab({ url: '/pages/user/index' });}, // 加载列表数据
+    loaddata: function loaddata() {var _this = this;var data = { page: 1, type: "carriers" };uni.showNavigationBarLoading();_api.default.tms_group_groupPage(data).then(function (res) {if (res.code == 200) {uni.stopPullDownRefresh();uni.hideNavigationBarLoading();_this.carriers = res.data.items;__f__("log", "加载数据成功", " at pages/carriers/list.vue:100");__f__("log", _this.carriers, " at pages/carriers/list.vue:101");}});}, // 编辑
+    editcarriers: function editcarriers(item, index) {__f__("log", item, " at pages/carriers/list.vue:108");__f__("log", index, " at pages/carriers/list.vue:109");var data = {};data.self_id = item.self_id;data.company_name = item.company_name;data.create_user_name = item.create_user_name;data.type = item.type;
+      data.group_name = item.group_name;
+      data.cost_type = item.cost_type;
+      data.contacts = item.contacts;
+      data.address = item.address;
+      data.tel = item.tel;
+      data.group_code = item.group_code;
+      data.cost_type_show = item.cost_type_show;
+      data.use_flag = item.use_flag;
       data.type_show = item.type_show;
       this.$store.commit('a1', data);
-      __f__("log", data.self_id, " at pages/carriers/list.vue:116");
-      __f__("log", data.company_name, " at pages/carriers/list.vue:117");
-      __f__("log", data.create_user_name, " at pages/carriers/list.vue:118");
-      __f__("log", data.type, " at pages/carriers/list.vue:119");
-      __f__("log", data.group_name, " at pages/carriers/list.vue:120");
-      __f__("log", data.cost_type, " at pages/carriers/list.vue:121");
-      __f__("log", data.contacts, " at pages/carriers/list.vue:122");
-      __f__("log", data.address, " at pages/carriers/list.vue:123");
-      __f__("log", data.tel, " at pages/carriers/list.vue:124");
-      __f__("log", data.group_code, " at pages/carriers/list.vue:125");
-      __f__("log", data.cost_type_show, " at pages/carriers/list.vue:126");
-      __f__("log", data.use_flag, " at pages/carriers/list.vue:127");
-      __f__("log", data.type_show, " at pages/carriers/list.vue:128");
+      __f__("log", data.self_id, " at pages/carriers/list.vue:125");
+      __f__("log", data.company_name, " at pages/carriers/list.vue:126");
+      __f__("log", data.create_user_name, " at pages/carriers/list.vue:127");
+      __f__("log", data.type, " at pages/carriers/list.vue:128");
+      __f__("log", data.group_name, " at pages/carriers/list.vue:129");
+      __f__("log", data.cost_type, " at pages/carriers/list.vue:130");
+      __f__("log", data.contacts, " at pages/carriers/list.vue:131");
+      __f__("log", data.address, " at pages/carriers/list.vue:132");
+      __f__("log", data.tel, " at pages/carriers/list.vue:133");
+      __f__("log", data.group_code, " at pages/carriers/list.vue:134");
+      __f__("log", data.cost_type_show, " at pages/carriers/list.vue:135");
+      __f__("log", data.use_flag, " at pages/carriers/list.vue:136");
+      __f__("log", data.type_show, " at pages/carriers/list.vue:137");
       uni.navigateTo({
         url: '/pages/carriers/editor' });
 
@@ -31723,24 +31744,24 @@ var _default = { data: function data() {return { // 承运端列表
 
     // 删除
     dele: function dele(item, index) {
-      __f__("log", item, " at pages/carriers/list.vue:140");
-      __f__("log", index, " at pages/carriers/list.vue:141");
+      __f__("log", item, " at pages/carriers/list.vue:149");
+      __f__("log", index, " at pages/carriers/list.vue:150");
       this.content = '你确定要删除当前这条数据吗';
       this.show = true;
       this.self_id = item.self_id;
       this.index = index;
-      __f__("log", this.index, " at pages/carriers/list.vue:146");
+      __f__("log", this.index, " at pages/carriers/list.vue:155");
     },
     confirm: function confirm() {var _this2 = this;
       // 请求删除接口
       var data = {
         self_id: this.self_id };
 
-      __f__("log", "我是self_id" + data.self_id, " at pages/carriers/list.vue:153");
+      __f__("log", "我是self_id" + data.self_id, " at pages/carriers/list.vue:162");
       _api.default.tms_group_groupDelFlag(data).then(function (res) {
         if (res.code == 200) {
-          __f__("log", res, " at pages/carriers/list.vue:156");
-          __f__("log", "删除成功", " at pages/carriers/list.vue:157");
+          __f__("log", res, " at pages/carriers/list.vue:165");
+          __f__("log", "删除成功", " at pages/carriers/list.vue:166");
           _this2.loaddata();
         }
       });
@@ -31749,12 +31770,6 @@ var _default = { data: function data() {return { // 承运端列表
     toadd: function toadd() {
       uni.navigateTo({
         url: '/pages/carriers/add' });
-
-    },
-    // 跳转至编辑页面
-    toeditor: function toeditor(item, index) {
-      this.$store.commit("addValue", item).navigateTo({
-        url: '/pages/carriers/editor' });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/lib/format-log.js */ 26)["default"]))
@@ -32441,16 +32456,16 @@ var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));f
 //
 //
 var _default = { data: function data() {return { // 公司名
-      selector: ["请选择", "公司名称1", "公司名称2", "公司名称3"], // 公司类型
-      selectortype: ["请选择", "普通承运公司", "落地配公司"], // 支付方式
-      paymethod: ["请选择", "月结", "周结", "日结", "现付"], // 控制选择器弹出
+      selector: ["公司名称1", "公司名称2", "公司名称3"], // 公司类型
+      selectortype: ["普通承运公司", "落地配公司"], // 支付方式
+      paymethod: ["月结", "周结", "日结", "现付"], // 控制选择器弹出
       show1: false, show2: false, show3: false, form: { companyname: '请选择', //公司名称
         companyleibie: '请选择', //公司类别
         pay: '请选择', name: '', //客户名称	
         contact: '', //联系人
         phone: '', //客户电话
         address: '' //联系地址
-      } };}, methods: { // 弹出框弹出事件
+      }, self_id: "" };}, methods: { // 弹出框弹出事件
     openpicker: function openpicker(i) {if (i == 1) {this.show1 = true;}if (i == 2) {this.show2 = true;}if (i == 3) {this.show3 = true;}}, // 公司回调
     returndata: function returndata(item) {this.form.companyname = this.selector[item];}, // 公司类型回调
     returncompanydata: function returncompanydata(item) {this.form.companyleibie = this.selectortype[item];}, // 结算方式回调
@@ -32464,7 +32479,7 @@ var _default = { data: function data() {return { // 公司名
       // address: this.form.address,//地址
       // self_id: "",
       // type: 'carriers',
-      var data = { group_code: "group_202106121328596313571586", normal: this.form.companyleibie, company_name: this.form.name, cost_type: this.form.pay, tel: this.form.phone, contacts: this.form.contact, address: this.form.address, self_id: "company_202107201038347148747258", type: 'carriers' };_api.default.tms_group_addgroup(data).then(function (res) {if (res.code == 200) {__f__("log", "編輯成功", " at pages/carriers/editor.vue:163");_this.back();}});__f__("log", this.form, " at pages/carriers/editor.vue:167");this.back();}, back: function back() {uni.navigateBack({ url: '/pages/carriers/list' });} // suah(){
+      var data = { group_code: "group_202106121328596313571586", normal: this.form.companyleibie, company_name: this.form.name, cost_type: this.form.pay, tel: this.form.phone, contacts: this.form.contact, address: this.form.address, self_id: this.self_id, type: 'carriers' };_api.default.tms_group_addgroup(data).then(function (res) {if (res.code == 200) {__f__("log", "編輯成功", " at pages/carriers/editor.vue:163");_this.back();}});__f__("log", this.form, " at pages/carriers/editor.vue:167");}, back: function back() {uni.navigateTo({ url: '/pages/carriers/list' });} // suah(){
     // 	var data={}
     // 	api.user_add_binding(data).then(res=>{
     // 	})
@@ -32478,6 +32493,7 @@ var _default = { data: function data() {return { // 公司名
     // 	phone:'',//客户电话
     // 	address:'',//联系地址
     // },
+    this.self_id = a.self_id;
     this.form.companyname = a.group_name; //公司名称
     this.form.companyleibie = a.type_show; //公司类别
     this.form.pay = a.cost_type_show; //支付方式
@@ -33180,9 +33196,9 @@ var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));f
 //
 var _default = { data: function data() {return { // 公司名
       selector_companyName: [], // 公司类型
-      selector_companyType: ["请选择", "普通承运公司", "落地配公司"], // 支付方式
-      paymethod: ["请选择", "月结", "周结", "日结", "现付"], // 控制选择器弹出
-      show1: false, show2: false, show3: false, // var data = {
+      selector_companyType: ["普通承运公司", "落地配公司"], // 支付方式
+      paymethod: ["月结", "周结", "日结", "现付"], // 控制选择器弹出
+      show1: false, show2: false, show3: false, control_data: [], // var data = {
       // 	group_code: self.group_id,
       // 	company_name: name,
       // 	cost_type: self.paystate_id,
@@ -33229,7 +33245,8 @@ var _default = { data: function data() {return { // 公司名
         tel: this.form.tel, //手机号
         contacts: this.form.contacts, //联系人
         address: this.form.address, //地址
-        self_id: "", type: 'carriers' };__f__("log", submidata, " at pages/carriers/add.vue:219");_api.default.tms_group_addgroup(submidata).then(function (res) {if (res.code == 200) {__f__("log", res, " at pages/carriers/add.vue:222");_this.$refs.uToast.show({ title: "添加成功", type: 'success', position: 'bottom', url: "/pages/carriers/list" });
+        self_id: "", type: 'carriers' };__f__("log", submidata, " at pages/carriers/add.vue:220");_api.default.tms_group_addgroup(submidata).then(function (res) {if (res.code == 200) {__f__("log", res, " at pages/carriers/add.vue:223");_this.$refs.uToast.show({ title: "添加成功", type: 'success', position: 'bottom',
+            url: "/pages/carriers/list" });
 
         } else {
           thi.$refs.uToast.show({
@@ -33243,7 +33260,24 @@ var _default = { data: function data() {return { // 公司名
     load_company_companyPage: function load_company_companyPage() {var _this2 = this;
       var data = {};
       _api.default.company_companyPage(data).then(function (res) {
-        __f__("log", res, " at pages/carriers/add.vue:241");
+        __f__("log", res, " at pages/carriers/add.vue:242");
+        var list = res.data.items;
+        __f__("log", JSON.stringify(list), " at pages/carriers/add.vue:244");
+        _this2.control_data = [];
+        for (var i in list) {
+          __f__("log", list[i].group_name, " at pages/carriers/add.vue:247");
+          if (list[i].self_id && list[i].group_name) {
+            var one = {};
+            one.value = list[i].self_id;
+            one.text = list[i].group_name;
+            _this2.control_data.push(one);
+          }
+        }
+        __f__("log", _this2.control_data, " at pages/carriers/add.vue:255");
+
+
+
+
         for (var i = 0; i < res.data.items.length; i++) {
           _this2.selector_companyName.push(res.data.items[i].group_name);
         }
@@ -33272,38 +33306,38 @@ var _default = { data: function data() {return { // 公司名
     // 公司回调
     returndata: function returndata(item) {
       this.form.group_code = this.selector_companyName[item];
-      __f__("log", this.form.group_code, " at pages/carriers/add.vue:270");
+      __f__("log", this.form.group_code, " at pages/carriers/add.vue:288");
     },
     // 公司类型回调
     returncompanydata: function returncompanydata(item) {
       this.form.normal = this.selector_companyType[item];
-      __f__("log", this.selector_companyType[1], " at pages/carriers/add.vue:275");
-      __f__("log", this.form.normal, " at pages/carriers/add.vue:276");
-      if (this.form.normal = this.selector_companyType[1]) {
+      __f__("log", this.selector_companyType[0], " at pages/carriers/add.vue:293");
+      __f__("log", this.form.normal, " at pages/carriers/add.vue:294");
+      if (this.form.normal = this.selector_companyType[0]) {
         this.companyType = "N";
-        __f__("log", this.companyType, " at pages/carriers/add.vue:279");
+        __f__("log", this.companyType, " at pages/carriers/add.vue:297");
       }
     },
     // 结算方式回调
     returnpaymethoddata: function returnpaymethoddata(item) {
       // paymethod:["请选择","月结","周结","日结","现付"],
       this.form.cost_type = this.paymethod[item];
-      __f__("log", this.form.cost_type, " at pages/carriers/add.vue:286");
+      __f__("log", this.form.cost_type, " at pages/carriers/add.vue:304");
       if (this.form.cost_type == "月结") {
         this.pay = "monthly";
-        __f__("log", this.pay, " at pages/carriers/add.vue:289");
+        __f__("log", this.pay, " at pages/carriers/add.vue:307");
       }
       if (this.form.cost_type == "周结") {
         this.pay = "weeks";
-        __f__("log", this.pay, " at pages/carriers/add.vue:293");
+        __f__("log", this.pay, " at pages/carriers/add.vue:311");
       }
       if (this.form.cost_type == "日结") {
         this.pay = "day";
-        __f__("log", this.pay, " at pages/carriers/add.vue:297");
+        __f__("log", this.pay, " at pages/carriers/add.vue:315");
       }
       if (this.form.cost_type == "现付") {
         this.pay = "nowPay";
-        __f__("log", this.pay, " at pages/carriers/add.vue:301");
+        __f__("log", this.pay, " at pages/carriers/add.vue:319");
       }
     },
 
@@ -36107,6 +36141,15 @@ var store = new _vuex.default.Store({
     },
     addcar_info: function addcar_info(state, provider) {
       state.addcar_info = provider;
+    },
+    a1: function a1(state, provider) {
+      state.a1 = provider;
+    },
+    custedit: function custedit(state, provider) {
+      state.custedit = provider;
+    },
+    caredit: function caredit(state, provider) {
+      state.caredit = provider;
     } },
 
   actions: {} });var _default =

@@ -93,13 +93,14 @@
 				// 公司名
 				selector_companyName:[],
 				// 公司类型
-				selector_companyType:["请选择","普通承运公司","落地配公司"],
+				selector_companyType:["普通承运公司","落地配公司"],
 				// 支付方式
-				paymethod:["请选择","月结","周结","日结","现付"],
+				paymethod:["月结","周结","日结","现付"],
 				// 控制选择器弹出
 				show1: false,
 				show2: false,
 				show3: false,
+				control_data: [],
 				// var data = {
 				// 	group_code: self.group_id,
 				// 	company_name: name,
@@ -239,6 +240,23 @@
 				var data={}
 				api.company_companyPage(data).then(res=>{
 					console.log(res)
+					var list = res.data.items;
+					console.log(JSON.stringify(list))
+					this.control_data = [];
+					for (var i in list) {
+						console.log(list[i].group_name);
+						if (list[i].self_id && list[i].group_name) {
+							var one = {};
+							one.value = list[i].self_id;
+							one.text = list[i].group_name;
+							this.control_data.push(one);
+						}
+					}
+					console.log(this.control_data)
+					
+					
+					
+					
 					for(var i=0;i<res.data.items.length;i++){
 						this.selector_companyName.push(res.data.items[i].group_name)
 					}
@@ -272,9 +290,9 @@
 			// 公司类型回调
 			returncompanydata(item){
 				this.form.normal=this.selector_companyType[item]
-				console.log(this.selector_companyType[1])
+				console.log(this.selector_companyType[0])
 				console.log(this.form.normal)
-				if(this.form.normal=this.selector_companyType[1]){
+				if(this.form.normal=this.selector_companyType[0]){
 					this.companyType = "N"
 					console.log(this.companyType)
 				}

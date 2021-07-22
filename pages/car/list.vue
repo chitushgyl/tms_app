@@ -3,7 +3,7 @@
 			<!-- 头部 -->
 			<u-navbar :is-back="false" :border-bottom='false' title="我的车辆">
 				<view class="slot-wrap" style="margin-left: 10px;">
-					<u-icon name="arrow-leftward" size="28"></u-icon>
+					<u-icon @click="toindex" name="arrow-leftward" size="28"></u-icon>
 				</view>
 			</u-navbar>
 			<view class="content">
@@ -88,6 +88,12 @@
 			this.loadcarlist()
 		},
 		methods:{
+			//返回主页
+			toindex(){
+				uni.switchTab({
+					url:'/pages/user/index'
+				})
+			},
 			//删除
 			del(item,index){
 				console.log(item)

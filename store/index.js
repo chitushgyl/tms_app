@@ -13,6 +13,15 @@ const store = new Vuex.Store({
 		addcar_info(state, provider) {
 			state.addcar_info = provider
 		},
+		a1(state, provider) {
+			state.a1 = provider
+		},
+		custedit(state, provider) {
+			state.custedit = provider
+		},
+		caredit(state, provider){
+			state.caredit = provider
+		},
 	},
 	actions: {}
 })

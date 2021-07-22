@@ -185,7 +185,7 @@
 			},
 			back(){
 				uni.navigateTo({
-					url:'/pages/carriers/list'
+					url:'/pages/customer/list'
 				})
 			}
 		},

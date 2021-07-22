@@ -26,9 +26,7 @@
 						<span style='color: white;'>{{type_name}}</span>
 						<!-- <view class="demo-layout bg-purple-light"></view> -->
 					</u-col>
-
 				</u-row>
-
 			</view>
 		</view>
 		<view v-for="(item,index) in userlist" :key='index'>

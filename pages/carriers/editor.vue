@@ -89,11 +89,11 @@
 		data(){
 			return{
 				// 公司名
-				selector:["请选择","公司名称1","公司名称2","公司名称3"],
+				selector:["公司名称1","公司名称2","公司名称3"],
 				// 公司类型
-				selectortype:["请选择","普通承运公司","落地配公司"],
+				selectortype:["普通承运公司","落地配公司"],
 				// 支付方式
-				paymethod:["请选择","月结","周结","日结","现付"],
+				paymethod:["月结","周结","日结","现付"],
 				// 控制选择器弹出
 				show1: false,
 				show2: false,
@@ -107,7 +107,7 @@
 					phone:'',//客户电话
 					address:'',//联系地址
 				},
-							
+				self_id:"",			
 							
 			}
 		},
@@ -155,7 +155,7 @@
 					tel:this.form.phone,
 					contacts:this.form.contact,
 					address:this.form.address,
-					self_id:"company_202107201038347148747258",
+					self_id:this.self_id,
 					type: 'carriers',
 				}
 				api.tms_group_addgroup(data).then(res=>{
@@ -165,10 +165,10 @@
 					}
 				})
 				console.log(this.form)
-				this.back()
+				
 			},
 			back(){
-				uni.navigateBack({
+				uni.navigateTo({
 					url:'/pages/carriers/list'
 				})
 			}
@@ -207,6 +207,7 @@
 			// 	phone:'',//客户电话
 			// 	address:'',//联系地址
 			// },
+			this.self_id=a.self_id
 			this.form.companyname=a.group_name //公司名称
 			this.form.companyleibie=a.type_show //公司类别
 			this.form.pay=a.cost_type_show //支付方式

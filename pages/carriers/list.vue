@@ -2,8 +2,8 @@
 	<view  style="height: 100%;background-color: #F3F4F6;">
 			<!-- 头部 -->
 			<u-navbar :is-back="false" :border-bottom='false' title="承运商列表">
-				<view class="slot-wrap" style="margin-left: 10px;">
-					<u-icon name="arrow-leftward" size="28"></u-icon>
+				<view @click="toindex" class="slot-wrap" style="margin-left: 10px;">
+					<u-icon  name="arrow-leftward" size="28"></u-icon>
 				</view>
 			</u-navbar>
 			<view class="content">
@@ -79,9 +79,18 @@
 			this.loaddata()
 		},
 		methods:{
+			//返回主页
+			toindex(){
+				uni.switchTab({
+					url:'/pages/user/index'
+				})
+			},
 			// 加载列表数据
 			loaddata(){
-				var data={}
+				var data={
+					page: 1,
+					type: "carriers"
+				}
 				uni.showNavigationBarLoading()
 				api.tms_group_groupPage(data).then(res=>{
 					if(res.code==200){
@@ -163,12 +172,6 @@
 			toadd(){
 				uni.navigateTo({
 					url:'/pages/carriers/add'
-				})
-			},
-			// 跳转至编辑页面
-			toeditor(item,index){
-				this.$store.commit("addValue",item).navigateTo({
-					url:'/pages/carriers/editor'
 				})
 			}
 		}
