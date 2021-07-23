@@ -244,6 +244,22 @@
 			},
 			//确认提交
 			submit(){
+				if(this.form.carid==''){
+					this.$refs.uToast.show({
+						title: '车牌号不能为空',
+						type: 'default',
+						position: 'bottom'
+					})
+					return false
+				}
+				if(this.form.cardate==''){
+					this.$refs.uToast.show({
+						title: '注册日期不能为空',
+						type: 'default',
+						position: 'bottom'
+					})
+					return false
+				}
 				var data={
 					token:"",
 					self_id:this.self_id,
@@ -275,9 +291,7 @@
 				})
 			},
 			back(){
-				uni.navigateTo({
-					url:"/pages/car/list"
-				})
+				uni.navigateBack()
 			}
 		},
 		onLoad() {

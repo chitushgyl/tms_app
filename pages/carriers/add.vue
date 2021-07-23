@@ -9,7 +9,7 @@
 		<u-toast ref="uToast" />
 		<!-- 主体 -->
 		<view class="content">
-			<view class="wrap">
+			<view class="wrap" style="margin-left: 5px;">
 				<!-- 公司 -->
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
@@ -92,6 +92,10 @@
 			return{
 				// 公司名
 				selector_companyName:[],
+				//公司id列表
+				selectorid:[],
+				// 公司名id
+				companyid:"",
 				// 公司类型
 				selector_companyType:["普通承运公司","落地配公司"],
 				// 支付方式
@@ -101,17 +105,6 @@
 				show2: false,
 				show3: false,
 				control_data: [],
-				// var data = {
-				// 	group_code: self.group_id,
-				// 	company_name: name,
-				// 	cost_type: self.paystate_id,
-				// 	tel: contact_tel,
-				// 	contacts: contact_name,
-				// 	address: self.address ? self.address : '',
-				// 	self_id: self.get_id,
-				// 	type: 'carriers',
-				// 	normal: self.types,
-				// };
 				pay:'',
 				companyType:'',
 				form: {
@@ -122,7 +115,6 @@
 					contacts:'',//联系人
 					tel:'',//客户电话
 					address:'',//联系地址
-					
 				},
 							
 							
@@ -133,6 +125,9 @@
 			// this.load_type_getType()
 		},
 		methods:{
+			// 加载数据
+			
+			
 			// 提交事件
 			submit(){
 				if(this.form.group_code=='请选择'){
@@ -184,28 +179,8 @@
 					})
 					return false
 				}
-				// var group_code = uni.getStorageSync("group_code")
-				// var group_code = uni.getStorageSync("group_code")
-				// console.log(this.group_code)
 				var submidata={
-				// if(form.normal ==  "普通承运公司" ){
-				// 	this.companyType == "N"
-				// 	console.log(this.companyType)
-				// }
-				// // // paymethod:["请选择","月结","周结","日结","现付"],
-				// if(form.cost_type=="月结"){
-				// 	this.pay == "monthly"
-				// }
-				// if(form.cost_type=="周结"){
-				// 	this.pay == "weeks"
-				// }
-				// if(form.cost_type=="日结"){
-				// 	this.pay == "day"
-				// }
-				// if(form.cost_type=="现付"){
-				// 	this.pay == "nowPay"
-				// }
-				group_code: "group_202106121328596313571586",//公司
+				group_code: this.companyid,//公司
 				normal:this.companyType,
 				// normal: this.form.normal,//公司类型
 				// cost_type: this.form.cost_type,//支付方式
@@ -239,37 +214,17 @@
 			load_company_companyPage(){
 				var data={}
 				api.company_companyPage(data).then(res=>{
-					console.log(res)
-					var list = res.data.items;
-					console.log(JSON.stringify(list))
-					this.control_data = [];
-					for (var i in list) {
-						console.log(list[i].group_name);
-						if (list[i].self_id && list[i].group_name) {
-							var one = {};
-							one.value = list[i].self_id;
-							one.text = list[i].group_name;
-							this.control_data.push(one);
+					if(res.code==200){
+						var conmpanyList=res.data.items
+						for (var i in conmpanyList) {
+							var groupName=conmpanyList[i].group_name
+							var groupid=conmpanyList[i].group_code
+							this.selector_companyName.push(groupName)
+							this.selectorid.push(groupid)
 						}
 					}
-					console.log(this.control_data)
-					
-					
-					
-					
-					for(var i=0;i<res.data.items.length;i++){
-						this.selector_companyName.push(res.data.items[i].group_name)
-					}
 				})
-				
 			},
-			// 加载公司类型数据
-			// load_type_getType(){
-			// 	var data={}
-			// 	api.type_getType(data).then(res=>{
-			// 		console.log(res)
-			// 	})
-			// },
 			// 弹出框弹出事件
 			openpicker(i){
 				if(i==1){
@@ -285,16 +240,22 @@
 			// 公司回调
 			returndata(item){
 				this.form.group_code=this.selector_companyName[item];
+				this.companyid=this.selectorid[item];
 				console.log(this.form.group_code)
+				console.log(this.companyid)
 			},
 			// 公司类型回调
 			returncompanydata(item){
 				this.form.normal=this.selector_companyType[item]
 				console.log(this.selector_companyType[0])
 				console.log(this.form.normal)
-				if(this.form.normal=this.selector_companyType[0]){
+				if(this.form.normal=="普通承运公司"){
 					this.companyType = "N"
 					console.log(this.companyType)
+				}
+				if(this.form.normal=="落地配公司"){
+					this.normal="S"
+					console.log(this.normal)
 				}
 			},
 			// 结算方式回调
@@ -321,10 +282,8 @@
 			},
 			
 			back(){
-				uni.navigateTo({
-					url:'/pages/carriers/list'
-				})
-				this.load_company_companyPage()
+				uni.navigateBack()
+				
 			}
 		},
 		onLoad() {
@@ -336,7 +295,7 @@
 
 <style>
 	.content {
-		width: 95%;
+		width: 90%;
 		margin: 10px auto 0px;
 		padding-bottom: 80px;
 		// background-color: white;

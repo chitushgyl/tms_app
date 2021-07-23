@@ -36,7 +36,7 @@
 				<!-- <u-loadmore :status="status" /> -->
 			</view>
 			<!-- 没有请求到数据时显示页面 -->
-			<view v-else>
+			<view v-if="loadfalse">
 				<view class="listlog">
 					<image src="../../images/empty/noAddress.png" mode=""></image>
 					<p style='text-align: center;'>暂无客户</p>
@@ -63,7 +63,8 @@
 					borderRight: '1px solid #e4e7ed'
 				},
 				self_id: '',
-				index: 0
+				index: 0,
+				loadfalse:false
 			}
 		},
 		onLoad() {
@@ -81,7 +82,6 @@
 			},
 			//删除
 			del(item,index){
-				
 				console.log(item)
 				console.log(index)
 				this.content = '你确定要删除当前这条数据吗'
@@ -119,6 +119,9 @@
 					console.log(this.customer)
 						
 				})
+				if(this.customer==[]){
+					this.loadfalse=true
+				}
 			},
 			//跳转添加页面
 			toadd(){
@@ -131,17 +134,10 @@
 				console.log(item)
 				console.log(index)
 				var data={}
-				// group_code:self.group_id,
-				// company_name:name,
-				// cost_type:self.paystate_id,
-				// tel:contact_tel,
-				// contacts:contact_name,
-				// address:self.address ? self.address : '',
-				// self_id:self.get_id,
-				// type:'customer'
 				data.group_code=item.group_code
 				data.group_name=item.group_name
 				data.self_id=item.self_id
+				console.log(data.self_id)
 				data.company_name=item.company_name
 				data.create_user_name=item.create_user_name
 				data.type=item.type

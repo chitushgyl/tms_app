@@ -36,7 +36,7 @@
 				<!-- <u-loadmore :status="status" /> -->
 			</view>
 			<!-- 没有请求到数据时显示页面 -->
-			<view v-else>
+			<view v-if="loadfalse">
 				<view class="listlog">
 					<image src="../../images/empty/noAddress.png" mode=""></image>
 					<p style='text-align: center;'>暂无承运商</p>
@@ -64,7 +64,8 @@
 					borderRight: '1px solid #e4e7ed'
 				},
 				self_id: '',
-				index: 0
+				index: 0,
+				loadfalse:false
 			}
 		},
 		onLoad() {
@@ -100,7 +101,10 @@
 						console.log("加载数据成功")
 						console.log(this.carriers)
 					}
-						
+					if(res.code!=200){
+						this.loadfalse=true
+						console("加载数据失败")
+					}	
 				})
 			},
 			// 编辑
@@ -109,39 +113,10 @@
 				console.log(index)
 				var data={}
 				data.self_id=item.self_id
-				data.company_name=item.company_name
-				data.create_user_name=item.create_user_name
-				data.type=item.type
-				data.group_name=item.group_name
-				data.cost_type=item.cost_type
-				data.contacts=item.contacts
-				data.address=item.address
-				data.tel=item.tel
-				data.group_code=item.group_code
-				data.cost_type_show=item.cost_type_show
-				data.use_flag=item.use_flag
-				data.type_show=item.type_show
 				this.$store.commit('a1',data)
-				console.log(data.self_id)
-				console.log(data.company_name)
-				console.log(data.create_user_name)
-				console.log(data.type)
-				console.log(data.group_name)
-				console.log(data.cost_type)
-				console.log(data.contacts)
-				console.log(data.address)
-				console.log(data.tel)
-				console.log(data.group_code)
-				console.log(data.cost_type_show)
-				console.log(data.use_flag)
-				console.log(data.type_show)
 				uni.navigateTo({
 					url:'/pages/carriers/editor'
 				})
-				// uni.navigateTo({
-				//     url: '/pages/info/index?name=1',
-				// });
-				
 			},
 			
 			// 删除
@@ -183,14 +158,16 @@
 		color: #000000 !important;
 	}
 	.content {
-		width: 95%;
-		margin: 10px auto 0px;
+		width: 90%;
+		margin: 0px auto 0px;
+		margin-top: 5px;
 		padding-bottom: 80px;
 		// background-color: white;
 		border-radius: 10px;
 	
 		.wrap {
 			.u-view {}
+			
 		}
 	
 		.listlog {

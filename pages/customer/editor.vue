@@ -15,7 +15,7 @@
 						所属公司
 					</u-col>
 					<u-col span="5" class="a">
-						<u-picker v-model="show1" mode="selector" :default-selector="[0]" :range="selector" @confirm="returndata"></u-picker>
+						<u-picker v-model="show1" mode="selector" :default-selector="[0]" :range="control_data" @confirm="returndata"></u-picker>
 						<span @click="openpicker(1)">{{form.companyname}}</span>
 					<!-- <input @click="openpicker(1)" v-model="form.companyname" id="all_name" type="text" style="" :placeholder="form.companyname" style="color: #1D2026;float: right;"  > -->
 					</u-col>
@@ -77,10 +77,8 @@
 	export default {
 		data(){
 			return{
-				// 公司名
-				selector:["请选择","东风快递"],
 				// 支付方式
-				paymethod:["请选择","月结","周结","日结","现付"],
+				paymethod:[],
 				// 控制选择器弹出
 				show1: false,
 				show2: false,
@@ -96,7 +94,12 @@
 					phone:'',//客户电话
 					address:'',//联系地址
 				},
-							
+				cost_type_list:[],
+				group_code:"",
+				// 公司
+				control_data:[],//汉字
+				control_data1:[],
+				
 							
 			}
 		},
@@ -115,48 +118,19 @@
 			},
 			// 公司回调
 			returndata(item){
-				this.form.companyname=this.selector[item];
-			},
-			// 公司类型回调
-			returncompanydata(item){
-				this.form.companyleibie=this.selectortype[item]
+				this.form.companyname=this.control_data[item];
+				this.group_code=this.control_data1[item];
 			},
 			// 结算方式回调
 			returnpaymethoddata(item){
 				this.form.pay=this.paymethod[item]
-				console.log(this.form.pay)
-				if(this.form.pay=="月结"){
-					this.pay1 = "monthly"
-					console.log(this.pay1)
-				}
-				if(this.form.pay=="周结"){
-					this.pay1 = "weeks"
-					console.log(this.pay1)
-				}
-				if(this.form.pay=="日结"){
-					this.pay1 = "day"
-					console.log(this.pay1)
-				}
-				if(this.form.pay=="现付"){
-					this.pay1 = "nowPay"
-					console.log(this.pay1)
-				}
+				this.pay1=this.cost_type_list[item]
+				console.log(this.pay1)
 			},
 			//确认提交
 			submit(){
-				// var data={
-				// 	group_code :"group_202106121328596313571586",
-				// 	normal:this.form.companyleibie,
-				// 	company_name:this.form.name,
-				// 	cost_type:this.form.pay,
-				// 	tel:this.form.phone,
-				// 	contacts:this.form.contact,
-				// 	address:this.form.address,
-				// 	self_id:"company_202107201038347148747258",
-				// 	type: 'carriers',
-				// }
 				var subdata={
-					group_code: "group_202106121328596313571586",
+					group_code: this.group_code,
 					company_name:this.form.name,
 					cost_type:this.pay1,
 					tel:this.form.phone,
@@ -184,34 +158,78 @@
 				console.log(this.form)
 			},
 			back(){
-				uni.navigateTo({
-					url:'/pages/customer/list'
+				uni.navigateBack()
+			},
+			// 加载公司数据
+			loadcompany(){
+				var data={}
+				api.company_companyPage(data).then(res=>{
+					if(res.code==200){
+						var list = res.data.items;
+						this.control_data = [];
+						for(var i in list){
+							console.log(list[i].group_name);
+							if (list[i].self_id && list[i].group_name) {
+								var one = {};
+								one.value = list[i].self_id;
+								one.text = list[i].group_name;
+								this.control_data.push(one.text);
+								this.control_data1.push(one.value);
+							}
+						}
+						console.log(this.control_data)
+						console.log(this.control_data1)
+					}
+				})
+			},
+			// 加载客户数据
+			loadcustomer(){
+				var data={
+					self_id:this.self_id
+				}
+				api.tms_group_createGroup(data).then(res=>{
+					if(res.code==200){
+						console.log(JSON.stringify(res))
+						var list_cost = res.data.tms_cost_type;
+						console.log(JSON.stringify(list_cost));
+						this.cost_type_list = [];
+						for(var i in list_cost){
+							var name = list_cost[i].name
+							if (list_cost[i].key && name) {
+								var one = {};
+								one.value = list_cost[i].key;
+								one.text = name;
+								this.paymethod.push(one.text);
+								this.cost_type_list.push(one.value);
+							}
+					}
+					console.log(this.paymethod)
+					console.log(this.cost_type_list)
+					// 渲染列表数据
+					this.form.companyname=res.data.info.group_name
+					this.form.pay=res.data.info.cost_type_show
+					this.form.name=res.data.info.company_name
+					this.form.contact=res.data.info.contacts
+					this.form.phone=res.data.info.tel
+					this.form.address=res.data.info.address
+					this.pay1=res.data.info.cost_type
+					this.group_code=res.data.info.group_code
+				}
 				})
 			}
+			
 		},
 		onLoad() {
 			
 		},
 		created() {
+			
 			//初始化页面
 			var custedit=this.$store.state.custedit
-			console.log(custedit.group_name)
-			console.log(custedit.group_code)
-			console.log(custedit.self_id)
-			console.log(custedit.company_name)
-			console.log(custedit.type)
-			console.log(custedit.tel)
-			console.log(custedit.cost_type)
-			console.log(custedit.contacts)
-			console.log(custedit.address)
-			console.log(custedit.cost_type_show)
 			this.self_id=custedit.self_id
-			this.form.companyname=custedit.group_name//公司名称
-			this.form.pay=custedit.cost_type_show//结算
-			this.form.name=custedit.company_name//客户
-			this.form.contact=custedit.contacts//联系人
-			this.form.phone=custedit.tel//电话
-			this.form.address=custedit.address//地址
+			console.log(this.self_id)
+			this.loadcustomer()
+			this.loadcompany()
 		}
 	}
 </script>

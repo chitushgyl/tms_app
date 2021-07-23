@@ -89,11 +89,15 @@
 		data(){
 			return{
 				// 公司名
-				selector:["公司名称1","公司名称2","公司名称3"],
+				selector:[],
+				//公司名对应id
+				selectorid:[],
 				// 公司类型
 				selectortype:["普通承运公司","落地配公司"],
 				// 支付方式
-				paymethod:["月结","周结","日结","现付"],
+				paymethod:[],
+				//支付方式编号列表
+				// costidlist:[],
 				// 控制选择器弹出
 				show1: false,
 				show2: false,
@@ -107,8 +111,12 @@
 					phone:'',//客户电话
 					address:'',//联系地址
 				},
+				control_data:[],
 				self_id:"",			
-							
+				cost_type_list:[],
+				group_code:"",
+				normal:"",
+				cost_type:"",
 			}
 		},
 		methods:{
@@ -126,32 +134,38 @@
 			},
 			// 公司回调
 			returndata(item){
+				console.log(item)
 				this.form.companyname=this.selector[item];
+				this.group_code=this.selectorid[item];
+				console.log(this.form.companyname)
+				console.log(this.group_code)
 			},
 			// 公司类型回调
 			returncompanydata(item){
+				console.log(item)
 				this.form.companyleibie=this.selectortype[item]
+				if(this.form.companyleibie=="普通承运公司"){
+					this.normal="N"
+					console.log(this.normal)
+				}
+				if(this.form.companyleibie=="落地配公司"){
+					this.normal="S"
+					console.log(this.normal)
+				}
 			},
 			// 结算方式回调
 			returnpaymethoddata(item){
 				this.form.pay=this.paymethod[item]
+				this.cost_type=this.cost_type_list[item]
+				console.log(this.cost_type)
 			},
 			//确认提交
 			submit(){
-				// group_code: "group_202106121328596313571586",//公司
-				// normal:this.companyType,
-				// cost_type:this.pay,
-				// company_name:  this.form.company_name,       //客户名称
-				// tel: this.form.tel,//手机号
-				// contacts: this.form.contacts, //联系人
-				// address: this.form.address,//地址
-				// self_id: "",
-				// type: 'carriers',
 				var data={
-					group_code :"group_202106121328596313571586",
-					normal:this.form.companyleibie,
+					group_code :this.group_code,
+					normal:this.normal,
 					company_name:this.form.name,
-					cost_type:this.form.pay,
+					cost_type:this.cost_type,
 					tel:this.form.phone,
 					contacts:this.form.contact,
 					address:this.form.address,
@@ -168,54 +182,74 @@
 				
 			},
 			back(){
-				uni.navigateTo({
-					url:'/pages/carriers/list'
+				uni.navigateBack()
+			},
+			//加载公司列表数据
+			load_company_companyPage(){
+				var data={}
+				api.company_companyPage(data).then(res=>{
+					if(res.code==200){
+						var conmpanyList=res.data.items
+						for (var i in conmpanyList) {
+							var groupName=conmpanyList[i].group_name
+							var groupid=conmpanyList[i].group_code
+							this.selector.push(groupName)
+							this.selectorid.push(groupid)
+						}
+					}
+				})
+			},
+			//跳转至编辑页时加载列表的数据
+			loadedit(){
+				var data={
+					self_id:this.self_id,
+				}
+				console.log(data.self_id)
+				api.tms_group_createGroup(data).then(res=>{
+					if(res.code==200){
+						var list_cost = res.data.tms_cost_type;
+						console.log(JSON.stringify(list_cost));
+						this.form.name=res.data.info.company_name//客户名称
+						this.form.contact=res.data.info.contacts//联系人
+						this.form.phone=res.data.info.tel//客户电话
+						this.form.address=res.data.info.address//联系地址
+						this.form.companyname=res.data.info.create_user_name //公司名称
+						this.group_code=res.data.info.group_code //group_code
+						this.normal=res.data.info.normal //normal
+						this.cost_type=res.data.info.cost_type //cost_type
+						if(res.data.info.normal=="N"){
+							this.form.companyleibie="普通承运公司" //公司类别
+						}
+						if(res.data.info.normal=="S"){
+							this.form.companyleibie="落地配公司" //公司类别
+						}
+						
+						// this.form.companyleibie=a.type_show //公司类别
+						this.form.pay=res.data.info.cost_type_show //支付方式
+						this.cost_type_list=[];
+						for (var i in list_cost) {
+							var name = list_cost[i].name
+							console.log(list_cost[i].name);
+							if (list_cost[i].key && name) {
+								var one = {};
+								one.value = list_cost[i].key;
+								one.text = name;
+								this.cost_type_list.push(one.value);
+								this.paymethod.push(one.text);
+							}
+						}
+					}
 				})
 			}
-			// suah(){
-			// 	var data={}
-			// 	api.user_add_binding(data).then(res=>{
-					
-			// 	})
-			// }
 		},
 		onLoad() {
 			
 		},
 		created() {
 			var a=this.$store.state.a1
-			console.log(a.self_id)
-			console.log(a.company_name)
-			console.log(a.create_user_name)
-			console.log(a.type)
-			console.log(a.group_name)
-			console.log(a.cost_type)
-			console.log(a.contacts)
-			console.log(a.address)
-			console.log(a.tel)
-			console.log(a.group_code)
-			console.log(a.cost_type_show)
-			console.log(a.use_flag)
-			console.log(a.type_show)
-			
-			// form: {
-			// 	companyname:'请选择',//公司名称
-			// 	companyleibie:'请选择',//公司类别
-			// 	pay:'请选择',
-			// 	name:'',//客户名称	
-			// 	contact:'',//联系人
-			// 	phone:'',//客户电话
-			// 	address:'',//联系地址
-			// },
 			this.self_id=a.self_id
-			this.form.companyname=a.group_name //公司名称
-			this.form.companyleibie=a.type_show //公司类别
-			this.form.pay=a.cost_type_show //支付方式
-			this.form.name=a.company_name //客户名称
-			this.form.contact=a.contacts//联系人
-			this.form.phone=a.tel//客户电话
-			this.form.address=a.address//联系地址
-			
+			this.loadedit()
+			this.load_company_companyPage()
 		}
 	}
 </script>

@@ -155,9 +155,7 @@
 				})
 			},
 			back(){
-				uni.navigateTo({
-					url:'/pages/customer/list'
-				})
+				uni.navigateBack()
 			}
 		},
 		onLoad() {
@@ -171,7 +169,7 @@
 
 <style>
 	.content {
-		width: 95%;
+		width: 90%;
 		margin: 10px auto 0px;
 		padding-bottom: 80px;
 		// background-color: white;

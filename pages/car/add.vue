@@ -132,9 +132,7 @@
 		},
 		methods:{
 			back(){
-				uni.navigateTo({
-					url:"/pages/car/list"
-				})
+				uni.navigateBack()
 			},
 			// 弹出框弹出事件
 			openpicker(i){
@@ -163,10 +161,6 @@
 			valChange(val){
 				// this.form.car_number='',
 				this.form.car_number+=val;
-				// 切换键盘
-				// if(this.form.car_number.length==1){
-					
-				// }
 			},
 			// 退格键被点击
 			backspace() {
