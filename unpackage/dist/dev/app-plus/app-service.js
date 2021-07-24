@@ -2280,13 +2280,21 @@ module.exports = {
   tms_group_groupPage: function tms_group_groupPage(data) {
     return (0, _request.default)('/tms/group/groupPage', data);
   },
-  // // 承运商/业务公司 - 3PL
-  // tms_group_groupPage: '/tms/group/groupPage', //业务公司列表
-  // tms_group_createGroup: '/tms/group/createGroup', //业务公司添加
-  // tms_group_addgroup: '/tms/group/addGroup', //业务公司添加
-  // tms_group_groupDelFlag: '/tms/group/groupDelFlag', //业务公司删除
   tms_group_createGroup: function tms_group_createGroup(data) {
     return (0, _request.default)('/tms/group/createGroup', data);
+  },
+  // //车辆 -用户
+  api_car_carPage: function api_car_carPage(data) {
+    return (0, _request.default)('/api/car/carPage', data);
+  },
+  api_car_creatCar: function api_car_creatCar(data) {
+    return (0, _request.default)('/api/car/createCar', data);
+  },
+  api_car_addCar: function api_car_addCar(data) {
+    return (0, _request.default)('/api/car/addCar', data);
+  },
+  api_car_carDelFlag: function api_car_carDelFlag(data) {
+    return (0, _request.default)('/api/car/carDelFlag', data);
   } };
 
 /***/ }),
@@ -18040,7 +18048,7 @@ _asyncValidator.default.warning = function () {};
 var formatRegExp = /%[sdj%]/g;
 var warning = function warning() {}; // don't print warning message when in production env or node runtime
 
-if (typeof process !== 'undefined' && Object({"VUE_APP_NAME":"xiangmu","VUE_APP_PLATFORM":"app-plus","NODE_ENV":"development","BASE_URL":"/"}) && "development" !== 'production' && typeof window !==
+if (typeof process !== 'undefined' && Object({"NODE_ENV":"development","VUE_APP_NAME":"xiangmu","VUE_APP_PLATFORM":"app-plus","BASE_URL":"/"}) && "development" !== 'production' && typeof window !==
 'undefined' && typeof document !== 'undefined') {
   warning = function warning(type, errors) {
     if (typeof console !== 'undefined' && console.warn) {
@@ -26485,18 +26493,22 @@ var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));f
 //
 //
 //
-var _default = { data: function data() {return { customer: [], show: false, content: '', cancel_style: { borderRight: '1px solid #e4e7ed' }, self_id: '', index: 0, loadfalse: false };}, onLoad: function onLoad() {}, created: function created() {this.loaddata();}, methods: { //返回主页
+var _default = { data: function data() {return { customer: [], show: false, content: '', cancel_style: { borderRight: '1px solid #e4e7ed' }, self_id: '', index: 0, loadfalse: false };}, onLoad: function onLoad() {}, created: function created() {this.loaddata();}, onShow: function onShow() {this.customer = [];this.loaddata();}, methods: { //返回主页
     toindex: function toindex() {uni.switchTab({ url: '/pages/user/index' });}, //删除
-    del: function del(item, index) {__f__("log", item, " at pages/customer/list.vue:85");__f__("log", index, " at pages/customer/list.vue:86");this.content = '你确定要删除当前这条数据吗';this.show = true;this.self_id = item.self_id;this.index = index;__f__("log", this.index, " at pages/customer/list.vue:91");}, confirm: function confirm() {var _this = this;var data = { self_id: this.self_id };__f__("log", "我是self_id" + data.self_id, " at pages/customer/list.vue:97");_api.default.tms_group_groupDelFlag(data).then(function (res) {if (res.code == 200) {__f__("log", res, " at pages/customer/list.vue:100");__f__("log", "删除成功", " at pages/customer/list.vue:101");_this.loaddata();}});}, // 加载客户数据
-    loaddata: function loaddata() {var _this2 = this;var data = { page: 1, type: 'customer' };
+    del: function del(item, index) {__f__("log", item, " at pages/customer/list.vue:89");__f__("log", index, " at pages/customer/list.vue:90");this.content = '你确定要删除当前这条数据吗';this.show = true;this.self_id = item.self_id;this.index = index;__f__("log", this.index, " at pages/customer/list.vue:95");}, confirm: function confirm() {var _this = this;var data = { self_id: this.self_id };__f__("log", "我是self_id" + data.self_id, " at pages/customer/list.vue:101");_api.default.tms_group_groupDelFlag(data).then(function (res) {if (res.code == 200) {__f__("log", res, " at pages/customer/list.vue:104");__f__("log", "删除成功", " at pages/customer/list.vue:105");_this.loaddata();}});}, // 加载客户数据
+    loaddata: function loaddata() {var _this2 = this;
+      var data = {
+        page: 1,
+        type: 'customer' };
+
       uni.showNavigationBarLoading();
       _api.default.tms_group_groupPage(data).then(function (res) {
-        __f__("log", "加载客户数据已完成", " at pages/customer/list.vue:114");
-        __f__("log", res.data.items, " at pages/customer/list.vue:115");
+        __f__("log", "加载客户数据已完成", " at pages/customer/list.vue:118");
+        __f__("log", res.data.items, " at pages/customer/list.vue:119");
         uni.stopPullDownRefresh();
         uni.hideNavigationBarLoading();
         _this2.customer = res.data.items;
-        __f__("log", _this2.customer, " at pages/customer/list.vue:119");
+        __f__("log", _this2.customer, " at pages/customer/list.vue:123");
 
       });
       if (this.customer == []) {
@@ -26511,13 +26523,13 @@ var _default = { data: function data() {return { customer: [], show: false, cont
     },
     // 跳转至编辑页面
     toeditor: function toeditor(item, index) {
-      __f__("log", item, " at pages/customer/list.vue:134");
-      __f__("log", index, " at pages/customer/list.vue:135");
+      __f__("log", item, " at pages/customer/list.vue:138");
+      __f__("log", index, " at pages/customer/list.vue:139");
       var data = {};
       data.group_code = item.group_code;
       data.group_name = item.group_name;
       data.self_id = item.self_id;
-      __f__("log", data.self_id, " at pages/customer/list.vue:140");
+      __f__("log", data.self_id, " at pages/customer/list.vue:144");
       data.company_name = item.company_name;
       data.create_user_name = item.create_user_name;
       data.type = item.type;
@@ -26683,13 +26695,13 @@ var render = function() {
                       staticClass: _vm._$s(7, "sc", "left"),
                       attrs: { span: "7", _i: 7 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(8, "sc", "a"),
-                      attrs: { span: "5", _i: 8 }
+                      staticClass: _vm._$s(9, "sc", "a"),
+                      attrs: { span: "5", _i: 9 }
                     },
                     [
                       _c("u-picker", {
@@ -26697,11 +26709,11 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.selector,
-                          _i: 9
+                          _i: 10
                         },
                         on: { confirm: _vm.returndata },
                         model: {
-                          value: _vm._$s(9, "v-model", _vm.show1),
+                          value: _vm._$s(10, "v-model", _vm.show1),
                           callback: function($$v) {
                             _vm.show1 = $$v
                           },
@@ -26711,7 +26723,7 @@ var render = function() {
                       _c(
                         "span",
                         {
-                          attrs: { _i: 10 },
+                          attrs: { _i: 11 },
                           on: {
                             click: function($event) {
                               return _vm.openpicker(1)
@@ -26720,7 +26732,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            _vm._$s(10, "t0-0", _vm._s(_vm.form.companyname))
+                            _vm._$s(11, "t0-0", _vm._s(_vm.form.companyname))
                           )
                         ]
                       )
@@ -26732,17 +26744,17 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 11 } },
+                { attrs: { gutter: "16", _i: 12 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(12, "sc", "left"),
-                      attrs: { span: "7", _i: 12 }
+                      staticClass: _vm._$s(13, "sc", "left"),
+                      attrs: { span: "7", _i: 13 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 13 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 15 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -26752,9 +26764,9 @@ var render = function() {
                           expression: "form.name"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 14 },
+                      attrs: { id: "all_name", _i: 16 },
                       domProps: {
-                        value: _vm._$s(14, "v-model", _vm.form.name)
+                        value: _vm._$s(16, "v-model", _vm.form.name)
                       },
                       on: {
                         input: function($event) {
@@ -26771,21 +26783,21 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 15 } },
+                { attrs: { gutter: "16", _i: 17 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(16, "sc", "left"),
-                      attrs: { span: "7", _i: 16 }
+                      staticClass: _vm._$s(18, "sc", "left"),
+                      attrs: { span: "7", _i: 18 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(17, "sc", "a"),
-                      attrs: { span: "5", _i: 17 }
+                      staticClass: _vm._$s(20, "sc", "a"),
+                      attrs: { span: "5", _i: 20 }
                     },
                     [
                       _c("u-picker", {
@@ -26793,11 +26805,11 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.paymethod,
-                          _i: 18
+                          _i: 21
                         },
                         on: { confirm: _vm.returnpaymethoddata },
                         model: {
-                          value: _vm._$s(18, "v-model", _vm.show3),
+                          value: _vm._$s(21, "v-model", _vm.show3),
                           callback: function($$v) {
                             _vm.show3 = $$v
                           },
@@ -26807,14 +26819,14 @@ var render = function() {
                       _c(
                         "span",
                         {
-                          attrs: { _i: 19 },
+                          attrs: { _i: 22 },
                           on: {
                             click: function($event) {
                               return _vm.openpicker(3)
                             }
                           }
                         },
-                        [_vm._v(_vm._$s(19, "t0-0", _vm._s(_vm.form.pay)))]
+                        [_vm._v(_vm._$s(22, "t0-0", _vm._s(_vm.form.pay)))]
                       )
                     ],
                     1
@@ -26824,17 +26836,17 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 20 } },
+                { attrs: { gutter: "16", _i: 23 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(21, "sc", "left"),
-                      attrs: { span: "7", _i: 21 }
+                      staticClass: _vm._$s(24, "sc", "left"),
+                      attrs: { span: "7", _i: 24 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 22 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 26 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -26844,9 +26856,9 @@ var render = function() {
                           expression: "form.contact"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 23 },
+                      attrs: { id: "all_name", _i: 27 },
                       domProps: {
-                        value: _vm._$s(23, "v-model", _vm.form.contact)
+                        value: _vm._$s(27, "v-model", _vm.form.contact)
                       },
                       on: {
                         input: function($event) {
@@ -26854,45 +26866,6 @@ var render = function() {
                             return
                           }
                           _vm.$set(_vm.form, "contact", $event.target.value)
-                        }
-                      }
-                    })
-                  ])
-                ],
-                1
-              ),
-              _c(
-                "u-row",
-                { attrs: { gutter: "16", _i: 24 } },
-                [
-                  _c(
-                    "u-col",
-                    {
-                      staticClass: _vm._$s(25, "sc", "left"),
-                      attrs: { span: "7", _i: 25 }
-                    },
-                    [_vm._v("")]
-                  ),
-                  _c("u-col", { attrs: { span: "5", _i: 26 } }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.phone,
-                          expression: "form.phone"
-                        }
-                      ],
-                      attrs: { id: "all_name", _i: 27 },
-                      domProps: {
-                        value: _vm._$s(27, "v-model", _vm.form.phone)
-                      },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "phone", $event.target.value)
                         }
                       }
                     })
@@ -26910,9 +26883,48 @@ var render = function() {
                       staticClass: _vm._$s(29, "sc", "left"),
                       attrs: { span: "7", _i: 29 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 30 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 31 } }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.phone,
+                          expression: "form.phone"
+                        }
+                      ],
+                      attrs: { id: "all_name", _i: 32 },
+                      domProps: {
+                        value: _vm._$s(32, "v-model", _vm.form.phone)
+                      },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "phone", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                ],
+                1
+              ),
+              _c(
+                "u-row",
+                { attrs: { gutter: "16", _i: 33 } },
+                [
+                  _c(
+                    "u-col",
+                    {
+                      staticClass: _vm._$s(34, "sc", "left"),
+                      attrs: { span: "7", _i: 34 }
+                    },
+                    [_c("span")]
+                  ),
+                  _c("u-col", { attrs: { span: "5", _i: 36 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -26922,9 +26934,9 @@ var render = function() {
                           expression: "form.address"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 31 },
+                      attrs: { id: "all_name", _i: 37 },
                       domProps: {
-                        value: _vm._$s(31, "v-model", _vm.form.address)
+                        value: _vm._$s(37, "v-model", _vm.form.address)
                       },
                       on: {
                         input: function($event) {
@@ -26942,7 +26954,7 @@ var render = function() {
               _c(
                 "u-button",
                 {
-                  attrs: { type: "primary", shape: "circle", _i: 32 },
+                  attrs: { type: "primary", shape: "circle", _i: 38 },
                   on: { click: _vm.submit }
                 },
                 [_vm._v("")]
@@ -27136,21 +27148,53 @@ var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));f
 //
 //
 var _default = { data: function data() {return { // 公司名
-      selector: ["东风快递"], // 支付方式
+      selector: [], selectorgroupcode: [], companygroupcode: "", // 支付方式
       paymethod: ["月结", "周结", "日结", "现付"], // 控制选择器弹出
       show1: false, show3: false, pay1: "", form: { companyname: '请选择公司', //公司名称
         pay: '请选择结算方式', name: '', //客户名称	
         contact: '', //联系人
         phone: '', //客户电话
         address: '' //联系地址
-      } };}, methods: { // 弹出框弹出事件
+      } };}, methods: { // // 返回父页面
+    // returnup(){
+    // 	var pages=getCurrentPages();//当前页
+    // 	var beforPage=pages[pages.length-2];//上个页面路由
+    // 	beforPage.$vm.returnload()
+    // 	uni.navigateBack()
+    // },
+    // 加载公司数据
+    loadcompany: function loadcompany() {var _this = this;var data = {};_api.default.company_companyPage(data).then(function (res) {if (res.code == 200) {var list = res.data.items;for (var i in list) {__f__("log", list[i].group_name, " at pages/customer/add.vue:117");if (list[i].self_id && list[i].group_name) {var one = {};one.value = list[i].self_id;one.text = list[i].group_name;_this.selector.push(one.text);_this.selectorgroupcode.push(one.value);}}__f__("log", _this.selector, " at pages/customer/add.vue:126");__f__("log", _this.selectorgroupcode, " at pages/customer/add.vue:127");}});}, // 弹出框弹出事件
     openpicker: function openpicker(i) {if (i == 1) {this.show1 = true;}if (i == 3) {this.show3 = true;}}, // 公司回调
-    returndata: function returndata(item) {this.form.companyname = this.selector[item];}, // 结算方式回调
-    returnpaymethoddata: function returnpaymethoddata(item) {this.form.pay = this.paymethod[item];__f__("log", this.form.pay, " at pages/customer/add.vue:117");if (this.form.pay == "月结") {this.pay1 = "monthly";__f__("log", this.pay1, " at pages/customer/add.vue:120");}if (this.form.pay == "周结") {this.pay1 = "weeks";__f__("log", this.pay1, " at pages/customer/add.vue:124");}if (this.form.pay == "日结") {this.pay1 = "day";__f__("log", this.pay1, " at pages/customer/add.vue:128");}if (this.form.pay == "现付") {this.pay1 = "nowPay";__f__("log", this.pay1, " at pages/customer/add.vue:132");}}, //确认提交
-    submit: function submit() {var _this = this;__f__("log", this.form, " at pages/customer/add.vue:137");var data = { group_code: "group_202106121328596313571586", company_name: this.form.name, cost_type: this.pay1, tel: this.form.phone, contacts: this.form.contact, address: this.form.address, self_id: "", type: 'customer' };__f__("log", JSON.stringify(data), " at pages/customer/add.vue:148");_api.default.tms_group_addgroup(data).then(function (res) {if (res.code == 200) {__f__("log", res, " at pages/customer/add.vue:151");__f__("log", "添加成功", " at pages/customer/add.vue:152");_this.back();}});}, back: function back() {uni.navigateBack();} }, onLoad: function onLoad() {
+    returndata: function returndata(item) {this.form.companyname = this.selector[item];this.companygroupcode = this.selectorgroupcode[item];}, // 结算方式回调
+    returnpaymethoddata: function returnpaymethoddata(item) {this.form.pay = this.paymethod[item];__f__("log", this.form.pay, " at pages/customer/add.vue:149");if (this.form.pay == "月结") {this.pay1 = "monthly";__f__("log", this.pay1, " at pages/customer/add.vue:152");}if (this.form.pay == "周结") {this.pay1 = "weeks";__f__("log", this.pay1, " at pages/customer/add.vue:156");}if (this.form.pay == "日结") {this.pay1 = "day";__f__("log", this.pay1, " at pages/customer/add.vue:160");}if (this.form.pay == "现付") {this.pay1 = "nowPay";__f__("log", this.pay1, " at pages/customer/add.vue:164");}}, //确认提交
+    submit: function submit() {var _this2 = this;__f__("log", this.form, " at pages/customer/add.vue:169");var data = {
+        group_code: this.companygroupcode,
+        company_name: this.form.name,
+        cost_type: this.pay1,
+        tel: this.form.phone,
+        contacts: this.form.contact,
+        address: this.form.address,
+        self_id: "",
+        type: 'customer' };
+
+      __f__("log", JSON.stringify(data), " at pages/customer/add.vue:180");
+      _api.default.tms_group_addgroup(data).then(function (res) {
+        if (res.code == 200) {
+          __f__("log", res, " at pages/customer/add.vue:183");
+          __f__("log", "添加成功", " at pages/customer/add.vue:184");
+          _this2.back();
+        }
+      });
+    },
+    back: function back() {
+      uni.navigateBack();
+    } },
+
+  onLoad: function onLoad() {
+
   },
   created: function created() {
-
+    this.loadcompany();
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/lib/format-log.js */ 26)["default"]))
 
@@ -27304,13 +27348,13 @@ var render = function() {
                       staticClass: _vm._$s(7, "sc", "left"),
                       attrs: { span: "7", _i: 7 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(8, "sc", "a"),
-                      attrs: { span: "5", _i: 8 }
+                      staticClass: _vm._$s(9, "sc", "a"),
+                      attrs: { span: "5", _i: 9 }
                     },
                     [
                       _c("u-picker", {
@@ -27318,11 +27362,11 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.control_data,
-                          _i: 9
+                          _i: 10
                         },
                         on: { confirm: _vm.returndata },
                         model: {
-                          value: _vm._$s(9, "v-model", _vm.show1),
+                          value: _vm._$s(10, "v-model", _vm.show1),
                           callback: function($$v) {
                             _vm.show1 = $$v
                           },
@@ -27332,7 +27376,7 @@ var render = function() {
                       _c(
                         "span",
                         {
-                          attrs: { _i: 10 },
+                          attrs: { _i: 11 },
                           on: {
                             click: function($event) {
                               return _vm.openpicker(1)
@@ -27341,7 +27385,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            _vm._$s(10, "t0-0", _vm._s(_vm.form.companyname))
+                            _vm._$s(11, "t0-0", _vm._s(_vm.form.companyname))
                           )
                         ]
                       )
@@ -27353,17 +27397,17 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 11 } },
+                { attrs: { gutter: "16", _i: 12 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(12, "sc", "left"),
-                      attrs: { span: "7", _i: 12 }
+                      staticClass: _vm._$s(13, "sc", "left"),
+                      attrs: { span: "7", _i: 13 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 13 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 15 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -27373,9 +27417,9 @@ var render = function() {
                           expression: "form.name"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 14 },
+                      attrs: { id: "all_name", _i: 16 },
                       domProps: {
-                        value: _vm._$s(14, "v-model", _vm.form.name)
+                        value: _vm._$s(16, "v-model", _vm.form.name)
                       },
                       on: {
                         input: function($event) {
@@ -27392,21 +27436,21 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 15 } },
+                { attrs: { gutter: "16", _i: 17 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(16, "sc", "left"),
-                      attrs: { span: "7", _i: 16 }
+                      staticClass: _vm._$s(18, "sc", "left"),
+                      attrs: { span: "7", _i: 18 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(17, "sc", "a"),
-                      attrs: { span: "5", _i: 17 }
+                      staticClass: _vm._$s(20, "sc", "a"),
+                      attrs: { span: "5", _i: 20 }
                     },
                     [
                       _c("u-picker", {
@@ -27414,11 +27458,11 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.paymethod,
-                          _i: 18
+                          _i: 21
                         },
                         on: { confirm: _vm.returnpaymethoddata },
                         model: {
-                          value: _vm._$s(18, "v-model", _vm.show3),
+                          value: _vm._$s(21, "v-model", _vm.show3),
                           callback: function($$v) {
                             _vm.show3 = $$v
                           },
@@ -27428,14 +27472,14 @@ var render = function() {
                       _c(
                         "span",
                         {
-                          attrs: { _i: 19 },
+                          attrs: { _i: 22 },
                           on: {
                             click: function($event) {
                               return _vm.openpicker(3)
                             }
                           }
                         },
-                        [_vm._v(_vm._$s(19, "t0-0", _vm._s(_vm.form.pay)))]
+                        [_vm._v(_vm._$s(22, "t0-0", _vm._s(_vm.form.pay)))]
                       )
                     ],
                     1
@@ -27445,17 +27489,17 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 20 } },
+                { attrs: { gutter: "16", _i: 23 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(21, "sc", "left"),
-                      attrs: { span: "7", _i: 21 }
+                      staticClass: _vm._$s(24, "sc", "left"),
+                      attrs: { span: "7", _i: 24 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 22 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 26 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -27465,9 +27509,9 @@ var render = function() {
                           expression: "form.contact"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 23 },
+                      attrs: { id: "all_name", _i: 27 },
                       domProps: {
-                        value: _vm._$s(23, "v-model", _vm.form.contact)
+                        value: _vm._$s(27, "v-model", _vm.form.contact)
                       },
                       on: {
                         input: function($event) {
@@ -27475,45 +27519,6 @@ var render = function() {
                             return
                           }
                           _vm.$set(_vm.form, "contact", $event.target.value)
-                        }
-                      }
-                    })
-                  ])
-                ],
-                1
-              ),
-              _c(
-                "u-row",
-                { attrs: { gutter: "16", _i: 24 } },
-                [
-                  _c(
-                    "u-col",
-                    {
-                      staticClass: _vm._$s(25, "sc", "left"),
-                      attrs: { span: "7", _i: 25 }
-                    },
-                    [_vm._v("")]
-                  ),
-                  _c("u-col", { attrs: { span: "5", _i: 26 } }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.phone,
-                          expression: "form.phone"
-                        }
-                      ],
-                      attrs: { id: "all_name", _i: 27 },
-                      domProps: {
-                        value: _vm._$s(27, "v-model", _vm.form.phone)
-                      },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "phone", $event.target.value)
                         }
                       }
                     })
@@ -27531,9 +27536,48 @@ var render = function() {
                       staticClass: _vm._$s(29, "sc", "left"),
                       attrs: { span: "7", _i: 29 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 30 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 31 } }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.phone,
+                          expression: "form.phone"
+                        }
+                      ],
+                      attrs: { id: "all_name", _i: 32 },
+                      domProps: {
+                        value: _vm._$s(32, "v-model", _vm.form.phone)
+                      },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "phone", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                ],
+                1
+              ),
+              _c(
+                "u-row",
+                { attrs: { gutter: "16", _i: 33 } },
+                [
+                  _c(
+                    "u-col",
+                    {
+                      staticClass: _vm._$s(34, "sc", "left"),
+                      attrs: { span: "7", _i: 34 }
+                    },
+                    [_c("span")]
+                  ),
+                  _c("u-col", { attrs: { span: "5", _i: 36 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -27543,9 +27587,9 @@ var render = function() {
                           expression: "form.address"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 31 },
+                      attrs: { id: "all_name", _i: 37 },
                       domProps: {
-                        value: _vm._$s(31, "v-model", _vm.form.address)
+                        value: _vm._$s(37, "v-model", _vm.form.address)
                       },
                       on: {
                         input: function($event) {
@@ -27563,7 +27607,7 @@ var render = function() {
               _c(
                 "u-button",
                 {
-                  attrs: { type: "primary", shape: "circle", _i: 32 },
+                  attrs: { type: "primary", shape: "circle", _i: 38 },
                   on: { click: _vm.submit }
                 },
                 [_vm._v("")]
@@ -28100,7 +28144,9 @@ var render = function() {
                 }),
                 1
               )
-            : _c("view", [
+            : _vm._e(),
+          _vm._$s(19, "i", _vm.showfalse)
+            ? _c("view", [
                 _c(
                   "view",
                   {
@@ -28122,6 +28168,7 @@ var render = function() {
                   ]
                 )
               ])
+            : _vm._e()
         ]
       ),
       _c(
@@ -28291,29 +28338,43 @@ var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));f
 //
 //
 //
-var _default = { data: function data() {return { cars: [], show: false, content: '', cancel_style: { borderRight: '1px solid #e4e7ed' }, self_id: '', index: 0 };}, onLoad: function onLoad() {}, // onPullDownRefresh() {
-  // 	console.log("下拉刷新已执行")
-  // 	uni.showNavigationBarLoading(); //在当前页面显示导航条加载动画。
-  // 			setTimeout(() => {
-  // 				uni.hideNavigationBarLoading();
-  // 				uni.stopPullDownRefresh(); //得到数据后停止下拉刷新
-  // 			}, 2000);
-  // },
-  created: function created() {this.loadcarlist();}, // 下拉刷新
+var _default = { data: function data() {return { cars: [], show: false, content: '', cancel_style: { borderRight: '1px solid #e4e7ed' }, self_id: '', index: 0, showfalse: false };}, onLoad: function onLoad() {}, created: function created() {this.loadcarlist();}, // 下拉刷新
   onPullDownRefresh: function onPullDownRefresh() {// var page = 1
     // this.api_address_addressPage(page)
-    this.loadcarlist();}, methods: { //返回主页
+    this.loadcarlist();}, onShow: function onShow() {this.cars = [];this.loadcarlist();}, methods: { //返回主页
     toindex: function toindex() {uni.switchTab({ url: '/pages/user/index' });}, //删除
-    del: function del(item, index) {__f__("log", item, " at pages/car/list.vue:99");__f__("log", index, " at pages/car/list.vue:100");this.content = '你确定要删除当前这条数据吗';this.show = true;this.self_id = item.self_id;this.index = index;__f__("log", this.index, " at pages/car/list.vue:105");__f__("log", this.show, " at pages/car/list.vue:106");}, confirm: function confirm() {var _this = this;var data = { self_id: this.self_id };__f__("log", "我是self_id" + data.self_id, " at pages/car/list.vue:112");_api.default.tms_car_carDelFlag(data).then(function (res) {if (res.code == 200) {__f__("log", "删除成功", " at pages/car/list.vue:115");_this.loadcarlist();}});}, //加载列表数据
-    loadcarlist: function loadcarlist() {var _this2 = this;var data = {};uni.showNavigationBarLoading();_api.default.tms_car_carPage(data).then(function (res) {
-        if (res.code == 200) {
-          uni.stopPullDownRefresh();
-          uni.hideNavigationBarLoading();
-          _this2.cars = res.data.items;
-          __f__("log", _this2.cars, " at pages/car/list.vue:129");
-          __f__("log", "加载数据成功", " at pages/car/list.vue:130");
-        }
-      });
+    del: function del(item, index) {__f__("log", item, " at pages/car/list.vue:96");__f__("log", index, " at pages/car/list.vue:97");this.content = '你确定要删除当前这条数据吗';this.show = true;this.self_id = item.self_id;this.index = index;__f__("log", this.index, " at pages/car/list.vue:102");__f__("log", this.show, " at pages/car/list.vue:103");}, confirm: function confirm() {var _this = this;var data = { self_id: this.self_id };__f__("log", "我是self_id" + data.self_id, " at pages/car/list.vue:109");_api.default.tms_car_carDelFlag(data).then(function (res) {if (res.code == 200) {__f__("log", "删除成功", " at pages/car/list.vue:112");_this.loadcarlist();}});
+    },
+    //加载列表数据
+    loadcarlist: function loadcarlist() {var _this2 = this;
+      var project_type = uni.getStorageSync("project_type");
+      __f__("log", project_type, " at pages/car/list.vue:120");
+      if (project_type == 'user' || project_type == 'carriage') {
+        var data = {
+          page: 1 };
+
+        _api.default.api_car_carPage(data).then(function (res) {
+          if (res.code == 200) {
+            __f__("log", JSON.stringify(res.data.info), " at pages/car/list.vue:127");
+          } else {
+            _this2.showfalse = true;
+          }
+        });
+
+      } else {
+        uni.showNavigationBarLoading();
+        _api.default.tms_car_carPage(data).then(function (res) {
+          if (res.code == 200) {
+            uni.stopPullDownRefresh();
+            uni.hideNavigationBarLoading();
+            _this2.cars = res.data.items;
+            __f__("log", _this2.cars, " at pages/car/list.vue:140");
+            __f__("log", "加载数据成功", " at pages/car/list.vue:141");
+          } else {
+            _this2.showfalse = true;
+          }
+        });
+      }
     },
     //跳转添加页面
     toadd: function toadd() {
@@ -28323,16 +28384,10 @@ var _default = { data: function data() {return { cars: [], show: false, content:
     },
     // 跳转至编辑页面
     toeditor: function toeditor(item, index) {
-      __f__("log", item, " at pages/car/list.vue:142");
-      __f__("log", index, " at pages/car/list.vue:143");
+      __f__("log", item, " at pages/car/list.vue:156");
+      __f__("log", index, " at pages/car/list.vue:157");
       var data = {
         self_id: item.self_id, //车代号
-        tms_control_type_show: item.tms_control_type_show, //温控
-        car_number: item.car_number, //车牌号
-        car_possess_show: item.car_possess_show, //车辆属性
-        car_type_name: item.car_type_name, //车型
-        contacts: item.contacts, //联系人
-        tel: item.tel, //联系人手机号
         group_code: item.group_code //公司编号
       };
       this.$store.commit("caredit", data);
@@ -28503,30 +28558,33 @@ var render = function() {
                       staticClass: _vm._$s(7, "sc", "left"),
                       attrs: { span: "7", _i: 7 }
                     },
-                    [_vm._v("")]
+                    [_c("span", { attrs: { id: "left", _i: 8 } })]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(8, "sc", "a"),
-                      attrs: { span: "5", _i: 8 }
+                      staticClass: _vm._$s(9, "sc", "a"),
+                      attrs: { span: "5", _i: 9 }
                     },
                     [
                       _c("u-keyboard", {
                         ref: "uKeyboard",
-                        attrs: { mask: false, mode: "car", _i: 9 },
+                        attrs: { mask: false, mode: "car", _i: 10 },
                         on: { change: _vm.valChange, backspace: _vm.backspace },
                         model: {
-                          value: _vm._$s(9, "v-model", _vm.show1),
+                          value: _vm._$s(10, "v-model", _vm.show1),
                           callback: function($$v) {
                             _vm.show1 = $$v
                           },
                           expression: "show1"
                         }
                       }),
-                      _c("span", [
-                        _vm._v(_vm._$s(10, "t0-0", _vm._s(_vm.form.car_number)))
-                      ])
+                      _c("input", {
+                        attrs: {
+                          value: _vm._$s(11, "a-value", _vm.form.car_number),
+                          _i: 11
+                        }
+                      })
                     ],
                     1
                   )
@@ -28536,7 +28594,7 @@ var render = function() {
               _c(
                 "u-row",
                 {
-                  attrs: { gutter: "16", _i: 11 },
+                  attrs: { gutter: "16", _i: 12 },
                   on: {
                     click: function($event) {
                       return _vm.openpicker(5)
@@ -28547,16 +28605,16 @@ var render = function() {
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(12, "sc", "left"),
-                      attrs: { span: "7", _i: 12 }
+                      staticClass: _vm._$s(13, "sc", "left"),
+                      attrs: { span: "7", _i: 13 }
                     },
-                    [_vm._v("")]
+                    [_c("span", { attrs: { id: "left", _i: 14 } })]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(13, "sc", "a"),
-                      attrs: { span: "5", _i: 13 }
+                      staticClass: _vm._$s(15, "sc", "a"),
+                      attrs: { span: "5", _i: 15 }
                     },
                     [
                       _c("u-picker", {
@@ -28564,11 +28622,11 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.selectortype,
-                          _i: 14
+                          _i: 16
                         },
                         on: { confirm: _vm.returncar_type_namedata },
                         model: {
-                          value: _vm._$s(14, "v-model", _vm.showcar_type_name),
+                          value: _vm._$s(16, "v-model", _vm.showcar_type_name),
                           callback: function($$v) {
                             _vm.showcar_type_name = $$v
                           },
@@ -28577,7 +28635,7 @@ var render = function() {
                       }),
                       _c("span", [
                         _vm._v(
-                          _vm._$s(15, "t0-0", _vm._s(_vm.form.car_type_name))
+                          _vm._$s(17, "t0-0", _vm._s(_vm.form.car_type_name))
                         )
                       ])
                     ],
@@ -28589,7 +28647,7 @@ var render = function() {
               _c(
                 "u-row",
                 {
-                  attrs: { gutter: "16", _i: 16 },
+                  attrs: { gutter: "16", _i: 18 },
                   on: {
                     click: function($event) {
                       return _vm.openpicker(4)
@@ -28600,16 +28658,16 @@ var render = function() {
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(17, "sc", "left"),
-                      attrs: { span: "7", _i: 17 }
+                      staticClass: _vm._$s(19, "sc", "left"),
+                      attrs: { span: "7", _i: 19 }
                     },
-                    [_vm._v("")]
+                    [_c("span", { attrs: { id: "left", _i: 20 } })]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(18, "sc", "a"),
-                      attrs: { span: "5", _i: 18 }
+                      staticClass: _vm._$s(21, "sc", "a"),
+                      attrs: { span: "5", _i: 21 }
                     },
                     [
                       _c("u-picker", {
@@ -28617,12 +28675,12 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.Temperaturecontroltype,
-                          _i: 19
+                          _i: 22
                         },
                         on: { confirm: _vm.returnTemperaturecontroltype },
                         model: {
                           value: _vm._$s(
-                            19,
+                            22,
                             "v-model",
                             _vm.showtms_control_type_showtype
                           ),
@@ -28635,7 +28693,7 @@ var render = function() {
                       _c("span", [
                         _vm._v(
                           _vm._$s(
-                            20,
+                            23,
                             "t0-0",
                             _vm._s(_vm.form.tms_control_type_show)
                           )
@@ -28650,7 +28708,7 @@ var render = function() {
               _c(
                 "u-row",
                 {
-                  attrs: { gutter: "16", _i: 21 },
+                  attrs: { gutter: "16", _i: 24 },
                   on: {
                     click: function($event) {
                       return _vm.openpicker(6)
@@ -28661,16 +28719,16 @@ var render = function() {
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(22, "sc", "left"),
-                      attrs: { span: "7", _i: 22 }
+                      staticClass: _vm._$s(25, "sc", "left"),
+                      attrs: { span: "7", _i: 25 }
                     },
-                    [_vm._v("")]
+                    [_c("span", { attrs: { id: "left", _i: 26 } })]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(23, "sc", "a"),
-                      attrs: { span: "5", _i: 23 }
+                      staticClass: _vm._$s(27, "sc", "a"),
+                      attrs: { span: "5", _i: 27 }
                     },
                     [
                       _c("u-picker", {
@@ -28678,12 +28736,12 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.cheliangshuxing,
-                          _i: 24
+                          _i: 28
                         },
                         on: { confirm: _vm.returncheliangshuxing },
                         model: {
                           value: _vm._$s(
-                            24,
+                            28,
                             "v-model",
                             _vm.showcheliangshuxing
                           ),
@@ -28695,7 +28753,7 @@ var render = function() {
                       }),
                       _c("span", [
                         _vm._v(
-                          _vm._$s(25, "t0-0", _vm._s(_vm.form.car_possess_show))
+                          _vm._$s(29, "t0-0", _vm._s(_vm.form.car_possess_show))
                         )
                       ])
                     ],
@@ -28707,7 +28765,7 @@ var render = function() {
               _c(
                 "u-row",
                 {
-                  attrs: { gutter: "16", _i: 26 },
+                  attrs: { gutter: "16", _i: 30 },
                   on: {
                     click: function($event) {
                       return _vm.openpicker(7)
@@ -28718,16 +28776,16 @@ var render = function() {
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(27, "sc", "left"),
-                      attrs: { span: "7", _i: 27 }
+                      staticClass: _vm._$s(31, "sc", "left"),
+                      attrs: { span: "7", _i: 31 }
                     },
-                    [_vm._v("")]
+                    [_c("span", { attrs: { id: "left", _i: 32 } })]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(28, "sc", "a"),
-                      attrs: { span: "5", _i: 28 }
+                      staticClass: _vm._$s(33, "sc", "a"),
+                      attrs: { span: "5", _i: 33 }
                     },
                     [
                       _c("u-picker", {
@@ -28735,11 +28793,11 @@ var render = function() {
                           mode: "time",
                           "default-selector": [0],
                           range: _vm.cheliangshuxing,
-                          _i: 29
+                          _i: 34
                         },
                         on: { confirm: _vm.returncardate },
                         model: {
-                          value: _vm._$s(29, "v-model", _vm.showcardate),
+                          value: _vm._$s(34, "v-model", _vm.showcardate),
                           callback: function($$v) {
                             _vm.showcardate = $$v
                           },
@@ -28747,7 +28805,7 @@ var render = function() {
                         }
                       }),
                       _c("span", [
-                        _vm._v(_vm._$s(30, "t0-0", _vm._s(_vm.form.cardate)))
+                        _vm._v(_vm._$s(35, "t0-0", _vm._s(_vm.form.cardate)))
                       ])
                     ],
                     1
@@ -28757,56 +28815,63 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 31 } },
+                { attrs: { gutter: "16", _i: 36 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(32, "sc", "left"),
-                      attrs: { span: "7", _i: 32 }
+                      staticClass: _vm._$s(37, "sc", "left"),
+                      attrs: { span: "7", _i: 37 }
                     },
-                    [_vm._v("")]
+                    [_c("span", { attrs: { id: "left", _i: 38 } })]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 33 } }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.contacts,
-                          expression: "form.contacts"
-                        }
-                      ],
-                      attrs: { id: "all_name", _i: 34 },
-                      domProps: {
-                        value: _vm._$s(34, "v-model", _vm.form.contacts)
-                      },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                  _c(
+                    "u-col",
+                    {
+                      staticClass: _vm._$s(39, "sc", "a"),
+                      attrs: { span: "5", _i: 39 }
+                    },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.contacts,
+                            expression: "form.contacts"
                           }
-                          _vm.$set(_vm.form, "contacts", $event.target.value)
+                        ],
+                        attrs: { id: "all_name", _i: 40 },
+                        domProps: {
+                          value: _vm._$s(40, "v-model", _vm.form.contacts)
+                        },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "contacts", $event.target.value)
+                          }
                         }
-                      }
-                    })
-                  ])
+                      })
+                    ]
+                  )
                 ],
                 1
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 35 } },
+                { attrs: { gutter: "16", _i: 41 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(36, "sc", "left"),
-                      attrs: { span: "7", _i: 36 }
+                      staticClass: _vm._$s(42, "sc", "left"),
+                      attrs: { span: "7", _i: 42 }
                     },
-                    [_vm._v("")]
+                    [_c("span", { attrs: { id: "left", _i: 43 } })]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 37 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 44 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -28816,8 +28881,8 @@ var render = function() {
                           expression: "form.tel"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 38 },
-                      domProps: { value: _vm._$s(38, "v-model", _vm.form.tel) },
+                      attrs: { id: "all_name", _i: 45 },
+                      domProps: { value: _vm._$s(45, "v-model", _vm.form.tel) },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
@@ -28834,12 +28899,12 @@ var render = function() {
               _c(
                 "u-button",
                 {
-                  attrs: { type: "primary", shape: "circle", _i: 39 },
+                  attrs: { type: "primary", shape: "circle", _i: 46 },
                   on: { click: _vm.submit }
                 },
                 [_vm._v("")]
               ),
-              _c("u-toast", { ref: "uToast", attrs: { _i: 40 } })
+              _c("u-toast", { ref: "uToast", attrs: { _i: 47 } })
             ],
             1
           )
@@ -30165,6 +30230,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -30259,73 +30325,43 @@ var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));f
 //
 //
 //
-var _default = { data: function data() {return { show: false, // 公司名
-      selector: ["请选择", "公司名称1", "公司名称2", "公司名称3"], // 车辆类型
-      selectortype: ["4.2米", "5.2米", "6.8米", "7.6米", "9.6米", "12.5米", "15米"], // 支付方式
+//
+var _default = { data: function data() {return { show: false, // 车辆类型
+      selectortype: [], selectortypeyingwen: [], // 支付方式
       paymethod: ["月结", "周结", "日结", "现付"], Temperaturecontroltype: ["冷冻", "冷藏", "常温", "恒温", "冷冻/冷藏"], cheliangshuxing: ["自有", "租赁"], // 控制选择器弹出
-      show1: false, showcheliangshuxing: false, showcar_type_name: false, showtms_control_type_showtype: false, showcardate: false, form: { car_number: "请输入车牌号", //车牌号
+      show1: false, showcheliangshuxing: false, showcar_type_name: false, showtms_control_type_showtype: false, showcardate: false, form: { car_number: "", //车牌号
         car_type_name: "请选择车辆类型", //车辆类型
         tms_control_type_show: '请选择温控类型', //温控类型
         car_possess_show: "请选择车辆属性", //车辆属性
         cardate: '请选择注册日期', //车辆注册日期
         contacts: '', tel: '' //客户电话
       }, car_possess: '', token: null, control: '', //车辆类型
-      car_type_list: [], cartypeid: '' };}, methods: { back: function back() {uni.navigateBack();}, // 弹出框弹出事件
+      car_type_list: [], cartypeid: '', group_code: "group_202106121328596313571586" };}, methods: { back: function back() {uni.navigateBack();}, // 弹出框弹出事件
     openpicker: function openpicker(i) {if (i == 1) {// 车辆号码
-        this.show1 = true;this.form.car_number = '';}if (i == 4) {// 弹出温控
+        this.show1 = true;}if (i == 4) {// 弹出温控
         this.showtms_control_type_showtype = true;}if (i == 5) {// 弹出车辆类型
         this.showcar_type_name = true;}if (i == 6) {// 弹出车辆属性
         this.showcheliangshuxing = true;}if (i == 7) {this.showcardate = true;}}, // 键盘改变事件
-    valChange: function valChange(val) {// this.form.car_number='',
-      this.form.car_number += val;}, // 退格键被点击
+    valChange: function valChange(val) {this.form.car_number += val;}, // 退格键被点击
     backspace: function backspace() {// 删除value的最后一个字符
-      if (this.form.car_number.length) this.form.car_number = this.form.car_number.substr(0, this.form.car_number.length - 1);__f__("log", this.value, " at pages/car/add.vue:169");}, // 车牌号回调
-    returndata: function returndata(item) {this.form.car_number = item;__f__("log", this.form.car_number, " at pages/car/add.vue:174");}, //车辆类型回调
-    returncar_type_namedata: function returncar_type_namedata(item) {this.form.car_type_name = this.selectortype[item];__f__("log", this.form.car_type_name, " at pages/car/add.vue:179");if (this.form.car_type_name == "4.2米") {this.cartypeid = "type_202102051755118039490396";__f__("log", this.cartypeid, " at pages/car/add.vue:182");}if (this.form.car_type_name == "5.2米") {this.cartypeid = "type_202102051755118034654564";__f__("log", this.cartypeid, " at pages/car/add.vue:186");}if (this.form.car_type_name == "6.8米") {this.cartypeid = "type_202102051755114564156121";__f__("log", this.cartypeid, " at pages/car/add.vue:190");}if (this.form.car_type_name == "7.6米") {this.cartypeid = "type_202102051778945612315941";__f__("log", this.cartypeid, " at pages/car/add.vue:194");}if (this.form.car_type_name == "9.6米") {this.cartypeid = "type_202102051755178946159791";__f__("log", this.cartypeid, " at pages/car/add.vue:198");}if (this.form.car_type_name == "12.5米") {this.cartypeid = "type_202102051755123456156489";__f__("log", this.cartypeid, " at pages/car/add.vue:202");}if (this.form.car_type_name == "15米") {this.cartypeid = "type_202102051755118789459489";__f__("log", this.cartypeid, " at pages/car/add.vue:206");}__f__("log", this.form.car_type_name, " at pages/car/add.vue:210");}, //温控回调
-    returnTemperaturecontroltype: function returnTemperaturecontroltype(item) {
-      this.form.tms_control_type_show = this.Temperaturecontroltype[item];
-      if (this.form.tms_control_type_show == "冷冻") {
-        this.control = "freeze";
-        __f__("log", this.control, " at pages/car/add.vue:217");
-      }
-      if (this.form.tms_control_type_show == "冷藏") {
-        this.control = "refrigeration";
-        __f__("log", this.control, " at pages/car/add.vue:221");
-      }
-      if (this.form.tms_control_type_show == "常温") {
-        this.control = "normal";
-        __f__("log", this.control, " at pages/car/add.vue:225");
-      }
-      if (this.form.tms_control_type_show == "恒温") {
-        this.control = "constant";
-        __f__("log", this.control, " at pages/car/add.vue:229");
-      }
-      if (this.form.tms_control_type_show == "冷冻/冷藏") {
-        this.control = "cold";
-        __f__("log", this.control, " at pages/car/add.vue:233");
-      }
-      __f__("log", this.form.tms_control_type_show, " at pages/car/add.vue:235");
-    },
-    // 车辆属性回调
-    returncheliangshuxing: function returncheliangshuxing(item) {
-      this.form.car_possess_show = this.cheliangshuxing[item];
-      if (this.form.car_possess_show == "自有") {
-        this.car_possess = "oneself";
-        __f__("log", this.car_possess, " at pages/car/add.vue:242");
-      }
-      if (this.form.car_possess_show == "租赁") {
+      if (this.form.car_number.length) this.form.car_number = this.form.car_number.substr(0, this.form.car_number.length - 1);__f__("log", this.value, " at pages/car/add.vue:168");}, // 车牌号回调
+    returndata: function returndata(item) {this.form.car_number = item;__f__("log", this.form.car_number, " at pages/car/add.vue:173");}, //车辆类型回调
+    returncar_type_namedata: function returncar_type_namedata(item) {this.form.car_type_name = this.selectortype[item];__f__("log", this.form.car_type_name, " at pages/car/add.vue:178");this.cartypeid = this.selectortypeyingwen[item];__f__("log", this.cartypeid, " at pages/car/add.vue:180");}, //温控回调
+    returnTemperaturecontroltype: function returnTemperaturecontroltype(item) {this.form.tms_control_type_show = this.Temperaturecontroltype[item];if (this.form.tms_control_type_show == "冷冻") {this.control = "freeze";__f__("log", this.control, " at pages/car/add.vue:187");}if (this.form.tms_control_type_show == "冷藏") {this.control = "refrigeration";__f__("log", this.control, " at pages/car/add.vue:191");}if (this.form.tms_control_type_show == "常温") {this.control = "normal";__f__("log", this.control, " at pages/car/add.vue:195");}if (this.form.tms_control_type_show == "恒温") {this.control = "constant";__f__("log", this.control, " at pages/car/add.vue:199");}if (this.form.tms_control_type_show == "冷冻/冷藏") {this.control = "cold";__f__("log", this.control, " at pages/car/add.vue:203");}__f__("log", this.form.tms_control_type_show, " at pages/car/add.vue:205");}, // 车辆属性回调
+    returncheliangshuxing: function returncheliangshuxing(item) {this.form.car_possess_show = this.cheliangshuxing[item];if (this.form.car_possess_show == "自有") {this.car_possess = "oneself";__f__("log", this.car_possess, " at pages/car/add.vue:212");}if (this.form.car_possess_show == "租赁") {
         this.car_possess = "lease";
-        __f__("log", this.car_possess, " at pages/car/add.vue:246");
+        __f__("log", this.car_possess, " at pages/car/add.vue:216");
       }
-      __f__("log", this.form.car_possess_show, " at pages/car/add.vue:248");
+      __f__("log", this.form.car_possess_show, " at pages/car/add.vue:218");
     },
     // 注册日期回调
     returncardate: function returncardate(item) {
-      __f__("log", item, " at pages/car/add.vue:252");
-      this.form.cardate = item.year + "-" + item.day + "-" + item.month;
-      __f__("log", this.form.cardate, " at pages/car/add.vue:254");
+      __f__("log", item, " at pages/car/add.vue:222");
+      this.form.cardate = item.year + "-" + item.month + "-" + item.day;
+      __f__("log", this.form.cardate, " at pages/car/add.vue:224");
     },
     submit: function submit() {var _this = this;
+      var projecttype = uni.getStorageSync("project_type");
       var submitdata = {
         token: "",
         control: this.control,
@@ -30335,96 +30371,66 @@ var _default = { data: function data() {return { show: false, // 公司名
         car_type_id: this.cartypeid,
         contacts: this.form.contacts,
         tel: this.form.tel,
-        group_code: "group_202106121328596313571586" };
+        group_code: this.group_code };
 
-      __f__("log", 'submitData' + JSON.stringify(submitdata), " at pages/car/add.vue:268");
+      if (projecttype == 'user' || projecttype == 'carriage') {
+        __f__("log", 'submitData' + JSON.stringify(submitdata), " at pages/car/add.vue:240");
+        _api.default.api_car_addCar(submitdata).then(function (res) {
+          __f__("log", res, " at pages/car/add.vue:242");
+          __f__("log", res.code, " at pages/car/add.vue:243");
+          if (res.code == 200) {
+            __f__("log", "添加成功", " at pages/car/add.vue:245");
+            _this.back();
+          } else {
+            thi.$refs.uToast.show({
+              title: "添加失败",
+              type: 'error' });
 
-      _api.default.tms_car_addCar(submitdata).then(function (res) {
-        __f__("log", res, " at pages/car/add.vue:271");
-        __f__("log", res.code, " at pages/car/add.vue:272");
-        if (res.code == 200) {
-          __f__("log", "添加成功", " at pages/car/add.vue:274");
-          _this.back();
-        } else {
-          thi.$refs.uToast.show({
-            title: "添加失败",
-            type: 'error' });
+          }
+        });
+      } else {
+        __f__("log", 'submitData' + JSON.stringify(submitdata), " at pages/car/add.vue:255");
+        _api.default.tms_car_addCar(submitdata).then(function (res) {
+          if (res.code == 200) {
+            __f__("log", "添加成功", " at pages/car/add.vue:258");
+            _this.back();
+          } else {
+            thi.$refs.uToast.show({
+              title: "添加失败",
+              type: 'error' });
 
-        }
-      });
+          }
+        });
+      }
     },
-    //车辆类型
-    carType: function carType() {var _this2 = this;
+    //加载车型数据
+    loadcartype: function loadcartype() {var _this2 = this;
       var data = {
-        token: null };
+        token: '' };
 
       _api.default.api_car_getType(data).then(function (res) {
         if (res.code == 200) {
-          __f__("log", JSON.stringify(res), " at pages/car/add.vue:291");
-          __f__("log", res.data.info, " at pages/car/add.vue:292");
-          _this2.car_type_list = res.data.info;
-          var carTypeData = [];
-          var index = i;
-          for (var i = 0; i < _this2.car_type_list.length; i++) {
-            carTypeData.push({
-              value: _this2.car_type_list[i].self_id,
-              text: _this2.car_type_list[i].parame_name });
-
+          var cartypelist = res.data.info;
+          for (var i in cartypelist) {
+            var typeid = cartypelist[i].self_id;
+            var paramename = cartypelist[i].parame_name;
+            _this2.selectortype.push(paramename);
+            _this2.selectortypeyingwen.push(typeid);
           }
-          __f__("log", carTypeData, " at pages/car/add.vue:302");
+          __f__("log", _this2.selectortype, " at pages/car/add.vue:283");
+          __f__("log", _this2.selectortypeyingwen, " at pages/car/add.vue:284");
         }
-
       });
-    }
-    //确认提交
-    // submit(){
-    // 	var submitdata={
-    // 		token:"",
-    // 		self_id: "",
-    // 		control: this.form.tms_control_type_show,
-    // 		board_time:this.form.cardate,
-    // 		car_number:this.form.car_number,
-    // 		car_possess:this.form.car_possess_show,
-    // 		car_type_id:this.form.car_type_name,
-    // 		contacts:this.form.contacts,
-    // 		tel:this.form.tel,
-    // 		group_code:"group_202106121328596313571586"
-    // 	}
-    // 	// token: localStorage.token,
-    // 	// self_id: self.car_id,
-    // 	// control: self.control,
-    // 	// board_time: self.board_time,
-    // 	// car_number: self.car_number,
-    // 	// car_possess: self.car_possess,
-    // 	// car_type_id: self.car_type_id,
-    // 	// contacts: self.contacts,
-    // 	// tel: self.tel,
-    // 	// license: self.license,
-    // 	// medallion: self.medallion,
-    // 	console.log(this.form)
-    // 	console.log('submitData' + JSON.stringify(submitdata))
-    // 	api.tms_car_addCar(submitdata).then(res=>{
-    // 		console.log("添加成功")
-    // 		console.log(res)
-    // 		if(res.code == 200){
-    // 			console.log(res)
-    // 			this.$refs.uToast.show({
-    // 				title: res.msg,
-    // 				type: 'default',
-    // 				position: 'bottom'
-    // 			})
-    // 	})
-
-    // }
-
-    // }
-  },
+    } },
 
   onLoad: function onLoad() {
 
   },
   created: function created() {
-    this.carType();
+    // var caredit=this.$store.state.caredit
+    // this.group_code=caredit.group_code
+    // console.log(this.group_code)
+    this.loadcartype();
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/lib/format-log.js */ 26)["default"]))
 
@@ -30587,30 +30593,38 @@ var render = function() {
                       staticClass: _vm._$s(7, "sc", "left"),
                       attrs: { span: "7", _i: 7 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(8, "sc", "a"),
-                      attrs: { span: "5", _i: 8 }
+                      staticClass: _vm._$s(9, "sc", "a"),
+                      attrs: { span: "5", _i: 9 }
                     },
                     [
                       _c("u-keyboard", {
                         ref: "uKeyboard",
-                        attrs: { mask: false, mode: "car", _i: 9 },
+                        attrs: { mask: false, mode: "car", _i: 10 },
                         on: { change: _vm.valChange, backspace: _vm.backspace },
                         model: {
-                          value: _vm._$s(9, "v-model", _vm.show1),
+                          value: _vm._$s(10, "v-model", _vm.show1),
                           callback: function($$v) {
                             _vm.show1 = $$v
                           },
                           expression: "show1"
                         }
                       }),
-                      _c("span", [
-                        _vm._v(_vm._$s(10, "t0-0", _vm._s(_vm.form.carid)))
-                      ])
+                      _c("input", {
+                        attrs: {
+                          value: _vm._$s(11, "a-value", _vm.form.carid),
+                          placeholder: _vm._$s(
+                            11,
+                            "a-placeholder",
+                            this.createdcarid
+                          ),
+                          _i: 11
+                        }
+                      })
                     ],
                     1
                   )
@@ -30620,7 +30634,7 @@ var render = function() {
               _c(
                 "u-row",
                 {
-                  attrs: { gutter: "16", _i: 11 },
+                  attrs: { gutter: "16", _i: 12 },
                   on: {
                     click: function($event) {
                       return _vm.openpicker(5)
@@ -30631,16 +30645,16 @@ var render = function() {
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(12, "sc", "left"),
-                      attrs: { span: "7", _i: 12 }
+                      staticClass: _vm._$s(13, "sc", "left"),
+                      attrs: { span: "7", _i: 13 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(13, "sc", "a"),
-                      attrs: { span: "5", _i: 13 }
+                      staticClass: _vm._$s(15, "sc", "a"),
+                      attrs: { span: "5", _i: 15 }
                     },
                     [
                       _c("u-picker", {
@@ -30648,11 +30662,11 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.selectortype,
-                          _i: 14
+                          _i: 16
                         },
                         on: { confirm: _vm.returncartypedata },
                         model: {
-                          value: _vm._$s(14, "v-model", _vm.showcartype),
+                          value: _vm._$s(16, "v-model", _vm.showcartype),
                           callback: function($$v) {
                             _vm.showcartype = $$v
                           },
@@ -30661,7 +30675,7 @@ var render = function() {
                       }),
                       _c("span", [
                         _vm._v(
-                          _vm._$s(15, "t0-0", _vm._s(_vm.form.car_type_name))
+                          _vm._$s(17, "t0-0", _vm._s(_vm.form.car_type_name))
                         )
                       ])
                     ],
@@ -30673,7 +30687,7 @@ var render = function() {
               _c(
                 "u-row",
                 {
-                  attrs: { gutter: "16", _i: 16 },
+                  attrs: { gutter: "16", _i: 18 },
                   on: {
                     click: function($event) {
                       return _vm.openpicker(4)
@@ -30684,16 +30698,16 @@ var render = function() {
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(17, "sc", "left"),
-                      attrs: { span: "7", _i: 17 }
+                      staticClass: _vm._$s(19, "sc", "left"),
+                      attrs: { span: "7", _i: 19 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(18, "sc", "a"),
-                      attrs: { span: "5", _i: 18 }
+                      staticClass: _vm._$s(21, "sc", "a"),
+                      attrs: { span: "5", _i: 21 }
                     },
                     [
                       _c("u-picker", {
@@ -30701,11 +30715,11 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.Temperaturecontroltype,
-                          _i: 19
+                          _i: 22
                         },
                         on: { confirm: _vm.returnTemperaturecontroltype },
                         model: {
-                          value: _vm._$s(19, "v-model", _vm.showwenkongtype),
+                          value: _vm._$s(22, "v-model", _vm.showwenkongtype),
                           callback: function($$v) {
                             _vm.showwenkongtype = $$v
                           },
@@ -30713,7 +30727,7 @@ var render = function() {
                         }
                       }),
                       _c("span", [
-                        _vm._v(_vm._$s(20, "t0-0", _vm._s(_vm.form.wenkong)))
+                        _vm._v(_vm._$s(23, "t0-0", _vm._s(_vm.form.wenkong)))
                       ])
                     ],
                     1
@@ -30724,7 +30738,7 @@ var render = function() {
               _c(
                 "u-row",
                 {
-                  attrs: { gutter: "16", _i: 21 },
+                  attrs: { gutter: "16", _i: 24 },
                   on: {
                     click: function($event) {
                       return _vm.openpicker(6)
@@ -30735,16 +30749,16 @@ var render = function() {
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(22, "sc", "left"),
-                      attrs: { span: "7", _i: 22 }
+                      staticClass: _vm._$s(25, "sc", "left"),
+                      attrs: { span: "7", _i: 25 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(23, "sc", "a"),
-                      attrs: { span: "5", _i: 23 }
+                      staticClass: _vm._$s(27, "sc", "a"),
+                      attrs: { span: "5", _i: 27 }
                     },
                     [
                       _c("u-picker", {
@@ -30752,12 +30766,12 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.cheliangshuxing,
-                          _i: 24
+                          _i: 28
                         },
                         on: { confirm: _vm.returncheliangshuxing },
                         model: {
                           value: _vm._$s(
-                            24,
+                            28,
                             "v-model",
                             _vm.showcheliangshuxing
                           ),
@@ -30769,7 +30783,7 @@ var render = function() {
                       }),
                       _c("span", [
                         _vm._v(
-                          _vm._$s(25, "t0-0", _vm._s(_vm.form.car_possess_show))
+                          _vm._$s(29, "t0-0", _vm._s(_vm.form.car_possess_show))
                         )
                       ])
                     ],
@@ -30781,7 +30795,7 @@ var render = function() {
               _c(
                 "u-row",
                 {
-                  attrs: { gutter: "16", _i: 26 },
+                  attrs: { gutter: "16", _i: 30 },
                   on: {
                     click: function($event) {
                       return _vm.openpicker(7)
@@ -30792,28 +30806,27 @@ var render = function() {
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(27, "sc", "left"),
-                      attrs: { span: "7", _i: 27 }
+                      staticClass: _vm._$s(31, "sc", "left"),
+                      attrs: { span: "7", _i: 31 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(28, "sc", "a"),
-                      attrs: { span: "5", _i: 28 }
+                      staticClass: _vm._$s(33, "sc", "a"),
+                      attrs: { span: "5", _i: 33 }
                     },
                     [
                       _c("u-picker", {
                         attrs: {
                           mode: "time",
                           "default-selector": [0],
-                          range: _vm.cheliangshuxing,
-                          _i: 29
+                          _i: 34
                         },
                         on: { confirm: _vm.returncardate },
                         model: {
-                          value: _vm._$s(29, "v-model", _vm.showcardate),
+                          value: _vm._$s(34, "v-model", _vm.showcardate),
                           callback: function($$v) {
                             _vm.showcardate = $$v
                           },
@@ -30821,7 +30834,7 @@ var render = function() {
                         }
                       }),
                       _c("span", [
-                        _vm._v(_vm._$s(30, "t0-0", _vm._s(_vm.form.cardate)))
+                        _vm._v(_vm._$s(35, "t0-0", _vm._s(_vm.form.cardate)))
                       ])
                     ],
                     1
@@ -30831,17 +30844,17 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 31 } },
+                { attrs: { gutter: "16", _i: 36 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(32, "sc", "left"),
-                      attrs: { span: "7", _i: 32 }
+                      staticClass: _vm._$s(37, "sc", "left"),
+                      attrs: { span: "7", _i: 37 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 33 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 39 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -30851,9 +30864,9 @@ var render = function() {
                           expression: "form.name"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 34 },
+                      attrs: { id: "all_name", _i: 40 },
                       domProps: {
-                        value: _vm._$s(34, "v-model", _vm.form.name)
+                        value: _vm._$s(40, "v-model", _vm.form.name)
                       },
                       on: {
                         input: function($event) {
@@ -30870,17 +30883,17 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 35 } },
+                { attrs: { gutter: "16", _i: 41 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(36, "sc", "left"),
-                      attrs: { span: "7", _i: 36 }
+                      staticClass: _vm._$s(42, "sc", "left"),
+                      attrs: { span: "7", _i: 42 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 37 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 44 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -30890,9 +30903,9 @@ var render = function() {
                           expression: "form.phone"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 38 },
+                      attrs: { id: "all_name", _i: 45 },
                       domProps: {
-                        value: _vm._$s(38, "v-model", _vm.form.phone)
+                        value: _vm._$s(45, "v-model", _vm.form.phone)
                       },
                       on: {
                         input: function($event) {
@@ -30910,7 +30923,7 @@ var render = function() {
               _c(
                 "u-button",
                 {
-                  attrs: { type: "primary", shape: "circle", _i: 39 },
+                  attrs: { type: "primary", shape: "circle", _i: 46 },
                   on: { click: _vm.submit }
                 },
                 [_vm._v("")]
@@ -31141,19 +31154,21 @@ var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));f
 //
 //
 //
-var _default = { data: function data() {return { // 公司名
-      selector: ["请选择", "公司名称1", "公司名称2", "公司名称3"], // 车辆类型
-      selectortype: ["4.2米", "5.2米", "6.8米", "7.6米", "9.6米", "12.5米", "15米"], // 支付方式
-      paymethod: ["请选择", "月结", "周结", "日结", "现付"], Temperaturecontroltype: ["冷冻", "冷藏", "常温", "恒温", "冷冻/冷藏"], cheliangshuxing: ["请选择", "自有", "租赁"], // 控制选择器弹出
-      show1: false, showcheliangshuxing: false, showcartype: false, showwenkongtype: false, showcardate: false, form: { carid: "请输入车牌号", //车牌号
+var _default = { data: function data() {return { // 车辆类型
+      selectortype: [], selectortypetypeid: [], // 支付方式
+      paymethod: ["月结", "周结", "日结", "现付"], // 温控列表
+      Temperaturecontroltype: [], Temperaturecontroltypeyingwen: [], // 车辆属性
+      cheliangshuxing: [], // 车辆属性英文
+      cheliangshuxingyingwen: [], // 控制选择器弹出
+      show1: false, showcheliangshuxing: false, showcartype: false, showwenkongtype: false, showcardate: false, form: { carid: "", //车牌号
         car_type_name: "请选择车辆类型", //车辆类型
-        wenkong: '请选择温控类型', //温控类型
+        wenkong: "请选择温控类型", //温控类型
         car_possess_show: "请选择车辆属性", //车辆属性
-        cardate: '请选择注册日期', //车辆注册日期
-        name: '', phone: '' //客户电话
-      }, control: '', car_possess: '', cartypeid: '', self_id: '', group_code: '' };}, methods: { // 弹出框弹出事件
+        cardate: "请选择日期", //车辆注册日期
+        name: "", phone: "" //客户电话
+      }, control: "", car_possess: "", cartypeid: "", self_id: "", group_code: "", arr: [], a: "", createdcarid: "" };}, methods: { // 弹出框弹出事件
     openpicker: function openpicker(i) {if (i == 1) {// 车辆号码
-        this.show1 = true;this.form.carid = '';}if (i == 4) {// 弹出温控
+        this.show1 = true;}if (i == 4) {// 弹出温控
         this.showwenkongtype = true;}if (i == 5) {// 弹出车辆类型
         this.showcartype = true;}if (i == 6) {// 弹出车辆属性
         this.showcheliangshuxing = true;}if (i == 7) {this.showcardate = true;}}, // 键盘改变事件
@@ -31163,43 +31178,78 @@ var _default = { data: function data() {return { // 公司名
       // }
     }, // 退格键被点击
     backspace: function backspace() {// 删除value的最后一个字符
-      if (this.form.carid.length) this.form.carid = this.form.carid.substr(0, this.form.carid.length - 1);__f__("log", this.value, " at pages/car/editor.vue:166");}, // 车牌号回调
-    returndata: function returndata(item) {this.form.carid = item;}, //车辆类别回调
-    returncartypedata: function returncartypedata(item) {this.form.car_type_name = this.selectortype[item];if (this.form.car_type_name == "4.2米") {this.cartypeid = "type_202102051755118039490396";__f__("log", this.cartypeid, " at pages/car/editor.vue:177");}if (this.form.car_type_name == "5.2米") {this.cartypeid = "type_202102051755118034654564";__f__("log", this.cartypeid, " at pages/car/editor.vue:181");}if (this.form.car_type_name == "6.8米") {this.cartypeid = "type_202102051755114564156121";__f__("log", this.cartypeid, " at pages/car/editor.vue:185");}if (this.form.car_type_name == "7.6米") {this.cartypeid = "type_202102051778945612315941";__f__("log", this.cartypeid, " at pages/car/editor.vue:189");}if (this.form.car_type_name == "9.6米") {this.cartypeid = "type_202102051755178946159791";__f__("log", this.cartypeid, " at pages/car/editor.vue:193");}if (this.form.car_type_name == "12.5米") {this.cartypeid = "type_202102051755123456156489";__f__("log", this.cartypeid, " at pages/car/editor.vue:197");}if (this.form.car_type_name == "15米") {this.cartypeid = "type_202102051755118789459489";__f__("log", this.cartypeid, " at pages/car/editor.vue:201");}}, //温控回调
-    returnTemperaturecontroltype: function returnTemperaturecontroltype(item) {this.form.wenkong = this.Temperaturecontroltype[item];if (this.form.wenkong == "冷冻") {this.control = "freeze";__f__("log", this.control, " at pages/car/editor.vue:209");}if (this.form.wenkong == "冷藏") {this.control = "refrigeration";__f__("log", this.control, " at pages/car/editor.vue:213");
-      }
-      if (this.form.wenkong == "常温") {
-        this.control = "normal";
-        __f__("log", this.control, " at pages/car/editor.vue:217");
-      }
-      if (this.form.wenkong == "恒温") {
-        this.control = "constant";
-        __f__("log", this.control, " at pages/car/editor.vue:221");
-      }
-      if (this.form.wenkong == "冷冻/冷藏") {
-        this.control = "cold";
-        __f__("log", this.control, " at pages/car/editor.vue:225");
-      }
+      if (this.form.carid.length) this.form.carid = this.form.carid.substr(0, this.form.carid.length - 1);__f__("log", this.value, " at pages/car/editor.vue:172");}, // 车牌号回调
+    returndata: function returndata(item) {this.form.carid = item;__f__("log", this.form.carid, " at pages/car/editor.vue:177");}, //车型回调
+    returncartypedata: function returncartypedata(item) {this.form.car_type_name = this.selectortype[item];this.cartypeid = this.selectortypetypeid[item];__f__("log", this.form.car_type_name, " at pages/car/editor.vue:183");__f__("log", this.cartypeid, " at pages/car/editor.vue:184");}, //温控回调
+    returnTemperaturecontroltype: function returnTemperaturecontroltype(item) {this.form.wenkong = this.Temperaturecontroltype[item];this.control = this.Temperaturecontroltypeyingwen[item];__f__("log", this.form.wenkong, " at pages/car/editor.vue:190");__f__("log", this.control, " at pages/car/editor.vue:191");}, // 车辆属性回调
+    returncheliangshuxing: function returncheliangshuxing(item) {this.form.car_possess_show = this.cheliangshuxing[item];this.car_possess = this.cheliangshuxingyingwen[item];__f__("log", this.form.car_possess_show, " at pages/car/editor.vue:197");__f__("log", this.car_possess, " at pages/car/editor.vue:198");}, // 注册日期回调
+    returncardate: function returncardate(item) {__f__("log", item, " at pages/car/editor.vue:202");this.form.cardate = item.year + "-" + item.month + "-" + item.day;__f__("log", this.form.cardate, " at pages/car/editor.vue:204");}, //加载车型数据
+    loadcartype: function loadcartype() {var _this = this;var data = { token: '' };_api.default.api_car_getType(data).then(function (res) {if (res.code == 200) {var cartypelist = res.data.info;for (var i in cartypelist) {var typeid = cartypelist[i].self_id;var paramename = cartypelist[i].parame_name;_this.selectortype.push(paramename);_this.selectortypetypeid.push(typeid);
+          }
+        }
+      });
     },
-    // 车辆属性回调
-    returncheliangshuxing: function returncheliangshuxing(item) {
-      this.form.car_possess_show = this.cheliangshuxing[item];
-      if (this.form.car_possess_show == "自有") {
-        this.car_possess = "oneself";
-        __f__("log", this.car_possess, " at pages/car/editor.vue:233");
+    //进入编辑页面时加载数据
+    loadcardata: function loadcardata() {var _this2 = this;
+      var data = {
+        self_id: this.self_id };
+
+      __f__("log", data.self_id, " at pages/car/editor.vue:228");
+      var projecttype = uni.getStorageSync("project_type");
+      if (projecttype == 'user' || projecttype == 'carriage') {
+        _api.default.api_car_creatCar(data).then(function (res) {
+          if (res.code == 200) {
+            __f__("log", "api执行", " at pages/car/editor.vue:233");
+
+          }
+        });
+      } else {
+        _api.default.tms_car_createCar(data).then(function (res) {
+          if (res.code == 200) {
+            __f__("log", JSON.stringify(res), " at pages/car/editor.vue:240");
+            __f__("log", "1111111111111111111111111", " at pages/car/editor.vue:241");
+            _this2.createdcarid = res.data.info.car_number; //车牌号
+            _this2.form.car_type_name = res.data.info.car_type_name; //车辆类型
+            _this2.form.wenkong = res.data.info.tms_control_type_show; //温控类型
+            _this2.form.car_possess_show = res.data.info.car_possess_show; //车属性
+            _this2.form.cardate = res.data.info.board_time; //日期
+            _this2.form.name = res.data.info.contacts; //联系人
+            _this2.form.phone = res.data.info.tel; //电话
+            _this2.car_possess = res.data.info.car_possess; //车属性id
+            __f__("log", _this2.car_possess, " at pages/car/editor.vue:250");
+            _this2.cartypeid = res.data.info.car_type_id;
+            __f__("log", _this2.cartypeid, " at pages/car/editor.vue:252");
+            _this2.control = res.data.info.control; //温控id
+            __f__("log", _this2.control, " at pages/car/editor.vue:254");
+            __f__("log", JSON.stringify(res.data.tms_car_possess_type), " at pages/car/editor.vue:255");
+            //车辆属性数组
+            _this2.arr = res.data.tms_car_possess_type;
+            __f__("log", _this2.arr, " at pages/car/editor.vue:258");
+            for (var n in _this2.arr) {
+              // 车辆属性汉字
+              var tms_proess_type_list_text = _this2.arr[n].name;
+              // 车辆属性英文
+              var tms_proess_type_list_keys = _this2.arr[n].key;
+              _this2.cheliangshuxing.push(tms_proess_type_list_text);
+              _this2.cheliangshuxingyingwen.push(tms_proess_type_list_keys);
+            }
+            __f__("log", _this2.cheliangshuxing, " at pages/car/editor.vue:267");
+            __f__("log", _this2.cheliangshuxingyingwen, " at pages/car/editor.vue:268");
+            var tms_control_type_list = res.data.tms_control_type;
+            for (var j in tms_control_type_list) {
+              var a = tms_control_type_list[j].name;
+              var b = tms_control_type_list[j].key;
+              _this2.Temperaturecontroltype.push(a);
+              _this2.Temperaturecontroltypeyingwen.push(b);
+            }
+            __f__("log", _this2.Temperaturecontroltype, " at pages/car/editor.vue:276");
+            __f__("log", _this2.Temperaturecontroltypeyingwen, " at pages/car/editor.vue:277");
+          }
+        });
       }
-      if (this.form.car_possess_show == "租赁") {
-        this.car_possess = "lease";
-        __f__("log", this.car_possess, " at pages/car/editor.vue:237");
-      }
-    },
-    // 注册日期回调
-    returncardate: function returncardate(item) {
-      __f__("log", item, " at pages/car/editor.vue:242");
-      this.form.cardate = item.year + "-" + item.day + "-" + item.month;
     },
     //确认提交
-    submit: function submit() {var _this = this;
+    submit: function submit() {var _this3 = this;
       if (this.form.carid == '') {
         this.$refs.uToast.show({
           title: '车牌号不能为空',
@@ -31216,6 +31266,7 @@ var _default = { data: function data() {return { // 公司名
 
         return false;
       }
+      var projecttype1 = uni.getStorageSync("project_type");
       var data = {
         token: "",
         self_id: this.self_id,
@@ -31228,23 +31279,21 @@ var _default = { data: function data() {return { // 公司名
         tel: this.form.phone,
         group_code: this.group_code };
 
-      __f__("log", data.token, " at pages/car/editor.vue:275");
-      __f__("log", data.self_id, " at pages/car/editor.vue:276");
-      __f__("log", data.control, " at pages/car/editor.vue:277");
-      __f__("log", data.board_time, " at pages/car/editor.vue:278");
-      __f__("log", data.car_number, " at pages/car/editor.vue:279");
-      __f__("log", data.car_possess, " at pages/car/editor.vue:280");
-      __f__("log", data.car_type_id, " at pages/car/editor.vue:281");
-      __f__("log", data.contacts, " at pages/car/editor.vue:282");
-      __f__("log", data.tel, " at pages/car/editor.vue:283");
-      __f__("log", data.group_code, " at pages/car/editor.vue:284");
-      __f__("log", this.form, " at pages/car/editor.vue:285");
-      _api.default.tms_car_addCar(data).then(function (res) {
-        if (res.code == 200) {
-          __f__("log", "编辑成功", " at pages/car/editor.vue:288");
-          _this.back();
-        }
-      });
+      if (projecttype1 == 'user' || projecttype1 == 'carriage') {
+        _api.default.api_car_addCar(data).then(function (res) {
+          if (res.code == 200) {
+            __f__("log", "编辑成功", " at pages/car/editor.vue:316");
+            _this3.back();
+          }
+        });
+      } else {
+        _api.default.tms_car_addCar(data).then(function (res) {
+          if (res.code == 200) {
+            __f__("log", "编辑成功", " at pages/car/editor.vue:323");
+            _this3.back();
+          }
+        });
+      }
     },
     back: function back() {
       uni.navigateBack();
@@ -31255,34 +31304,12 @@ var _default = { data: function data() {return { // 公司名
   },
   created: function created() {
     var caredit = this.$store.state.caredit;
-    // form: {
-    // 	carid:"请输入车牌号",//车牌号
-    // 	car_type_name:"请选择车辆类型", //车辆类型
-    // 	wenkong:'请选择温控类型', //温控类型
-    // 	car_possess_show:"请选择车辆属性", //车辆属性
-    // 	cardate:'请选择注册日期' ,//车辆注册日期
-    // 	name:'',
-    // 	phone:'',//客户电话
-    // },
-    //进入编辑页时显示的数据
-    this.form.carid = caredit.car_number,
-    this.form.car_type_name = caredit.car_type_name,
-    this.form.wenkong = caredit.tms_control_type_show,
-    this.form.car_possess_show = caredit.car_possess_show,
-    this.form.cardate = "请选择",
-    this.form.name = caredit.contacts,
-    this.form.phone = caredit.tel,
     this.self_id = caredit.self_id,
     this.group_code = caredit.group_code;
-    __f__("log", this.form.carid, " at pages/car/editor.vue:321");
-    __f__("log", this.form.car_type_name, " at pages/car/editor.vue:322");
-    __f__("log", this.form.wenkong, " at pages/car/editor.vue:323");
-    __f__("log", this.form.car_possess_show, " at pages/car/editor.vue:324");
-    __f__("log", this.form.cardate, " at pages/car/editor.vue:325");
-    __f__("log", this.form.name, " at pages/car/editor.vue:326");
-    __f__("log", this.form.phone, " at pages/car/editor.vue:327");
-    __f__("log", this.self_id, " at pages/car/editor.vue:328");
-    __f__("log", this.group_code, " at pages/car/editor.vue:329");
+    __f__("log", this.self_id, " at pages/car/editor.vue:340");
+    __f__("log", this.group_code, " at pages/car/editor.vue:341");
+    this.loadcardata();
+    this.loadcartype();
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/lib/format-log.js */ 26)["default"]))
 
@@ -31740,10 +31767,14 @@ var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));f
 var _default = { data: function data() {return { // 承运端列表
       carriers: [], show: false, content: '', cancel_style: { borderRight: '1px solid #e4e7ed' }, self_id: '', index: 0, loadfalse: false };}, onLoad: function onLoad() {}, created: function created() {this.loaddata();}, onPullDownRefresh: function onPullDownRefresh() {// var page = 1
     // this.api_address_addressPage(page)
-    this.loaddata();}, methods: { //返回主页
+    this.loaddata();}, onShow: function onShow() {this.carriers = [];this.loaddata();}, methods: { //返回主页
     toindex: function toindex() {uni.switchTab({ url: '/pages/user/index' });}, // 加载列表数据
-    loaddata: function loaddata() {var _this = this;var data = { page: 1, type: "carriers" };uni.showNavigationBarLoading();_api.default.tms_group_groupPage(data).then(function (res) {if (res.code == 200) {uni.stopPullDownRefresh();uni.hideNavigationBarLoading();_this.carriers = res.data.items;__f__("log", "加载数据成功", " at pages/carriers/list.vue:101");__f__("log", _this.carriers, " at pages/carriers/list.vue:102");}if (res.code != 200) {_this.loadfalse = true;console("加载数据失败");}});}, // 编辑
-    editcarriers: function editcarriers(item, index) {__f__("log", item, " at pages/carriers/list.vue:112");__f__("log", index, " at pages/carriers/list.vue:113");var data = {};
+    loaddata: function loaddata() {var _this = this;var data = { page: 1, type: "carriers" };uni.showNavigationBarLoading();_api.default.tms_group_groupPage(data).then(function (res) {if (res.code == 200) {uni.stopPullDownRefresh();uni.hideNavigationBarLoading();_this.carriers = res.data.items;__f__("log", "加载数据成功", " at pages/carriers/list.vue:105");__f__("log", _this.carriers, " at pages/carriers/list.vue:106");}if (res.code != 200) {_this.loadfalse = true;console("加载数据失败");}});},
+    // 编辑
+    editcarriers: function editcarriers(item, index) {
+      __f__("log", item, " at pages/carriers/list.vue:116");
+      __f__("log", index, " at pages/carriers/list.vue:117");
+      var data = {};
       data.self_id = item.self_id;
       this.$store.commit('a1', data);
       uni.navigateTo({
@@ -31753,24 +31784,24 @@ var _default = { data: function data() {return { // 承运端列表
 
     // 删除
     dele: function dele(item, index) {
-      __f__("log", item, " at pages/carriers/list.vue:124");
-      __f__("log", index, " at pages/carriers/list.vue:125");
+      __f__("log", item, " at pages/carriers/list.vue:128");
+      __f__("log", index, " at pages/carriers/list.vue:129");
       this.content = '你确定要删除当前这条数据吗';
       this.show = true;
       this.self_id = item.self_id;
       this.index = index;
-      __f__("log", this.index, " at pages/carriers/list.vue:130");
+      __f__("log", this.index, " at pages/carriers/list.vue:134");
     },
     confirm: function confirm() {var _this2 = this;
       // 请求删除接口
       var data = {
         self_id: this.self_id };
 
-      __f__("log", "我是self_id" + data.self_id, " at pages/carriers/list.vue:137");
+      __f__("log", "我是self_id" + data.self_id, " at pages/carriers/list.vue:141");
       _api.default.tms_group_groupDelFlag(data).then(function (res) {
         if (res.code == 200) {
-          __f__("log", res, " at pages/carriers/list.vue:140");
-          __f__("log", "删除成功", " at pages/carriers/list.vue:141");
+          __f__("log", res, " at pages/carriers/list.vue:144");
+          __f__("log", "删除成功", " at pages/carriers/list.vue:145");
           _this2.loaddata();
         }
       });
@@ -31933,13 +31964,13 @@ var render = function() {
                       staticClass: _vm._$s(7, "sc", "left"),
                       attrs: { span: "7", _i: 7 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(8, "sc", "a"),
-                      attrs: { span: "5", _i: 8 }
+                      staticClass: _vm._$s(9, "sc", "a"),
+                      attrs: { span: "5", _i: 9 }
                     },
                     [
                       _c("u-picker", {
@@ -31947,11 +31978,11 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.selector,
-                          _i: 9
+                          _i: 10
                         },
                         on: { confirm: _vm.returndata },
                         model: {
-                          value: _vm._$s(9, "v-model", _vm.show1),
+                          value: _vm._$s(10, "v-model", _vm.show1),
                           callback: function($$v) {
                             _vm.show1 = $$v
                           },
@@ -31961,7 +31992,7 @@ var render = function() {
                       _c(
                         "span",
                         {
-                          attrs: { _i: 10 },
+                          attrs: { _i: 11 },
                           on: {
                             click: function($event) {
                               return _vm.openpicker(1)
@@ -31970,7 +32001,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            _vm._$s(10, "t0-0", _vm._s(_vm.form.companyname))
+                            _vm._$s(11, "t0-0", _vm._s(_vm.form.companyname))
                           )
                         ]
                       )
@@ -31982,21 +32013,21 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 11 } },
+                { attrs: { gutter: "16", _i: 12 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(12, "sc", "left"),
-                      attrs: { span: "7", _i: 12 }
+                      staticClass: _vm._$s(13, "sc", "left"),
+                      attrs: { span: "7", _i: 13 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(13, "sc", "a"),
-                      attrs: { span: "5", _i: 13 }
+                      staticClass: _vm._$s(15, "sc", "a"),
+                      attrs: { span: "5", _i: 15 }
                     },
                     [
                       _c("u-picker", {
@@ -32004,11 +32035,11 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.selectortype,
-                          _i: 14
+                          _i: 16
                         },
                         on: { confirm: _vm.returncompanydata },
                         model: {
-                          value: _vm._$s(14, "v-model", _vm.show2),
+                          value: _vm._$s(16, "v-model", _vm.show2),
                           callback: function($$v) {
                             _vm.show2 = $$v
                           },
@@ -32018,7 +32049,7 @@ var render = function() {
                       _c(
                         "span",
                         {
-                          attrs: { _i: 15 },
+                          attrs: { _i: 17 },
                           on: {
                             click: function($event) {
                               return _vm.openpicker(2)
@@ -32027,7 +32058,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            _vm._$s(15, "t0-0", _vm._s(_vm.form.companyleibie))
+                            _vm._$s(17, "t0-0", _vm._s(_vm.form.companyleibie))
                           )
                         ]
                       )
@@ -32039,17 +32070,17 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 16 } },
+                { attrs: { gutter: "16", _i: 18 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(17, "sc", "left"),
-                      attrs: { span: "7", _i: 17 }
+                      staticClass: _vm._$s(19, "sc", "left"),
+                      attrs: { span: "7", _i: 19 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 18 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 21 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -32059,9 +32090,9 @@ var render = function() {
                           expression: "form.name"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 19 },
+                      attrs: { id: "all_name", _i: 22 },
                       domProps: {
-                        value: _vm._$s(19, "v-model", _vm.form.name)
+                        value: _vm._$s(22, "v-model", _vm.form.name)
                       },
                       on: {
                         input: function($event) {
@@ -32078,21 +32109,21 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 20 } },
+                { attrs: { gutter: "16", _i: 23 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(21, "sc", "left"),
-                      attrs: { span: "7", _i: 21 }
+                      staticClass: _vm._$s(24, "sc", "left"),
+                      attrs: { span: "7", _i: 24 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(22, "sc", "a"),
-                      attrs: { span: "5", _i: 22 }
+                      staticClass: _vm._$s(26, "sc", "a"),
+                      attrs: { span: "5", _i: 26 }
                     },
                     [
                       _c("u-picker", {
@@ -32100,11 +32131,11 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.paymethod,
-                          _i: 23
+                          _i: 27
                         },
                         on: { confirm: _vm.returnpaymethoddata },
                         model: {
-                          value: _vm._$s(23, "v-model", _vm.show3),
+                          value: _vm._$s(27, "v-model", _vm.show3),
                           callback: function($$v) {
                             _vm.show3 = $$v
                           },
@@ -32114,14 +32145,14 @@ var render = function() {
                       _c(
                         "span",
                         {
-                          attrs: { _i: 24 },
+                          attrs: { _i: 28 },
                           on: {
                             click: function($event) {
                               return _vm.openpicker(3)
                             }
                           }
                         },
-                        [_vm._v(_vm._$s(24, "t0-0", _vm._s(_vm.form.pay)))]
+                        [_vm._v(_vm._$s(28, "t0-0", _vm._s(_vm.form.pay)))]
                       )
                     ],
                     1
@@ -32131,17 +32162,17 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 25 } },
+                { attrs: { gutter: "16", _i: 29 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(26, "sc", "left"),
-                      attrs: { span: "7", _i: 26 }
+                      staticClass: _vm._$s(30, "sc", "left"),
+                      attrs: { span: "7", _i: 30 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 27 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 32 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -32151,9 +32182,9 @@ var render = function() {
                           expression: "form.contact"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 28 },
+                      attrs: { id: "all_name", _i: 33 },
                       domProps: {
-                        value: _vm._$s(28, "v-model", _vm.form.contact)
+                        value: _vm._$s(33, "v-model", _vm.form.contact)
                       },
                       on: {
                         input: function($event) {
@@ -32170,17 +32201,17 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 29 } },
+                { attrs: { gutter: "16", _i: 34 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(30, "sc", "left"),
-                      attrs: { span: "7", _i: 30 }
+                      staticClass: _vm._$s(35, "sc", "left"),
+                      attrs: { span: "7", _i: 35 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 31 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 37 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -32190,9 +32221,9 @@ var render = function() {
                           expression: "form.phone"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 32 },
+                      attrs: { id: "all_name", _i: 38 },
                       domProps: {
-                        value: _vm._$s(32, "v-model", _vm.form.phone)
+                        value: _vm._$s(38, "v-model", _vm.form.phone)
                       },
                       on: {
                         input: function($event) {
@@ -32209,17 +32240,17 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 33 } },
+                { attrs: { gutter: "16", _i: 39 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(34, "sc", "left"),
-                      attrs: { span: "7", _i: 34 }
+                      staticClass: _vm._$s(40, "sc", "left"),
+                      attrs: { span: "7", _i: 40 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 35 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 42 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -32229,9 +32260,9 @@ var render = function() {
                           expression: "form.address"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 36 },
+                      attrs: { id: "all_name", _i: 43 },
                       domProps: {
-                        value: _vm._$s(36, "v-model", _vm.form.address)
+                        value: _vm._$s(43, "v-model", _vm.form.address)
                       },
                       on: {
                         input: function($event) {
@@ -32249,7 +32280,7 @@ var render = function() {
               _c(
                 "u-button",
                 {
-                  attrs: { type: "primary", shape: "circle", _i: 37 },
+                  attrs: { type: "primary", shape: "circle", _i: 44 },
                   on: { click: _vm.submit }
                 },
                 [_vm._v("")]
@@ -32700,13 +32731,13 @@ var render = function() {
                       staticClass: _vm._$s(8, "sc", "left"),
                       attrs: { span: "7", _i: 8 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(9, "sc", "a"),
-                      attrs: { span: "5", _i: 9 }
+                      staticClass: _vm._$s(10, "sc", "a"),
+                      attrs: { span: "5", _i: 10 }
                     },
                     [
                       _c("u-picker", {
@@ -32714,11 +32745,11 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.selector_companyName,
-                          _i: 10
+                          _i: 11
                         },
                         on: { confirm: _vm.returndata },
                         model: {
-                          value: _vm._$s(10, "v-model", _vm.show1),
+                          value: _vm._$s(11, "v-model", _vm.show1),
                           callback: function($$v) {
                             _vm.show1 = $$v
                           },
@@ -32728,7 +32759,7 @@ var render = function() {
                       _c(
                         "span",
                         {
-                          attrs: { _i: 11 },
+                          attrs: { _i: 12 },
                           on: {
                             click: function($event) {
                               return _vm.openpicker(1)
@@ -32737,7 +32768,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            _vm._$s(11, "t0-0", _vm._s(_vm.form.group_code))
+                            _vm._$s(12, "t0-0", _vm._s(_vm.form.group_code))
                           )
                         ]
                       )
@@ -32749,21 +32780,21 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 12 } },
+                { attrs: { gutter: "16", _i: 13 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(13, "sc", "left"),
-                      attrs: { span: "7", _i: 13 }
+                      staticClass: _vm._$s(14, "sc", "left"),
+                      attrs: { span: "7", _i: 14 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(14, "sc", "a"),
-                      attrs: { span: "5", _i: 14 }
+                      staticClass: _vm._$s(16, "sc", "a"),
+                      attrs: { span: "5", _i: 16 }
                     },
                     [
                       _c("u-picker", {
@@ -32771,11 +32802,11 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.selector_companyType,
-                          _i: 15
+                          _i: 17
                         },
                         on: { confirm: _vm.returncompanydata },
                         model: {
-                          value: _vm._$s(15, "v-model", _vm.show2),
+                          value: _vm._$s(17, "v-model", _vm.show2),
                           callback: function($$v) {
                             _vm.show2 = $$v
                           },
@@ -32785,14 +32816,14 @@ var render = function() {
                       _c(
                         "span",
                         {
-                          attrs: { _i: 16 },
+                          attrs: { _i: 18 },
                           on: {
                             click: function($event) {
                               return _vm.openpicker(2)
                             }
                           }
                         },
-                        [_vm._v(_vm._$s(16, "t0-0", _vm._s(_vm.form.normal)))]
+                        [_vm._v(_vm._$s(18, "t0-0", _vm._s(_vm.form.normal)))]
                       )
                     ],
                     1
@@ -32802,17 +32833,17 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 17 } },
+                { attrs: { gutter: "16", _i: 19 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(18, "sc", "left"),
-                      attrs: { span: "7", _i: 18 }
+                      staticClass: _vm._$s(20, "sc", "left"),
+                      attrs: { span: "7", _i: 20 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 19 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 22 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -32822,9 +32853,9 @@ var render = function() {
                           expression: "form.company_name"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 20 },
+                      attrs: { id: "all_name", _i: 23 },
                       domProps: {
-                        value: _vm._$s(20, "v-model", _vm.form.company_name)
+                        value: _vm._$s(23, "v-model", _vm.form.company_name)
                       },
                       on: {
                         input: function($event) {
@@ -32845,21 +32876,21 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 21 } },
+                { attrs: { gutter: "16", _i: 24 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(22, "sc", "left"),
-                      attrs: { span: "7", _i: 22 }
+                      staticClass: _vm._$s(25, "sc", "left"),
+                      attrs: { span: "7", _i: 25 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(23, "sc", "a"),
-                      attrs: { span: "5", _i: 23 }
+                      staticClass: _vm._$s(27, "sc", "a"),
+                      attrs: { span: "5", _i: 27 }
                     },
                     [
                       _c("u-picker", {
@@ -32867,11 +32898,11 @@ var render = function() {
                           mode: "selector",
                           "default-selector": [0],
                           range: _vm.paymethod,
-                          _i: 24
+                          _i: 28
                         },
                         on: { confirm: _vm.returnpaymethoddata },
                         model: {
-                          value: _vm._$s(24, "v-model", _vm.show3),
+                          value: _vm._$s(28, "v-model", _vm.show3),
                           callback: function($$v) {
                             _vm.show3 = $$v
                           },
@@ -32881,7 +32912,7 @@ var render = function() {
                       _c(
                         "span",
                         {
-                          attrs: { _i: 25 },
+                          attrs: { _i: 29 },
                           on: {
                             click: function($event) {
                               return _vm.openpicker(3)
@@ -32890,7 +32921,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            _vm._$s(25, "t0-0", _vm._s(_vm.form.cost_type))
+                            _vm._$s(29, "t0-0", _vm._s(_vm.form.cost_type))
                           )
                         ]
                       )
@@ -32902,17 +32933,17 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 26 } },
+                { attrs: { gutter: "16", _i: 30 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(27, "sc", "left"),
-                      attrs: { span: "7", _i: 27 }
+                      staticClass: _vm._$s(31, "sc", "left"),
+                      attrs: { span: "7", _i: 31 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 28 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 33 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -32922,9 +32953,9 @@ var render = function() {
                           expression: "form.contacts"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 29 },
+                      attrs: { id: "all_name", _i: 34 },
                       domProps: {
-                        value: _vm._$s(29, "v-model", _vm.form.contacts)
+                        value: _vm._$s(34, "v-model", _vm.form.contacts)
                       },
                       on: {
                         input: function($event) {
@@ -32941,17 +32972,17 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 30 } },
+                { attrs: { gutter: "16", _i: 35 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(31, "sc", "left"),
-                      attrs: { span: "7", _i: 31 }
+                      staticClass: _vm._$s(36, "sc", "left"),
+                      attrs: { span: "7", _i: 36 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 32 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 38 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -32961,8 +32992,8 @@ var render = function() {
                           expression: "form.tel"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 33 },
-                      domProps: { value: _vm._$s(33, "v-model", _vm.form.tel) },
+                      attrs: { id: "all_name", _i: 39 },
+                      domProps: { value: _vm._$s(39, "v-model", _vm.form.tel) },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
@@ -32978,17 +33009,17 @@ var render = function() {
               ),
               _c(
                 "u-row",
-                { attrs: { gutter: "16", _i: 34 } },
+                { attrs: { gutter: "16", _i: 40 } },
                 [
                   _c(
                     "u-col",
                     {
-                      staticClass: _vm._$s(35, "sc", "left"),
-                      attrs: { span: "7", _i: 35 }
+                      staticClass: _vm._$s(41, "sc", "left"),
+                      attrs: { span: "7", _i: 41 }
                     },
-                    [_vm._v("")]
+                    [_c("span")]
                   ),
-                  _c("u-col", { attrs: { span: "5", _i: 36 } }, [
+                  _c("u-col", { attrs: { span: "5", _i: 43 } }, [
                     _c("input", {
                       directives: [
                         {
@@ -32998,9 +33029,9 @@ var render = function() {
                           expression: "form.address"
                         }
                       ],
-                      attrs: { id: "all_name", _i: 37 },
+                      attrs: { id: "all_name", _i: 44 },
                       domProps: {
-                        value: _vm._$s(37, "v-model", _vm.form.address)
+                        value: _vm._$s(44, "v-model", _vm.form.address)
                       },
                       on: {
                         input: function($event) {
@@ -33018,7 +33049,7 @@ var render = function() {
               _c(
                 "u-button",
                 {
-                  attrs: { type: "primary", shape: "circle", _i: 38 },
+                  attrs: { type: "primary", shape: "circle", _i: 45 },
                   on: { click: _vm.submit }
                 },
                 [_vm._v("")]

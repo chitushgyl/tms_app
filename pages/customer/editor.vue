@@ -12,9 +12,9 @@
 				<!-- 公司 -->
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						所属公司
+						<span style="padding-left: 5px;">所属公司</span>
 					</u-col>
-					<u-col span="5" class="a">
+					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="show1" mode="selector" :default-selector="[0]" :range="control_data" @confirm="returndata"></u-picker>
 						<span @click="openpicker(1)">{{form.companyname}}</span>
 					<!-- <input @click="openpicker(1)" v-model="form.companyname" id="all_name" type="text" style="" :placeholder="form.companyname" style="color: #1D2026;float: right;"  > -->
@@ -23,18 +23,18 @@
 				<!-- 客户名称 -->
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						客户名称
+						<span style="padding-left: 5px;">客户名称</span>
 					</u-col>
-					<u-col span="5">
+					<u-col span="5" style="text-align: right;padding-right: 10px;">
 						<input  v-model="form.name" id="all_name" type="text" style="" placeholder="请填写客户名称" style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
 				<!-- 结算方式 -->
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						结算方式
+						<span style="padding-left: 5px;">结算方式</span>
 					</u-col>
-					<u-col span="5" class="a">
+					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="show3" mode="selector" :default-selector="[0]" :range="paymethod" @confirm="returnpaymethoddata"></u-picker>
 						<span @click="openpicker(3)">{{form.pay}}</span>
 					<!-- <input @click="openpicker(3)" v-model="form.pay" id="all_name" type="text" style="" :placeholder="form.pay" style="color: #1D2026;float: right;"  > -->
@@ -42,25 +42,25 @@
 				</u-row>
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						联系人
+						<span style="padding-left: 5px;">联系人</span>
 					</u-col>
-					<u-col span="5">
+					<u-col span="5" style="text-align: right;padding-right: 10px;">
 						<input v-model="form.contact" id="all_name" type="text" style="" placeholder="请填写联系人" style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						联系电话
+						<span style="padding-left: 5px;">联系电话</span>
 					</u-col>
-					<u-col span="5">
+					<u-col span="5" style="text-align: right;padding-right: 10px;">
 						<input v-model="form.phone" id="all_name" type="text" style="" placeholder="请填写手机号" style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						地址信息
+						<span style="padding-left: 5px;">地址信息</span>
 					</u-col>
-					<u-col span="5">
+					<u-col span="5" style="text-align: right;padding-right: 10px;">
 						<input v-model="form.address" id="all_name" type="text" style="" placeholder="请填写联系地址" style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
@@ -236,7 +236,7 @@
 
 <style>
 	.content {
-		width: 95%;
+		width: 90%;
 		margin: 10px auto 0px;
 		padding-bottom: 80px;
 		// background-color: white;
@@ -261,4 +261,5 @@
 		font-weight: 700;
 		font-size: 15px;
 	}
+	
 </style>

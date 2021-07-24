@@ -12,9 +12,9 @@
 				<!-- 公司 -->
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						所属公司
+						<span style="padding-left: 5px;">所属公司</span>
 					</u-col>
-					<u-col span="5" class="a">
+					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="show1" mode="selector" :default-selector="[0]" :range="selector" @confirm="returndata"></u-picker>
 						<span @click="openpicker(1)">{{form.companyname}}</span>
 					<!-- <input @click="openpicker(1)" v-model="form.companyname" id="all_name" type="text" style="" :placeholder="form.companyname" style="color: #1D2026;float: right;"  > -->
@@ -23,18 +23,18 @@
 				<!-- 客户名称 -->
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						客户名称
+						<span style="padding-left: 5px;">客户名称</span>
 					</u-col>
-					<u-col span="5">
+					<u-col span="5" style="text-align: right;padding-right: 10px;">
 						<input v-model="form.name" id="all_name" type="text" style="" placeholder="请填写客户名称" style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
 				<!-- 结算方式 -->
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						结算方式
+						<span style="padding-left: 5px;">结算方式</span>
 					</u-col>
-					<u-col span="5" class="a">
+					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="show3" mode="selector" :default-selector="[0]" :range="paymethod" @confirm="returnpaymethoddata"></u-picker>
 						<span @click="openpicker(3)">{{form.pay}}</span>
 					<!-- <input @click="openpicker(3)" v-model="form.pay" id="all_name" type="text" style="" :placeholder="form.pay" style="color: #1D2026;float: right;"  > -->
@@ -42,25 +42,25 @@
 				</u-row>
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						联系人
+						<span style="padding-left: 5px;">联系人</span>
 					</u-col>
-					<u-col span="5">
+					<u-col span="5" style="text-align: right;padding-right: 10px;">
 						<input v-model="form.contact" id="all_name" type="text" style="" placeholder="请填写联系人" style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						联系电话
+						<span style="padding-left: 5px;">联系电话</span>
 					</u-col>
-					<u-col span="5">
+					<u-col span="5" style="text-align: right;padding-right: 10px;">
 						<input v-model="form.phone" id="all_name" type="text" style="" placeholder="请填写手机号" style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						地址信息
+						<span style="padding-left: 5px;">地址信息</span>
 					</u-col>
-					<u-col span="5">
+					<u-col span="5" style="text-align: right;padding-right: 10px;">
 						<input v-model="form.address" id="all_name" type="text" style="" placeholder="请填写联系地址" style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
@@ -78,7 +78,9 @@
 		data(){
 			return{
 				// 公司名
-				selector:["东风快递"],
+				selector:[],
+				selectorgroupcode:[],
+				companygroupcode:"",
 				// 支付方式
 				paymethod:["月结","周结","日结","现付"],
 				// 控制选择器弹出
@@ -98,6 +100,35 @@
 			}
 		},
 		methods:{
+			// // 返回父页面
+			// returnup(){
+			// 	var pages=getCurrentPages();//当前页
+			// 	var beforPage=pages[pages.length-2];//上个页面路由
+			// 	beforPage.$vm.returnload()
+			// 	uni.navigateBack()
+			// },
+			// 加载公司数据
+			loadcompany(){
+				var data={}
+				api.company_companyPage(data).then(res=>{
+					if(res.code==200){
+						var list = res.data.items;
+						for(var i in list){
+							console.log(list[i].group_name);
+							if (list[i].self_id && list[i].group_name) {
+								var one = {};
+								one.value = list[i].self_id;
+								one.text = list[i].group_name;
+								this.selector.push(one.text);
+								this.selectorgroupcode.push(one.value);
+							}
+						}
+						console.log(this.selector)
+						console.log(this.selectorgroupcode)
+					}
+				})
+			},
+			
 			// 弹出框弹出事件
 			openpicker(i){
 				if(i==1){
@@ -110,6 +141,7 @@
 			// 公司回调
 			returndata(item){
 				this.form.companyname=this.selector[item];
+				this.companygroupcode=this.selectorgroupcode[item];
 			},
 			// 结算方式回调
 			returnpaymethoddata(item){
@@ -136,7 +168,7 @@
 			submit(){
 				console.log(this.form)
 				var data={
-					group_code:"group_202106121328596313571586",
+					group_code:this.companygroupcode,
 					company_name:this.form.name,
 					cost_type:this.pay1,
 					tel:this.form.phone,
@@ -162,7 +194,7 @@
 			
 		},
 		created() {
-			
+			this.loadcompany()
 		}
 	}
 </script>

@@ -36,7 +36,7 @@
 				<!-- <u-loadmore :status="status" /> -->
 			</view>
 			<!-- 没有请求到数据时显示页面 -->
-			<view v-else>
+			<view v-if="showfalse">
 				<view class="listlog">
 					<image src="../../images/empty/noAddress.png" mode=""></image>
 					<p style='text-align: center;'>暂无车辆</p>
@@ -64,20 +64,13 @@
 					borderRight: '1px solid #e4e7ed'
 				},
 				self_id: '',
-				index: 0
+				index: 0,
+				showfalse:false,
 			}
 		},
 		onLoad() {
 			
 		},
-		// onPullDownRefresh() {
-		// 	console.log("下拉刷新已执行")
-		// 	uni.showNavigationBarLoading(); //在当前页面显示导航条加载动画。
-		// 			setTimeout(() => {
-		// 				uni.hideNavigationBarLoading();
-		// 				uni.stopPullDownRefresh(); //得到数据后停止下拉刷新
-		// 			}, 2000);
-		// },
 		created() {
 			this.loadcarlist()
 		},
@@ -85,6 +78,10 @@
 		onPullDownRefresh() {
 			// var page = 1
 			// this.api_address_addressPage(page)
+			this.loadcarlist()
+		},
+		onShow() {
+			this.cars=[]
 			this.loadcarlist()
 		},
 		methods:{
@@ -119,17 +116,34 @@
 			},
 			//加载列表数据
 			loadcarlist(){
-				var data={}
-				uni.showNavigationBarLoading()
-				api.tms_car_carPage(data).then(res=>{
-					if(res.code==200){
-						uni.stopPullDownRefresh();
-						uni.hideNavigationBarLoading();
-						this.cars=res.data.items
-						console.log(this.cars)
-						console.log("加载数据成功")
+				var project_type=uni.getStorageSync("project_type")
+				console.log(project_type)
+				if(project_type=='user' || project_type== 'carriage'){
+					var data={
+						page:1
 					}
-				})
+					api.api_car_carPage(data).then(res=>{
+						if(res.code==200){
+							console.log(JSON.stringify(res.data.info));
+						}else{
+							this.showfalse=true
+						}
+					})
+					
+				}else{
+					uni.showNavigationBarLoading()
+					api.tms_car_carPage(data).then(res=>{
+						if(res.code==200){
+							uni.stopPullDownRefresh();
+							uni.hideNavigationBarLoading();
+							this.cars=res.data.items
+							console.log(this.cars)
+							console.log("加载数据成功")
+						}else{
+							this.showfalse=true
+						}
+					})
+				}
 			},
 			//跳转添加页面
 			toadd(){
@@ -143,12 +157,6 @@
 				console.log(index)
 				var data={
 					self_id:item.self_id,//车代号
-					tms_control_type_show:item.tms_control_type_show,//温控
-					car_number:item.car_number,//车牌号
-					car_possess_show:item.car_possess_show,//车辆属性
-					car_type_name:item.car_type_name,//车型
-					contacts:item.contacts,//联系人
-					tel:item.tel,//联系人手机号
 					group_code:item.group_code//公司编号
 				}
 				this.$store.commit("caredit",data)
@@ -166,7 +174,7 @@
 		color: #000000 !important;
 	}
 	.content {
-		width: 95%;
+		width: 90%;
 		margin: 10px auto 0px;
 		padding-bottom: 80px;
 		// background-color: white;

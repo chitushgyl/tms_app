@@ -108,12 +108,20 @@ module.exports = {
 	 tms_group_groupPage(data){
 		return request('/tms/group/groupPage',data) 
 	 },
-	 // // 承运商/业务公司 - 3PL
-	 // tms_group_groupPage: '/tms/group/groupPage', //业务公司列表
-	 // tms_group_createGroup: '/tms/group/createGroup', //业务公司添加
-	 // tms_group_addgroup: '/tms/group/addGroup', //业务公司添加
-	 // tms_group_groupDelFlag: '/tms/group/groupDelFlag', //业务公司删除
 	 tms_group_createGroup(data){
 	 		return request('/tms/group/createGroup',data) 
+	 },
+	 // //车辆 -用户
+	 api_car_carPage(data){
+	 		return request('/api/car/carPage',data) 
+	 },
+	 api_car_creatCar(data){
+	 		return request('/api/car/createCar',data) 
+	 },
+	 api_car_addCar(data){
+	 		return request('/api/car/addCar',data) 
+	 },
+	 api_car_carDelFlag(data){
+	 		return request('/api/car/carDelFlag',data) 
 	 },
 }

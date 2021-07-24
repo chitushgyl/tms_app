@@ -73,6 +73,10 @@
 		created() {
 			this.loaddata()
 		},
+		onShow() {
+			this.customer=[]
+			this.loaddata()
+		},
 		methods:{
 			//返回主页
 			toindex(){
@@ -160,7 +164,7 @@
 		color: #000000 !important;
 	}
 	.content {
-		width: 95%;
+		width: 90%;
 		margin: 10px auto 0px;
 		padding-bottom: 80px;
 		// background-color: white;

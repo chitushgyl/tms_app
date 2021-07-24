@@ -11,22 +11,23 @@
 			<view class="wrap">
 				<!-- 车辆 -->
 				<u-row @click="openpicker(1)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
-					<u-col span="7" class="left">
-						车辆号码
+					<u-col span="7" class="left" style="padding-left: 5px;">
+						<span id="left">车辆号码</span>
 					</u-col>
-					<u-col span="5" class="a">
+					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;"> 
 						<u-keyboard :mask="false" @change="valChange" @backspace="backspace" ref="uKeyboard" mode="car" v-model="show1" ></u-keyboard>
 						<!-- <u-picker v-model="show1" mode="selector" :default-selector="[0]" :range="selector" @confirm="returndata"></u-picker> -->
-						<span>{{form.car_number}}</span>
+						<!-- <span>{{form.car_number}}</span> -->
+						<input :value="form.car_number" placeholder="请输入车牌号"/>
 					<!-- <input @click="openpicker(1)" v-model="form.companyname" id="all_name" type="text" style="" :placeholder="form.companyname" style="color: #1D2026;float: right;"  > -->
 					</u-col>
 				</u-row>
 				<!-- 车辆类型 -->
 				<u-row  @click="openpicker(5)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
-					<u-col span="7" class="left">
-						车辆类型
+					<u-col span="7" class="left" style="padding-left: 5px;">
+						<span id="left">车辆类型</span>
 					</u-col>
-					<u-col span="5" class="a">
+					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="showcar_type_name" mode="selector" :default-selector="[0]" :range="selectortype" @confirm="returncar_type_namedata"></u-picker>
 						<span>{{form.car_type_name}}</span>
 					<!-- <input @click="openpicker(2)" v-model="form.companyleibie" id="all_name" type="text" style="" :placeholder="form.companyleibie" style="color: #1D2026;float: right;"  > -->
@@ -34,10 +35,10 @@
 				</u-row>
 				<!-- 温控类型 -->
 				<u-row  @click="openpicker(4)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
-					<u-col span="7" class="left">
-						温控类型
+					<u-col span="7" class="left" style="padding-left: 5px;">
+						<span id="left">温控类型</span>
 					</u-col>
-					<u-col span="5" class="a">
+					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="showtms_control_type_showtype" mode="selector" :default-selector="[0]" :range="Temperaturecontroltype" @confirm="returnTemperaturecontroltype"></u-picker>
 						<span>{{form.tms_control_type_show}}</span>
 					<!-- <input @click="openpicker(2)" v-model="form.companyleibie" id="all_name" type="text" style="" :placeholder="form.companyleibie" style="color: #1D2026;float: right;"  > -->
@@ -45,10 +46,10 @@
 				</u-row>
 				<!-- 车辆属性 -->
 				<u-row  @click="openpicker(6)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
-					<u-col span="7" class="left">
-						车辆属性
+					<u-col span="7" class="left" style="padding-left: 5px;">
+						<span id="left">车辆属性</span>
 					</u-col>
-					<u-col span="5" class="a">
+					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="showcheliangshuxing" mode="selector" :default-selector="[0]" :range="cheliangshuxing" @confirm="returncheliangshuxing"></u-picker>
 						<span >{{form.car_possess_show}}</span>
 					<!-- <input @click="openpicker(2)" v-model="form.companyleibie" id="all_name" type="text" style="" :placeholder="form.companyleibie" style="color: #1D2026;float: right;"  > -->
@@ -56,10 +57,10 @@
 				</u-row>
 				<!-- 车辆注册日期 -->
 				<u-row @click="openpicker(7)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
-					<u-col span="7" class="left">
-						车辆注册日期
+					<u-col span="7" class="left" style="padding-left: 5px;">
+						<span id="left">车辆注册日期</span>
 					</u-col>
-					<u-col span="5" class="a">
+					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="showcardate" mode="time" :default-selector="[0]" :range="cheliangshuxing" @confirm="returncardate"></u-picker>
 						<span>{{form.cardate}}</span>
 					<!-- <input @click="openpicker(2)" v-model="form.companyleibie" id="all_name" type="text" style="" :placeholder="form.companyleibie" style="color: #1D2026;float: right;"  > -->
@@ -67,19 +68,19 @@
 				</u-row>
 				<!-- 司机姓名 -->
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
-					<u-col span="7" class="left">
-						司机姓名
+					<u-col span="7" class="left" style="padding-left: 5px;">
+						<span id="left">司机姓名</span>
 					</u-col>
-					<u-col span="5">
+					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<input v-model="form.contacts" id="all_name" type="text" style="" placeholder="请填写司机姓名" style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
 				<!-- 司机电话 -->
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
-					<u-col span="7" class="left">
-						司机电话
+					<u-col span="7" class="left" style="padding-left: 5px;">
+						<span id="left">司机电话</span>
 					</u-col>
-					<u-col span="5">
+					<u-col span="5" style="text-align: right;padding-right: 10px;">
 						<input v-model="form.tel" id="all_name" type="text" style="" placeholder="请填写司机电话" style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
@@ -98,10 +99,9 @@
 		data(){
 			return{
 				show:false,
-				// 公司名
-				selector:["请选择","公司名称1","公司名称2","公司名称3"],
 				// 车辆类型
-				selectortype:["4.2米","5.2米","6.8米","7.6米","9.6米","12.5米","15米"],
+				selectortype:[],
+				selectortypeyingwen:[],
 				// 支付方式
 				paymethod:["月结","周结","日结","现付"],
 				Temperaturecontroltype:["冷冻","冷藏","常温","恒温","冷冻/冷藏"],
@@ -113,7 +113,7 @@
 				showtms_control_type_showtype:false,
 				showcardate:false,
 				form: {
-					car_number:"请输入车牌号",//车牌号
+					car_number:"",//车牌号
 					car_type_name:"请选择车辆类型", //车辆类型
 					tms_control_type_show:'请选择温控类型', //温控类型
 					car_possess_show:"请选择车辆属性", //车辆属性
@@ -127,7 +127,7 @@
 				//车辆类型
 				car_type_list:[],
 				cartypeid:'',
-				
+				group_code:"group_202106121328596313571586",
 			}
 		},
 		methods:{
@@ -139,7 +139,6 @@
 				if(i==1){
 					// 车辆号码
 					this.show1=true
-					this.form.car_number=''
 				}
 				if(i==4){
 					// 弹出温控
@@ -159,7 +158,7 @@
 			},
 			// 键盘改变事件
 			valChange(val){
-				// this.form.car_number='',
+				
 				this.form.car_number+=val;
 			},
 			// 退格键被点击
@@ -177,37 +176,8 @@
 			returncar_type_namedata(item){
 				this.form.car_type_name=this.selectortype[item]
 				console.log(this.form.car_type_name)
-				if(this.form.car_type_name == "4.2米"){
-					this.cartypeid="type_202102051755118039490396"
-					console.log(this.cartypeid)
-				}
-				if(this.form.car_type_name== "5.2米"){
-					this.cartypeid="type_202102051755118034654564"
-					console.log(this.cartypeid)
-				}
-				if(this.form.car_type_name=="6.8米"){
-					this.cartypeid="type_202102051755114564156121"
-					console.log(this.cartypeid)
-				}
-				if(this.form.car_type_name=="7.6米"){
-					this.cartypeid="type_202102051778945612315941"
-					console.log(this.cartypeid)
-				}
-				if(this.form.car_type_name=="9.6米"){
-					this.cartypeid="type_202102051755178946159791"
-					console.log(this.cartypeid)
-				}
-				if(this.form.car_type_name=="12.5米"){
-					this.cartypeid="type_202102051755123456156489"
-					console.log(this.cartypeid)
-				}
-				if(this.form.car_type_name=="15米"){
-					this.cartypeid="type_202102051755118789459489"
-					console.log(this.cartypeid)
-				}
-				
-				
-				console.log(this.form.car_type_name)
+				this.cartypeid=this.selectortypeyingwen[item]
+				console.log(this.cartypeid)
 			},
 			//温控回调
 			returnTemperaturecontroltype(item){
@@ -250,10 +220,11 @@
 			// 注册日期回调
 			returncardate(item){
 				console.log(item)
-				this.form.cardate=item.year+"-"+item.day+"-"+item.month
+				this.form.cardate=item.year+"-"+item.month+"-"+item.day
 				console.log(this.form.cardate)
 			},
 			submit(){
+				var projecttype=uni.getStorageSync("project_type")
 				var submitdata={
 						token:"",
 						control: this.control,
@@ -263,103 +234,73 @@
 						car_type_id:this.cartypeid,
 						contacts:this.form.contacts,
 						tel:this.form.tel,
-						group_code:"group_202106121328596313571586"
+						group_code:this.group_code
 				}
-				console.log('submitData' + JSON.stringify(submitdata))
-			
-				api.tms_car_addCar(submitdata).then(res=>{
-					console.log(res)
-					console.log(res.code)
-					if(res.code == 200){
-						console.log("添加成功")
-						this.back()
-					}else{
-						thi.$refs.uToast.show({
-							title: "添加失败",
-							type:'error'
-						})
-					}
-				})
+				if(projecttype == 'user' || projecttype == 'carriage'){
+					console.log('submitData' + JSON.stringify(submitdata))
+					api.api_car_addCar(submitdata).then(res=>{
+						console.log(res)
+						console.log(res.code)
+						if(res.code == 200){
+							console.log("添加成功")
+							this.back()
+						}else{
+							thi.$refs.uToast.show({
+								title: "添加失败",
+								type:'error'
+							})
+						}
+					})
+				}else{
+					console.log('submitData' + JSON.stringify(submitdata))
+					api.tms_car_addCar(submitdata).then(res=>{
+						if(res.code == 200){
+							console.log("添加成功")
+							this.back()
+						}else{
+							thi.$refs.uToast.show({
+								title: "添加失败",
+								type:'error'
+							})
+						}
+					})
+				}
 			},
-			//车辆类型
-			carType(){
+			//加载车型数据
+			loadcartype(){
 				var data={
-					token:null
+					token:''
 				}
 				api.api_car_getType(data).then(res=>{
 					if(res.code==200){
-						console.log(JSON.stringify(res))
-						console.log(res.data.info)
-						this.car_type_list = res.data.info;
-						var carTypeData = [];
-						var index = i;
-						for (var i = 0; i < this.car_type_list.length; i++) {
-							carTypeData.push({
-								value: this.car_type_list[i].self_id,
-								text: this.car_type_list[i].parame_name,
-							})
+						var cartypelist=res.data.info
+						for(var i in cartypelist){
+							var typeid=cartypelist[i].self_id
+							var paramename=cartypelist[i].parame_name
+							this.selectortype.push(paramename)
+							this.selectortypeyingwen.push(typeid)
 						}
-						console.log(carTypeData)
+						console.log(this.selectortype)
+						console.log(this.selectortypeyingwen)
 					}
-					
 				})
-			}
-			//确认提交
-			// submit(){
-			// 	var submitdata={
-			// 		token:"",
-			// 		self_id: "",
-			// 		control: this.form.tms_control_type_show,
-			// 		board_time:this.form.cardate,
-			// 		car_number:this.form.car_number,
-			// 		car_possess:this.form.car_possess_show,
-			// 		car_type_id:this.form.car_type_name,
-			// 		contacts:this.form.contacts,
-			// 		tel:this.form.tel,
-			// 		group_code:"group_202106121328596313571586"
-			// 	}
-			// 	// token: localStorage.token,
-			// 	// self_id: self.car_id,
-			// 	// control: self.control,
-			// 	// board_time: self.board_time,
-			// 	// car_number: self.car_number,
-			// 	// car_possess: self.car_possess,
-			// 	// car_type_id: self.car_type_id,
-			// 	// contacts: self.contacts,
-			// 	// tel: self.tel,
-			// 	// license: self.license,
-			// 	// medallion: self.medallion,
-			// 	console.log(this.form)
-			// 	console.log('submitData' + JSON.stringify(submitdata))
-			// 	api.tms_car_addCar(submitdata).then(res=>{
-			// 		console.log("添加成功")
-			// 		console.log(res)
-			// 		if(res.code == 200){
-			// 			console.log(res)
-			// 			this.$refs.uToast.show({
-			// 				title: res.msg,
-			// 				type: 'default',
-			// 				position: 'bottom'
-			// 			})
-			// 	})
-				
-			// }
-			
-			// }
-			
+			},
 		},
 		onLoad() {
 			
 		},
 		created() {
-			this.carType()
+			// var caredit=this.$store.state.caredit
+			// this.group_code=caredit.group_code
+			// console.log(this.group_code)
+			this.loadcartype()
 		}
 	}
 </script>
 
 <style>
 	.content {
-		width: 95%;
+		width: 90%;
 		margin: 10px auto 0px;
 		padding-bottom: 80px;
 		// background-color: white;
@@ -378,10 +319,14 @@
 	}
 	.a{
 		color: #909399;
+		
 	}
 	/* 左边文字 */
 	.left{
 		font-weight: 700;
 		font-size: 15px;
+	}
+	#left{
+		padding-left: 5px;
 	}
 </style>

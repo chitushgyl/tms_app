@@ -79,6 +79,10 @@
 			// this.api_address_addressPage(page)
 			this.loaddata()
 		},
+		onShow() {
+			this.carriers=[]
+			this.loaddata()
+		},
 		methods:{
 			//返回主页
 			toindex(){
