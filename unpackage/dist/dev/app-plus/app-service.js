@@ -28351,153 +28351,146 @@ var render = function() {
         "view",
         { staticClass: _vm._$s(4, "sc", "content"), attrs: { _i: 4 } },
         [
-          _vm._$s(5, "i", _vm.cars != "")
-            ? _c(
-                "view",
-                { staticClass: _vm._$s(5, "sc", "wrap"), attrs: { _i: 5 } },
-                [
-                  _vm._l(_vm._$s(6, "f", { forItems: _vm.cars }), function(
-                    item,
-                    index,
-                    $20,
-                    $30
-                  ) {
-                    return _c(
-                      "u-row",
-                      {
-                        key: _vm._$s(6, "f", { forIndex: $20, key: index }),
-                        attrs: { gutter: "16", _i: "6-" + $30 }
-                      },
-                      [
-                        _c("u-col", { attrs: { span: "8", _i: "7-" + $30 } }, [
-                          _c(
-                            "view",
-                            {
-                              staticClass: _vm._$s(
-                                "8-" + $30,
-                                "sc",
-                                "demo-layout bg-purple"
-                              ),
-                              attrs: { _i: "8-" + $30 }
-                            },
-                            [
-                              _c("p", [
-                                _vm._v(
-                                  _vm._$s(
-                                    "9-" + $30,
-                                    "t0-0",
-                                    _vm._s(item.car_number)
-                                  ) +
-                                    _vm._$s(
-                                      "9-" + $30,
-                                      "t0-1",
-                                      _vm._s(item.tel)
-                                    )
+          _c(
+            "view",
+            { staticClass: _vm._$s(5, "sc", "wrap"), attrs: { _i: 5 } },
+            [
+              _vm._l(_vm._$s(6, "f", { forItems: _vm.cars }), function(
+                item,
+                index,
+                $20,
+                $30
+              ) {
+                return _c(
+                  "u-row",
+                  {
+                    key: _vm._$s(6, "f", { forIndex: $20, key: index }),
+                    attrs: { gutter: "16", _i: "6-" + $30 }
+                  },
+                  [
+                    _c("u-col", { attrs: { span: "8", _i: "7-" + $30 } }, [
+                      _c(
+                        "view",
+                        {
+                          staticClass: _vm._$s(
+                            "8-" + $30,
+                            "sc",
+                            "demo-layout bg-purple"
+                          ),
+                          attrs: { _i: "8-" + $30 }
+                        },
+                        [
+                          _c("p", [
+                            _vm._v(
+                              _vm._$s(
+                                "9-" + $30,
+                                "t0-0",
+                                _vm._s(item.car_number)
+                              ) + _vm._$s("9-" + $30, "t0-1", _vm._s(item.tel))
+                            )
+                          ]),
+                          _c("p", [
+                            _vm._v(
+                              _vm._$s(
+                                "10-" + $30,
+                                "t0-0",
+                                _vm._s(item.car_type_name)
+                              ) +
+                                _vm._$s(
+                                  "10-" + $30,
+                                  "t0-1",
+                                  _vm._s(item.tms_control_type_show)
+                                ) +
+                                _vm._$s(
+                                  "10-" + $30,
+                                  "t0-2",
+                                  _vm._s(item.car_possess_show)
+                                ) +
+                                _vm._$s(
+                                  "10-" + $30,
+                                  "t0-3",
+                                  _vm._s(item.contacts)
                                 )
-                              ]),
-                              _c("p", [
-                                _vm._v(
-                                  _vm._$s(
-                                    "10-" + $30,
-                                    "t0-0",
-                                    _vm._s(item.car_type_name)
-                                  ) +
-                                    _vm._$s(
-                                      "10-" + $30,
-                                      "t0-1",
-                                      _vm._s(item.tms_control_type_show)
-                                    ) +
-                                    _vm._$s(
-                                      "10-" + $30,
-                                      "t0-2",
-                                      _vm._s(item.car_possess_show)
-                                    ) +
-                                    _vm._$s(
-                                      "10-" + $30,
-                                      "t0-3",
-                                      _vm._s(item.contacts)
-                                    )
-                                )
-                              ])
-                            ]
-                          )
-                        ]),
-                        _c("u-col", { attrs: { span: "2", _i: "11-" + $30 } }, [
-                          _c(
-                            "view",
-                            {
-                              staticClass: _vm._$s(
-                                "12-" + $30,
-                                "sc",
-                                "demo-layout bg-purple-light"
+                            )
+                          ])
+                        ]
+                      )
+                    ]),
+                    _c("u-col", { attrs: { span: "2", _i: "11-" + $30 } }, [
+                      _c(
+                        "view",
+                        {
+                          staticClass: _vm._$s(
+                            "12-" + $30,
+                            "sc",
+                            "demo-layout bg-purple-light"
+                          ),
+                          attrs: { _i: "12-" + $30 }
+                        },
+                        [
+                          _c("image", {
+                            attrs: {
+                              src: _vm._$s(
+                                "13-" + $30,
+                                "a-src",
+                                __webpack_require__(/*! ../../images/tool/delete.png */ 234)
                               ),
-                              attrs: { _i: "12-" + $30 }
-                            },
-                            [
-                              _c("image", {
-                                attrs: {
-                                  src: _vm._$s(
-                                    "13-" + $30,
-                                    "a-src",
-                                    __webpack_require__(/*! ../../images/tool/delete.png */ 234)
-                                  ),
-                                  _i: "13-" + $30
-                                }
-                              }),
-                              _c("span", {
-                                attrs: { _i: "14-" + $30 },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.del(item, index)
-                                  }
-                                }
-                              })
-                            ]
-                          )
-                        ]),
-                        _c("u-col", { attrs: { span: "2", _i: "15-" + $30 } }, [
-                          _c(
-                            "view",
-                            {
-                              staticClass: _vm._$s(
-                                "16-" + $30,
-                                "sc",
-                                "demo-layout bg-purple-dark"
+                              _i: "13-" + $30
+                            }
+                          }),
+                          _c("span", {
+                            attrs: { _i: "14-" + $30 },
+                            on: {
+                              click: function($event) {
+                                return _vm.del(item, index)
+                              }
+                            }
+                          })
+                        ]
+                      )
+                    ]),
+                    _c("u-col", { attrs: { span: "2", _i: "15-" + $30 } }, [
+                      _c(
+                        "view",
+                        {
+                          staticClass: _vm._$s(
+                            "16-" + $30,
+                            "sc",
+                            "demo-layout bg-purple-dark"
+                          ),
+                          attrs: { _i: "16-" + $30 }
+                        },
+                        [
+                          _c("image", {
+                            attrs: {
+                              src: _vm._$s(
+                                "17-" + $30,
+                                "a-src",
+                                __webpack_require__(/*! ../../images/tool/edit.png */ 235)
                               ),
-                              attrs: { _i: "16-" + $30 }
-                            },
-                            [
-                              _c("image", {
-                                attrs: {
-                                  src: _vm._$s(
-                                    "17-" + $30,
-                                    "a-src",
-                                    __webpack_require__(/*! ../../images/tool/edit.png */ 235)
-                                  ),
-                                  _i: "17-" + $30
-                                }
-                              }),
-                              _c("span", {
-                                attrs: { _i: "18-" + $30 },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.toeditor(item, index)
-                                  }
-                                }
-                              })
-                            ]
-                          )
-                        ])
-                      ],
-                      1
-                    )
-                  }),
-                  _c("u-loadmore", { attrs: { status: _vm.status, _i: 19 } }),
-                  _c("u-toast", { ref: "uToast", attrs: { _i: 20 } })
-                ],
-                2
-              )
-            : _vm._e(),
+                              _i: "17-" + $30
+                            }
+                          }),
+                          _c("span", {
+                            attrs: { _i: "18-" + $30 },
+                            on: {
+                              click: function($event) {
+                                return _vm.toeditor(item, index)
+                              }
+                            }
+                          })
+                        ]
+                      )
+                    ])
+                  ],
+                  1
+                )
+              }),
+              _c("u-loadmore", { attrs: { status: _vm.status, _i: 19 } }),
+              _c("u-toast", { ref: "uToast", attrs: { _i: 20 } })
+            ],
+            2
+          ),
           _vm._$s(21, "i", _vm.showfalse)
             ? _c("view", [
                 _c(
@@ -28639,6 +28632,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -28694,20 +28690,21 @@ var _api = _interopRequireDefault(__webpack_require__(/*! @/api/api.js */ 27));f
 //
 //
 //
-var timer = null;var _default = { data: function data() {return { cars: [], show: false, content: '', cancel_style: { borderRight: '1px solid #e4e7ed' }, self_id: '', index: 0, showfalse: false, addgroupcode: "", page: 1, status: 'loadmore' };}, onLoad: function onLoad() {}, // created() {
+//
+//
+//
+var timer = null;var _default = { data: function data() {return { cars: [], show: false, content: '', cancel_style: { borderRight: '1px solid #e4e7ed' }, self_id: '', index: 0, showfalse: false, addgroupcode: "", page: 1, status: 'loadmore', showloading: true };}, onLoad: function onLoad() {}, // created() {
   // 	this.loadcarlist()
   // },
   onShow: function onShow() {this.loadcarlist(1);}, //下拉刷新
   onPullDownRefresh: function onPullDownRefresh() {// var page = 1
     // this.api_address_addressPage(page)
     this.loadcarlist(1);}, //上拉加载
-  onReachBottom: function onReachBottom() {var _this = this;var that = this;__f__("log", that.page, " at pages/car/list.vue:94"); // 阻止重复加载
+  onReachBottom: function onReachBottom() {var _this = this;var that = this;__f__("log", that.page, " at pages/car/list.vue:98"); // 阻止重复加载
     if (this.timer !== null) {clearTimeout(timer);}timer = setTimeout(function () {return _this.loadcarlist(that.page);}, 500);}, methods: { //返回主页
     toindex: function toindex() {uni.switchTab({ url: '/pages/user/index' });}, //删除
-    del: function del(item, index) {__f__("log", item, " at pages/car/list.vue:110");__f__("log", index, " at pages/car/list.vue:111");this.content = '你确定要删除当前这条数据吗';this.show = true;this.self_id = item.self_id;this.index = index;__f__("log", this.index, " at pages/car/list.vue:116");__f__("log", this.show, " at pages/car/list.vue:117");}, confirm: function confirm() {var _this2 = this;var data = { self_id: this.self_id };__f__("log", "我是self_id" + data.self_id, " at pages/car/list.vue:123");
-      _api.default.tms_car_carDelFlag(data).then(function (res) {
-        if (res.code == 200) {
-          __f__("log", "删除成功", " at pages/car/list.vue:126");
+    del: function del(item, index) {__f__("log", item, " at pages/car/list.vue:114");__f__("log", index, " at pages/car/list.vue:115");this.content = '你确定要删除当前这条数据吗';this.show = true;this.self_id = item.self_id;this.index = index;__f__("log", this.index, " at pages/car/list.vue:120");__f__("log", this.show, " at pages/car/list.vue:121");}, confirm: function confirm() {var _this2 = this;var data = { self_id: this.self_id };__f__("log", "我是self_id" + data.self_id, " at pages/car/list.vue:127");_api.default.tms_car_carDelFlag(data).then(function (res) {if (res.code == 200) {
+          __f__("log", "删除成功", " at pages/car/list.vue:130");
           _this2.$refs.uToast.show({
             title: "删除成功",
             type: 'default',
@@ -28726,14 +28723,14 @@ var timer = null;var _default = { data: function data() {return { cars: [], show
     //加载列表数据
     loadcarlist: function loadcarlist(page) {var _this3 = this;
       var project_type = uni.getStorageSync("project_type");
-      __f__("log", project_type, " at pages/car/list.vue:145");
+      __f__("log", project_type, " at pages/car/list.vue:149");
       var data = {
         page: page };
 
       if (project_type == 'user' || project_type == 'carriage') {
         _api.default.api_car_carPage(data).then(function (res) {
           if (res.code == 200) {
-            __f__("log", JSON.stringify(res.data.info), " at pages/car/list.vue:152");
+            __f__("log", JSON.stringify(res.data.info), " at pages/car/list.vue:156");
           } else {
             _this3.showfalse = true;
           }
@@ -28758,14 +28755,10 @@ var timer = null;var _default = { data: function data() {return { cars: [], show
             if (page == 1) {
               _this3.cars = lis;
             } else {
-              __f__("log", '1234', " at pages/car/list.vue:177");
+              __f__("log", '1234', " at pages/car/list.vue:181");
               _this3.cars = _this3.cars.concat(lis);
             }
             _this3.page = ++page;
-            __f__("log", _this3.cars, " at pages/car/list.vue:181");
-            __f__("log", _this3.page, " at pages/car/list.vue:182");
-            __f__("log", _this3.addgroupcode, " at pages/car/list.vue:183");
-            __f__("log", _this3.cars, " at pages/car/list.vue:184");
             __f__("log", "加载数据成功", " at pages/car/list.vue:185");
           } else {
             _this3.showfalse = true;

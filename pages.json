@@ -119,7 +119,8 @@
 			"path": "pages/customer/list",
 			"style": {
 				"navigationBarTitleText": "uni-app",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": true,
+				"backgroundColor":"#F3F4F6"
 			}
 		},
 		{ //添加客户列表

@@ -7,7 +7,9 @@
 				</view>
 			</u-navbar>
 			<view class="content">
-			<view class="wrap" v-if="cars!=''">
+			<!-- <page> -->
+			<!-- <u-loading mode="circle" :show="showloading"></u-loading> -->
+			<view class="wrap" >
 				<!-- <view class="wrap"> -->
 				<u-row gutter="16" v-for="(item,index) in cars" :key='index'
 					style="background-color: white;padding-top: 10px;padding-bottom: 10px;margin-bottom: 15px;"
@@ -36,6 +38,7 @@
 				<u-loadmore :status="status" />
 				<u-toast ref="uToast" />
 			</view>
+			<!-- </page> -->
 			<!-- 没有请求到数据时显示页面 -->
 			<view v-if="showfalse">
 				<view class="listlog">
@@ -71,6 +74,7 @@
 				addgroupcode:"",
 				page:1,
 				status: 'loadmore',
+				showloading:true,
 			}
 		},
 		onLoad() {
@@ -178,10 +182,6 @@
 								this.cars = this.cars.concat(lis)
 							}
 							this.page = ++page;
-							console.log(this.cars)
-							console.log(this.page)
-							console.log(this.addgroupcode)
-							console.log(this.cars)
 							console.log("加载数据成功")
 						}else{
 							this.showfalse=true
@@ -223,7 +223,11 @@
 		}
 	}
 </script>
-
+<style>
+	page {
+		background-color:#F3F4F6 ;
+	}
+</style>
 <style lang="scss" scoped>
 	.title{
 		color: #000000 !important;
@@ -235,9 +239,9 @@
 		// background-color: white;
 		border-radius: 10px;
 	
-		.wrap {
-			.u-view {}
-		}
+		// .wrap {
+		// 	.u-view {}
+		// }
 	
 		.listlog {
 			position: absolute;

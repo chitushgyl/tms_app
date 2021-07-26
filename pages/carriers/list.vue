@@ -216,7 +216,11 @@
 		}
 	}
 </script>
-
+<style>
+	page {
+		background-color:#F3F4F6 ;
+	}
+</style>
 <style lang="scss" scoped>
 	.title{
 		color: #000000 !important;
