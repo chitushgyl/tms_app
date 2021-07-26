@@ -6,6 +6,7 @@
 				<u-icon @click="back" name="arrow-leftward" size="28"></u-icon>
 			</view>
 		</u-navbar>
+		<u-toast ref="uToast" />
 		<!-- 主体 -->
 		<view class="content">
 			<view class="wrap">
@@ -167,6 +168,49 @@
 			//确认提交
 			submit(){
 				console.log(this.form)
+				
+				if(this.companygroupcode ==''){
+					this.$refs.uToast.show({
+						title: '所属公司不能为空',
+						type: 'default',
+					})
+					return false
+				}
+				if(this.form.name ==''){
+					this.$refs.uToast.show({
+						title: '所客户姓名不能为空',
+						type: 'default',
+					})
+					return false
+				}
+				if(this.pay1 ==''){
+					this.$refs.uToast.show({
+						title: '结算方式不能为空',
+						type: 'default',
+					})
+					return false
+				}
+				if(this.form.contact ==''){
+					this.$refs.uToast.show({
+						title: '联系人不能为空',
+						type: 'default',
+					})
+					return false
+				}
+				if(this.form.phone ==''){
+					this.$refs.uToast.show({
+						title: '联系电话不能为空',
+						type: 'default',
+					})
+					return false
+				}
+				if(this.form.address ==''){
+					this.$refs.uToast.show({
+						title: '地址不能为空',
+						type: 'default',
+					})
+					return false
+				}
 				var data={
 					group_code:this.companygroupcode,
 					company_name:this.form.name,
@@ -182,6 +226,11 @@
 					if(res.code==200){
 						console.log(res)
 						console.log("添加成功")
+						this.$refs.uToast.show({
+							title: "添加成功",
+							type: 'success',
+							position: 'bottom',
+						})
 						this.back()
 					}
 				})
@@ -201,7 +250,7 @@
 
 <style>
 	.content {
-		width: 90%;
+		width: 95%;
 		margin: 10px auto 0px;
 		padding-bottom: 80px;
 		// background-color: white;

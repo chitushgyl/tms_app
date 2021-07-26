@@ -1,5 +1,5 @@
 <template>
-	<view  style="height: 100%;background-color: #F3F4F6;">
+	<view  style="background-color: #F3F4F6;">
 			<!-- 头部 -->
 			<u-navbar :is-back="false" :border-bottom='false' title="客户列表">
 				<view class="slot-wrap" style="margin-left: 10px;">
@@ -33,7 +33,8 @@
 						</view>
 					</u-col>
 				</u-row>
-				<!-- <u-loadmore :status="status" /> -->
+				<u-loadmore :status="status" />
+				<u-toast ref="uToast" />
 			</view>
 			<!-- 没有请求到数据时显示页面 -->
 			<view v-if="loadfalse">
@@ -52,6 +53,7 @@
 </template>
 
 <script>
+	let timer = null
 	import api from '@/api/api.js'
 	export default {
 		data(){
@@ -64,18 +66,32 @@
 				},
 				self_id: '',
 				index: 0,
-				loadfalse:false
+				loadfalse:false,
+				page:1,
+				status: 'loadmore',
 			}
 		},
 		onLoad() {
 			
 		},
-		created() {
-			this.loaddata()
-		},
+		// created() {
+		// 	this.loaddata()
+		// },
 		onShow() {
-			this.customer=[]
-			this.loaddata()
+			this.loaddata(1)
+		},
+		onPullDownRefresh() {
+			this.loaddata(1)
+		},
+		//上拉加载
+		onReachBottom() {
+			var that = this;
+			console.log(that.page)
+			// 阻止重复加载
+			if (this.timer !== null) {
+				clearTimeout(timer)
+			}
+			timer = setTimeout(() => this.loaddata(that.page), 500)
 		},
 		methods:{
 			//返回主页
@@ -102,26 +118,55 @@
 				api.tms_group_groupDelFlag(data).then(res=>{
 					if(res.code==200){
 						console.log(res)
+						this.$refs.uToast.show({
+							title: res.msg,
+							type: 'default',
+							position: 'bottom'
+						})
 						console.log("删除成功")
-						this.loaddata()
+						this.loaddata(1)
+					}else{
+						this.$refs.uToast.show({
+							title: res.msg,
+							type: 'default',
+							position: 'bottom'
+						})
 					}
 				})
 			},
 			// 加载客户数据
-			loaddata(){
+			loaddata(page){
 				var data={
-					page: 1,
+					page: page,
 					type:'customer'
 				}
 				uni.showNavigationBarLoading()
 				api.tms_group_groupPage(data).then(res=>{
-					console.log("加载客户数据已完成")
-					console.log(res.data.items)
 					uni.stopPullDownRefresh();
 					uni.hideNavigationBarLoading();
-					this.customer=res.data.items
-					console.log(this.customer)
-						
+					if(res.code==200){
+						var lis = res.data.items;
+						// this.carriers=res.data.items
+						console.log("加载数据成功")
+						if(lis==''){
+							this.status = 'nomore';
+							return false
+						}
+						if (lis.length == 10) {
+							this.status = 'loadmore';
+						} else {
+							this.status = 'nomore';
+						}
+						if (page == 1) {
+							this.customer = lis;
+						} else {
+							console.log('1234')
+							this.customer = this.customer.concat(lis)
+						}
+						this.page = ++page;
+						console.log(this.customer)
+						console.log(this.page)
+					}
 				})
 				if(this.customer==[]){
 					this.loadfalse=true
@@ -164,7 +209,7 @@
 		color: #000000 !important;
 	}
 	.content {
-		width: 90%;
+		width: 95%;
 		margin: 10px auto 0px;
 		padding-bottom: 80px;
 		// background-color: white;

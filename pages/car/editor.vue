@@ -7,12 +7,13 @@
 			</view>
 		</u-navbar>
 		<!-- 主体 -->
+		<u-toast ref="uToast" />
 		<view class="content">
 			<view class="wrap">
 				<!-- 车辆 -->
 				<u-row @click="openpicker(1)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7"   class="left">
-						<span style="padding-left: 5px;">车辆号码</span>
+						<span>车辆号码</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-keyboard :mask="false" @change="valChange" @backspace="backspace" ref="uKeyboard" mode="car" v-model="show1" ></u-keyboard>
@@ -24,7 +25,7 @@
 				<!-- 车辆类型 -->
 				<u-row  @click="openpicker(5)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7"  class="left">
-						<span style="padding-left: 5px;">车辆类型</span>
+						<span>车辆类型</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="showcartype" mode="selector" :default-selector="[0]" :range="selectortype" @confirm="returncartypedata"></u-picker>
@@ -35,7 +36,7 @@
 				<!-- 温控类型 -->
 				<u-row  @click="openpicker(4)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7"   class="left">
-						<span style="padding-left: 5px;">温控类型</span>
+						<span>温控类型</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="showwenkongtype" mode="selector" :default-selector="[0]" :range="Temperaturecontroltype" @confirm="returnTemperaturecontroltype"></u-picker>
@@ -46,7 +47,7 @@
 				<!-- 车辆属性 -->
 				<u-row  @click="openpicker(6)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7"  class="left">
-						<span style="padding-left: 5px;">车辆属性</span>
+						<span>车辆属性</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="showcheliangshuxing" mode="selector" :default-selector="[0]" :range="cheliangshuxing" @confirm="returncheliangshuxing"></u-picker>
@@ -57,7 +58,7 @@
 				<!-- 车辆注册日期 -->
 				<u-row @click="openpicker(7)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7"   class="left">
-						<span style="padding-left: 5px;">车辆注册日期</span>
+						<span>车辆注册日期</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="showcardate" mode="time" :default-selector="[0]" @confirm="returncardate"></u-picker>
@@ -68,19 +69,19 @@
 				<!-- 司机姓名 -->
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7"   class="left">
-						<span style="padding-left: 5px;">司机姓名</span>
+						<span>司机姓名</span>
 					</u-col>
 					<u-col span="5" style="text-align: right;padding-right: 10px;">
-						<input v-model="form.name" id="all_name" type="text" style="" placeholder="请填写司机姓名" style="color: #1D2026;float: right;"  >
+						<input v-model="form.name" id="all_name" type="text" style=""  style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
 				<!-- 司机电话 -->
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7"   class="left">
-						<span style="padding-left: 5px;">司机电话</span>
+						<span >司机电话</span>
 					</u-col>
 					<u-col span="5" style="text-align: right;padding-right: 10px;">
-						<input v-model="form.phone" id="all_name" type="text" style="" placeholder="请填写司机电话" style="color: #1D2026;float: right;"  >
+						<input v-model="form.phone" id="all_name" type="text" style=""  style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
 				<u-button type="primary" shape="circle"
@@ -116,10 +117,10 @@
 				showcardate:false,
 				form: {
 					carid:"",//车牌号
-					car_type_name:"请选择车辆类型", //车辆类型
-					wenkong:"请选择温控类型", //温控类型
-					car_possess_show:"请选择车辆属性", //车辆属性
-					cardate:"请选择日期",//车辆注册日期
+					car_type_name:"", //车辆类型
+					wenkong:"", //温控类型
+					car_possess_show:"", //车辆属性
+					cardate:"",//车辆注册日期
 					name:"",
 					phone:"",//客户电话
 				},
@@ -132,6 +133,13 @@
 				a:"",
 				createdcarid:""
 			}
+		},
+		created() {
+			var caredit=this.$store.state.caredit
+			this.self_id=caredit.self_id,
+			this.group_code=caredit.group_code
+			this.loadcardata()
+			this.loadcartype()
 		},
 		methods:{
 			// 弹出框弹出事件
@@ -158,12 +166,7 @@
 			},
 			// 键盘改变事件
 			valChange(val){
-				// this.form.carid='',
 				this.form.carid+=val;
-				// 切换键盘
-				// if(this.form.carid.length==1){
-					
-				// }
 			},
 			// 退格键被点击
 			backspace() {
@@ -264,8 +267,6 @@
 								this.cheliangshuxing.push(tms_proess_type_list_text)
 								this.cheliangshuxingyingwen.push(tms_proess_type_list_keys)
 							}
-							console.log(this.cheliangshuxing)
-							console.log(this.cheliangshuxingyingwen)
 							var tms_control_type_list=res.data.tms_control_type
 							for(var j in tms_control_type_list){
 								var a=tms_control_type_list[j].name
@@ -283,9 +284,29 @@
 			submit(){
 				if(this.form.carid==''){
 					this.$refs.uToast.show({
-						title: '车牌号不能为空',
+						title: '请重新输入车牌号',
 						type: 'default',
-						position: 'bottom'
+					})
+					return false
+				}
+				if(this.cartypeid==''){
+					this.$refs.uToast.show({
+						title: '车辆类型不能为空',
+						type: 'default',
+					})
+					return false
+				}
+				if(this.control==''){
+					this.$refs.uToast.show({
+						title: '温控不能为空',
+						type: 'default',
+					})
+					return false
+				}
+				if(this.car_possess==''){
+					this.$refs.uToast.show({
+						title: '车辆属性不能为空',
+						type: 'default',
 					})
 					return false
 				}
@@ -293,7 +314,20 @@
 					this.$refs.uToast.show({
 						title: '注册日期不能为空',
 						type: 'default',
-						position: 'bottom'
+					})
+					return false
+				}
+				if(this.form.name==''){
+					this.$refs.uToast.show({
+						title: '联系人不能为空',
+						type: 'default',
+					})
+					return false
+				}
+				if(this.form.phone==''){
+					this.$refs.uToast.show({
+						title: '请输入手机号',
+						type: 'default',
 					})
 					return false
 				}
@@ -314,14 +348,37 @@
 					api.api_car_addCar(data).then(res=>{
 						if(res.code==200){
 							console.log("编辑成功")
+							this.$refs.uToast.show({
+								title: res.msg,
+								type: 'default',
+								position: 'bottom'
+							})
 							this.back()
+						}else{
+							this.$refs.uToast.show({
+								title: res.msg,
+								type: 'default',
+								position: 'bottom'
+							})
 						}
+						
 					})
 				}else{
 					api.tms_car_addCar(data).then(res=>{
 						if(res.code==200){
 							console.log("编辑成功")
+							this.$refs.uToast.show({
+								title: "编辑成功",
+								type: 'default',
+								position: 'bottom'
+							})
 							this.back()
+						}else{
+							this.$refs.uToast.show({
+								title: res.msg,
+								type: 'default',
+								position: 'bottom'
+							})
 						}
 					})
 				}
@@ -333,21 +390,12 @@
 		onLoad() {
 			
 		},
-		created() {
-			var caredit=this.$store.state.caredit
-			this.self_id=caredit.self_id,
-			this.group_code=caredit.group_code
-			console.log(this.self_id)
-			console.log(this.group_code)
-			this.loadcardata()
-			this.loadcartype()
-		}
 	}
 </script>
 
 <style>
 	.content {
-		width: 90%;
+		width: 95%;
 		margin: 10px auto 0px;
 		padding-bottom: 80px;
 		// background-color: white;

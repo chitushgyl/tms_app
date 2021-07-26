@@ -7,11 +7,12 @@
 			</view>
 		</u-navbar>
 		<!-- 主体 -->
+		<u-toast ref="uToast" />
 		<view class="content">
 			<view class="wrap">
 				<!-- 车辆 -->
 				<u-row @click="openpicker(1)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
-					<u-col span="7" class="left" style="padding-left: 5px;">
+					<u-col span="7" class="left">
 						<span id="left">车辆号码</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;"> 
@@ -24,7 +25,7 @@
 				</u-row>
 				<!-- 车辆类型 -->
 				<u-row  @click="openpicker(5)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
-					<u-col span="7" class="left" style="padding-left: 5px;">
+					<u-col span="7" class="left">
 						<span id="left">车辆类型</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
@@ -35,7 +36,7 @@
 				</u-row>
 				<!-- 温控类型 -->
 				<u-row  @click="openpicker(4)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
-					<u-col span="7" class="left" style="padding-left: 5px;">
+					<u-col span="7" class="left">
 						<span id="left">温控类型</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
@@ -46,7 +47,7 @@
 				</u-row>
 				<!-- 车辆属性 -->
 				<u-row  @click="openpicker(6)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
-					<u-col span="7" class="left" style="padding-left: 5px;">
+					<u-col span="7" class="left">
 						<span id="left">车辆属性</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
@@ -57,7 +58,7 @@
 				</u-row>
 				<!-- 车辆注册日期 -->
 				<u-row @click="openpicker(7)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
-					<u-col span="7" class="left" style="padding-left: 5px;">
+					<u-col span="7" class="left">
 						<span id="left">车辆注册日期</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
@@ -127,10 +128,11 @@
 				//车辆类型
 				car_type_list:[],
 				cartypeid:'',
-				group_code:"group_202106121328596313571586",
+				group_code:'',
 			}
 		},
 		methods:{
+			
 			back(){
 				uni.navigateBack()
 			},
@@ -224,6 +226,62 @@
 				console.log(this.form.cardate)
 			},
 			submit(){
+				if (this.form.car_number == '') {
+					this.$refs.uToast.show({
+						title: '车牌号不能为空',
+						type: 'default',
+						position: 'bottom'
+					})
+					return false
+				}
+				if (this.cartypeid == '') {
+					this.$refs.uToast.show({
+						title: '车辆类型不能为空',
+						type: 'default',
+						position: 'bottom'
+					})
+					return false
+				}
+				if (this.control == '') {
+					this.$refs.uToast.show({
+						title: '温控类型不能为空',
+						type: 'default',
+						position: 'bottom'
+					})
+					return false
+				}
+				if (this.car_possess == '') {
+					this.$refs.uToast.show({
+						title: '车辆属性不能为空',
+						type: 'default',
+						position: 'bottom'
+					})
+					return false
+				}
+				if (this.form.cardate == '' || this.form.cardate == "请选择注册日期") {
+					this.$refs.uToast.show({
+						title: '车辆注册日期不能为空',
+						type: 'default',
+						position: 'bottom'
+					})
+					return false
+				}
+				if (this.form.contacts == '') {
+					this.$refs.uToast.show({
+						title: '司机姓名不能为空',
+						type: 'default',
+						position: 'bottom'
+					})
+					return false
+				}
+				if (this.form.tel == '') {
+					this.$refs.uToast.show({
+						title: '司机电话不能为空',
+						type: 'default',
+						position: 'bottom'
+					})
+					return false
+				}
 				var projecttype=uni.getStorageSync("project_type")
 				var submitdata={
 						token:"",
@@ -245,24 +303,50 @@
 							console.log("添加成功")
 							this.back()
 						}else{
-							thi.$refs.uToast.show({
-								title: "添加失败",
-								type:'error'
+							this.$refs.uToast.show({
+								title: res.msg,
+								type: 'default',
+								position: 'bottom'
 							})
+							return false
 						}
+						
+						// if(res.code == 308){
+						// this.$refs.uToast.show({
+						// 	title: res.msg,
+						// 	type: 'default',
+						// 	position: 'bottom'
+						// })
+						// 	return false
+						// }
 					})
 				}else{
 					console.log('submitData' + JSON.stringify(submitdata))
 					api.tms_car_addCar(submitdata).then(res=>{
 						if(res.code == 200){
+							this.$refs.uToast.show({
+								title: res.msg,
+								type: 'default',
+								position: 'bottom'
+							})
 							console.log("添加成功")
 							this.back()
 						}else{
-							thi.$refs.uToast.show({
-								title: "添加失败",
-								type:'error'
+							this.$refs.uToast.show({
+								title: res.msg,
+								type: 'default',
+								position: 'bottom'
 							})
+							return false
 						}
+						// if(res.code == 308){
+						// this.$refs.uToast.show({
+						// 	title: res.msg,
+						// 	type: 'default',
+						// 	position: 'bottom'
+						// })
+						// 	return false
+						// }
 					})
 				}
 			},
@@ -290,7 +374,11 @@
 			
 		},
 		created() {
-			// var caredit=this.$store.state.caredit
+			// var a=this.$store.state.a1
+			// this.self_id=a.self_id
+			var p=this.$store.state.caradd
+			this.group_code=p.addgroup_code
+			console.log(this.group_code)
 			// this.group_code=caredit.group_code
 			// console.log(this.group_code)
 			this.loadcartype()
@@ -300,7 +388,7 @@
 
 <style>
 	.content {
-		width: 90%;
+		width: 95%;
 		margin: 10px auto 0px;
 		padding-bottom: 80px;
 		// background-color: white;
@@ -325,8 +413,5 @@
 	.left{
 		font-weight: 700;
 		font-size: 15px;
-	}
-	#left{
-		padding-left: 5px;
 	}
 </style>

@@ -118,7 +118,8 @@
 		{ //客户列表
 			"path": "pages/customer/list",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "uni-app",
+				"enablePullDownRefresh": true
 			}
 		},
 		{ //添加客户列表
@@ -155,7 +156,8 @@
 		{ //承运商列表
 			"path": "pages/carriers/list",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "uni-app",
+				"enablePullDownRefresh": true
 			}
 		},
 		

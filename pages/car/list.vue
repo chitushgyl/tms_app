@@ -1,5 +1,5 @@
 <template>
-	<view  style="height: 100%;background-color: #F3F4F6;">
+	<view  style="background-color: #F3F4F6;">
 			<!-- 头部 -->
 			<u-navbar :is-back="false" :border-bottom='false' title="我的车辆">
 				<view class="slot-wrap" style="margin-left: 10px;">
@@ -14,8 +14,8 @@
 						>
 					<u-col span="8">
 						<view class="demo-layout bg-purple" style="margin-left: 10px;">
-							<p style='margin-bottom: 10px;font-size: 16px;'>{{item.car_number}}</p>
-							<p style='font-size: 13px;color: #555555;'>{{item.group_name}}&nbsp;{{item.tel}}</p>
+							<p style='margin-bottom: 10px;font-size: 16px;'>{{item.car_number}}&nbsp;{{item.tel}}</p>
+							<p style='font-size: 13px;color: #555555;'>{{item.car_type_name}}&nbsp;{{item.tms_control_type_show}}&nbsp;{{item.car_possess_show}}&nbsp;{{item.contacts}}</p>
 						</view>
 					</u-col>
 					<u-col span="2">
@@ -33,7 +33,8 @@
 						</view>
 					</u-col>
 				</u-row>
-				<!-- <u-loadmore :status="status" /> -->
+				<u-loadmore :status="status" />
+				<u-toast ref="uToast" />
 			</view>
 			<!-- 没有请求到数据时显示页面 -->
 			<view v-if="showfalse">
@@ -53,6 +54,7 @@
 </template>
 
 <script>
+	let timer = null
 	import api from '@/api/api.js'
 	export default {
 		data(){
@@ -66,23 +68,35 @@
 				self_id: '',
 				index: 0,
 				showfalse:false,
+				addgroupcode:"",
+				page:1,
+				status: 'loadmore',
 			}
 		},
 		onLoad() {
 			
 		},
-		created() {
-			this.loadcarlist()
+		// created() {
+		// 	this.loadcarlist()
+		// },
+		onShow() {
+			this.loadcarlist(1)
 		},
-		// 下拉刷新
+		//下拉刷新
 		onPullDownRefresh() {
 			// var page = 1
 			// this.api_address_addressPage(page)
-			this.loadcarlist()
+			this.loadcarlist(1)
 		},
-		onShow() {
-			this.cars=[]
-			this.loadcarlist()
+		//上拉加载
+		onReachBottom() {
+			var that = this;
+			console.log(that.page)
+			// 阻止重复加载
+			if (this.timer !== null) {
+				clearTimeout(timer)
+			}
+			timer = setTimeout(() => this.loadcarlist(that.page), 500)
 		},
 		methods:{
 			//返回主页
@@ -110,18 +124,29 @@
 				api.tms_car_carDelFlag(data).then(res=>{
 					if(res.code==200){
 						console.log("删除成功")
-						this.loadcarlist()
+						this.$refs.uToast.show({
+							title: "删除成功",
+							type: 'default',
+							position: 'bottom'
+						})
+						this.loadcarlist(1)
+					}else{
+						this.$refs.uToast.show({
+							title: res.msg,
+							type: 'default',
+							position: 'bottom'
+						})
 					}
 				})
 			},
 			//加载列表数据
-			loadcarlist(){
+			loadcarlist(page){
 				var project_type=uni.getStorageSync("project_type")
 				console.log(project_type)
+				var data={
+					page:page
+				}
 				if(project_type=='user' || project_type== 'carriage'){
-					var data={
-						page:1
-					}
 					api.api_car_carPage(data).then(res=>{
 						if(res.code==200){
 							console.log(JSON.stringify(res.data.info));
@@ -129,24 +154,53 @@
 							this.showfalse=true
 						}
 					})
-					
 				}else{
 					uni.showNavigationBarLoading()
 					api.tms_car_carPage(data).then(res=>{
+						uni.stopPullDownRefresh();
+						uni.hideNavigationBarLoading();
 						if(res.code==200){
-							uni.stopPullDownRefresh();
-							uni.hideNavigationBarLoading();
-							this.cars=res.data.items
+							this.addgroupcode=res.data.items[0].group_code
+							var lis=res.data.items
+							if(lis==''){
+								this.status = 'nomore';
+								return false
+							}
+							if (lis.length == 10) {
+								this.status = 'loadmore';
+							} else {
+								this.status = 'nomore';
+							}
+							if (page == 1) {
+								this.cars = lis;
+							} else {
+								console.log('1234')
+								this.cars = this.cars.concat(lis)
+							}
+							this.page = ++page;
+							console.log(this.cars)
+							console.log(this.page)
+							console.log(this.addgroupcode)
 							console.log(this.cars)
 							console.log("加载数据成功")
 						}else{
 							this.showfalse=true
+							this.$refs.uToast.show({
+								title: res.msg,
+								type: 'default',
+								position: 'bottom'
+							})
 						}
 					})
 				}
 			},
 			//跳转添加页面
 			toadd(){
+				var data={
+					addgroup_code:this.addgroupcode
+				}
+				console.log(data.addgroup_code)
+				this.$store.commit("caradd",data)
 				uni.navigateTo({
 					url:'/pages/car/add'
 				})
@@ -157,14 +211,15 @@
 				console.log(index)
 				var data={
 					self_id:item.self_id,//车代号
-					group_code:item.group_code//公司编号
+					group_code:item.group_code,//公司编号
+					
 				}
 				this.$store.commit("caredit",data)
 				
 				uni.navigateTo({
 					url:'/pages/car/editor'
 				})
-			}
+			},
 		}
 	}
 </script>
@@ -174,7 +229,7 @@
 		color: #000000 !important;
 	}
 	.content {
-		width: 90%;
+		width: 95%;
 		margin: 10px auto 0px;
 		padding-bottom: 80px;
 		// background-color: white;

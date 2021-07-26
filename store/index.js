@@ -22,6 +22,9 @@ const store = new Vuex.Store({
 		caredit(state, provider){
 			state.caredit = provider
 		},
+		caradd(state,provider){
+			state.caradd = provider
+		},
 	},
 	actions: {}
 })

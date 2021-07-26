@@ -6,13 +6,14 @@
 				<u-icon @click="back" name="arrow-leftward" size="28"></u-icon>
 			</view>
 		</u-navbar>
+		<u-toast ref="uToast" />
 		<!-- 主体 -->
 		<view class="content">
 			<view class="wrap">
 				<!-- 公司 -->
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						<span style="padding-left: 5px;">所属公司</span>
+						<span style="padding-left: 1px;">所属公司</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="show1" mode="selector" :default-selector="[0]" :range="control_data" @confirm="returndata"></u-picker>
@@ -23,16 +24,16 @@
 				<!-- 客户名称 -->
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						<span style="padding-left: 5px;">客户名称</span>
+						<span style="padding-left: 1px;">客户名称</span>
 					</u-col>
 					<u-col span="5" style="text-align: right;padding-right: 10px;">
-						<input  v-model="form.name" id="all_name" type="text" style="" placeholder="请填写客户名称" style="color: #1D2026;float: right;"  >
+						<input  v-model="form.name" id="all_name" type="text" style=""  style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
 				<!-- 结算方式 -->
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						<span style="padding-left: 5px;">结算方式</span>
+						<span style="padding-left: 1px;">结算方式</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="show3" mode="selector" :default-selector="[0]" :range="paymethod" @confirm="returnpaymethoddata"></u-picker>
@@ -42,26 +43,26 @@
 				</u-row>
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						<span style="padding-left: 5px;">联系人</span>
+						<span style="padding-left: 1px;">联系人</span>
 					</u-col>
 					<u-col span="5" style="text-align: right;padding-right: 10px;">
-						<input v-model="form.contact" id="all_name" type="text" style="" placeholder="请填写联系人" style="color: #1D2026;float: right;"  >
+						<input v-model="form.contact" id="all_name" type="text" style=""  style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						<span style="padding-left: 5px;">联系电话</span>
+						<span style="padding-left: 1px;">联系电话</span>
 					</u-col>
 					<u-col span="5" style="text-align: right;padding-right: 10px;">
-						<input v-model="form.phone" id="all_name" type="text" style="" placeholder="请填写手机号" style="color: #1D2026;float: right;"  >
+						<input v-model="form.phone" id="all_name" type="text" style=""  style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
 				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
 					<u-col span="7" class="left">
-						<span style="padding-left: 5px;">地址信息</span>
+						<span style="padding-left: 1px;">地址信息</span>
 					</u-col>
 					<u-col span="5" style="text-align: right;padding-right: 10px;">
-						<input v-model="form.address" id="all_name" type="text" style="" placeholder="请填写联系地址" style="color: #1D2026;float: right;"  >
+						<input v-model="form.address" id="all_name" type="text" style=""  style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
 				<u-button type="primary" shape="circle"
@@ -87,8 +88,8 @@
 				self_id:"",
 				pay1:"",
 				form: {
-					companyname:'请选择公司',//公司名称
-					pay:'请选择支付方式',
+					companyname:'',//公司名称
+					pay:'',
 					name:'',//客户名称	
 					contact:'',//联系人
 					phone:'',//客户电话
@@ -129,6 +130,48 @@
 			},
 			//确认提交
 			submit(){
+				if(this.group_code ==''){
+					this.$refs.uToast.show({
+						title: '所属公司不能为空',
+						type: 'default',
+					})
+					return false
+				}
+				if(this.form.name ==''){
+					this.$refs.uToast.show({
+						title: '所客户姓名不能为空',
+						type: 'default',
+					})
+					return false
+				}
+				if(this.pay1 ==''){
+					this.$refs.uToast.show({
+						title: '结算方式不能为空',
+						type: 'default',
+					})
+					return false
+				}
+				if(this.form.contact ==''){
+					this.$refs.uToast.show({
+						title: '联系人不能为空',
+						type: 'default',
+					})
+					return false
+				}
+				if(this.form.phone ==''){
+					this.$refs.uToast.show({
+						title: '联系电话不能为空',
+						type: 'default',
+					})
+					return false
+				}
+				if(this.form.address ==''){
+					this.$refs.uToast.show({
+						title: '地址不能为空',
+						type: 'default',
+					})
+					return false
+				}
 				var subdata={
 					group_code: this.group_code,
 					company_name:this.form.name,
@@ -139,15 +182,6 @@
 					self_id:this.self_id,
 					type:'customer'
 				}
-				console.log(subdata.group_code)
-				console.log(subdata.company_name)
-				console.log(subdata.cost_type)
-				console.log(subdata.tel)
-				console.log(subdata.contacts)
-				console.log(subdata.address)
-				console.log(subdata.self_id)
-				console.log(subdata.type)
-				console.log(JSON.stringify(subdata))
 				api.tms_group_addgroup(subdata).then(res=>{
 					if(res.code==200){
 						console.log(res)
@@ -223,7 +257,6 @@
 			
 		},
 		created() {
-			
 			//初始化页面
 			var custedit=this.$store.state.custedit
 			this.self_id=custedit.self_id
@@ -236,7 +269,7 @@
 
 <style>
 	.content {
-		width: 90%;
+		width: 95%;
 		margin: 10px auto 0px;
 		padding-bottom: 80px;
 		// background-color: white;

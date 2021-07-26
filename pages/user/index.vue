@@ -127,6 +127,7 @@
 			},
 			// 页面跳转
 			uesr_path(item) {
+				console.log(item)
 				var path = item.app_url;
 				uni.navigateTo({
 					url: path

@@ -1,5 +1,5 @@
 <template>
-	<view  style="height: 100%;background-color: #F3F4F6;">
+	<view  style="background-color: #F3F4F6;">
 			<!-- 头部 -->
 			<u-navbar :is-back="false" :border-bottom='false' title="承运商列表">
 				<view @click="toindex" class="slot-wrap" style="margin-left: 10px;">
@@ -7,6 +7,7 @@
 				</view>
 			</u-navbar>
 			<view class="content">
+			<u-loading size="36" :show="showloading"></u-loading>
 			<view class="wrap" v-if="carriers!=''">
 				<!-- <view class="wrap"> -->
 				<u-row gutter="16" v-for="(item,index) in carriers" :key='index'
@@ -33,8 +34,10 @@
 						</view>
 					</u-col>
 				</u-row>
-				<!-- <u-loadmore :status="status" /> -->
+				<u-loadmore :status="status" />
+				<u-toast ref="uToast" />
 			</view>
+			
 			<!-- 没有请求到数据时显示页面 -->
 			<view v-if="loadfalse">
 				<view class="listlog">
@@ -52,6 +55,7 @@
 </template>
 
 <script>
+	let timer = null
 	import api from '@/api/api.js';
 	export default {
 		data(){
@@ -65,23 +69,44 @@
 				},
 				self_id: '',
 				index: 0,
-				loadfalse:false
+				loadfalse:false,
+				page:1,
+				status: 'loadmore',
+				showloading:null,
 			}
 		},
 		onLoad() {
-			
+			// uni.showLoading({
+			// 			    title: '加载中,请稍等。。。'
+			// });
 		},
-		created() {
-			this.loaddata()
+		// onLaunch(){
+		// 	uni.showLoading({
+		// 		title: '加载中,请稍等'
+		// 	});
+		// 	setTimeout(function () {
+		// 			  uni.hideLoading();
+		// 	}, 200);
+		// },
+		// created() {
+			
+		// },
+		onShow() {
+			this.loaddata(1)
 		},
 		onPullDownRefresh() {
-			// var page = 1
 			// this.api_address_addressPage(page)
-			this.loaddata()
+			this.loaddata(1)
 		},
-		onShow() {
-			this.carriers=[]
-			this.loaddata()
+		//上拉加载
+		onReachBottom() {
+			var that = this;
+			console.log(that.page)
+			// 阻止重复加载
+			if (this.timer !== null) {
+				clearTimeout(timer)
+			}
+			timer = setTimeout(() => this.loaddata(that.page), 500)
 		},
 		methods:{
 			//返回主页
@@ -91,24 +116,48 @@
 				})
 			},
 			// 加载列表数据
-			loaddata(){
+			loaddata(page){
 				var data={
-					page: 1,
+					page: page,
 					type: "carriers"
 				}
+				console.log(data.page)
 				uni.showNavigationBarLoading()
 				api.tms_group_groupPage(data).then(res=>{
+					uni.stopPullDownRefresh();
+					uni.hideNavigationBarLoading();
 					if(res.code==200){
-						uni.stopPullDownRefresh();
-						uni.hideNavigationBarLoading();
-						this.carriers=res.data.items
+						var lis = res.data.items;
+						// this.carriers=res.data.items
 						console.log("加载数据成功")
+						if(lis==''){
+							this.status = 'nomore';
+							return false
+						}
+						if (lis.length == 10) {
+							this.status = 'loadmore';
+						} else {
+							this.status = 'nomore';
+						}
+						if (page == 1) {
+							this.carriers = lis;
+						} else {
+							console.log('1234')
+							this.carriers = this.carriers.concat(lis)
+						}
+						this.page = ++page;
+						// setTimeout(function () {
+						// 		  uni.hideLoading();
+						// }, 200);
 						console.log(this.carriers)
+						console.log(this.page)
+					}else{
+						this.$refs.uToast.show({
+							title: res.msg,
+							type: 'default',
+							position: 'bottom'
+						})
 					}
-					if(res.code!=200){
-						this.loadfalse=true
-						console("加载数据失败")
-					}	
 				})
 			},
 			// 编辑
@@ -143,7 +192,18 @@
 					if(res.code==200){
 						console.log(res)
 						console.log("删除成功")
-						this.loaddata()
+						this.$refs.uToast.show({
+							title: res.msg,
+							type: 'default',
+							position: 'bottom'
+						})
+						this.loaddata(1)
+					}else{
+						this.$refs.uToast.show({
+							title: res.msg,
+							type: 'default',
+							position: 'bottom'
+						})
 					}
 				})
 			},
@@ -162,7 +222,7 @@
 		color: #000000 !important;
 	}
 	.content {
-		width: 90%;
+		width: 95%;
 		margin: 0px auto 0px;
 		margin-top: 5px;
 		padding-bottom: 80px;
