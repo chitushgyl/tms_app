@@ -25,6 +25,12 @@ const store = new Vuex.Store({
 		caradd(state,provider){
 			state.caradd = provider
 		},
+		linesendadd(state,provider){
+			state.linesendadd = provider
+		},
+		linegatadd(state,provider){
+			state.linegatadd = provider
+		},
 	},
 	actions: {}
 })

@@ -118,9 +118,7 @@
 		{ //客户列表
 			"path": "pages/customer/list",
 			"style": {
-				"navigationBarTitleText": "uni-app",
-				"enablePullDownRefresh": true,
-				"backgroundColor":"#F3F4F6"
+				"navigationBarTitleText": "uni-app"
 			}
 		},
 		{ //添加客户列表
@@ -138,8 +136,7 @@
 		{ //车辆列表
 			"path": "pages/car/list",
 			"style": {
-				"navigationBarTitleText": "uni-app",
-				"enablePullDownRefresh": true
+				"navigationBarTitleText": "uni-app"
 			}
 		},
 		{ //添加车辆列表
@@ -157,8 +154,7 @@
 		{ //承运商列表
 			"path": "pages/carriers/list",
 			"style": {
-				"navigationBarTitleText": "uni-app",
-				"enablePullDownRefresh": true
+				"navigationBarTitleText": "uni-app"
 			}
 		},
 		
@@ -173,8 +169,31 @@
 			"style": {
 				"navigationBarTitleText": "uni-app"
 			}
+		},
+		{ //添加线路列表
+			"path": "pages/line/add",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //编辑线路列表
+			"path": "pages/line/edit",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //线路列表
+			"path": "pages/line/line",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{ //落地配价格列表
+			"path": "pages/line/luodipeijiage",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
 		}
-
 	],
 	"tabBar": {
 		"color": "#333",
@@ -192,6 +211,10 @@
 			{
 				"pagePath": "pages/user/index",
 				"text": "我的"
+			},
+			{
+				"pagePath": "pages/line/line",
+				"text": "发布"
 			}
 		]
 	},

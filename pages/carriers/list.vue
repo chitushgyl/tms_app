@@ -7,8 +7,9 @@
 				</view>
 			</u-navbar>
 			<view class="content">
-			<u-loading size="36" :show="showloading"></u-loading>
-			<view class="wrap" v-if="carriers!=''">
+			<!-- <u-loading size="36" :show="showloading"></u-loading> -->
+			<!-- <mescroll-uni top="100" bottom="100" @down="downCallback" @up="upCallback" :up="upOption"> -->
+			<view class="wrap" v-if="this.carriers!=''">
 				<!-- <view class="wrap"> -->
 				<u-row gutter="16" v-for="(item,index) in carriers" :key='index'
 					style="background-color: white;padding-top: 10px;padding-bottom: 10px;margin-bottom: 15px;"
@@ -37,14 +38,8 @@
 				<u-loadmore :status="status" />
 				<u-toast ref="uToast" />
 			</view>
-			
+			<!-- </mescroll-uni> -->
 			<!-- 没有请求到数据时显示页面 -->
-			<view v-if="loadfalse">
-				<view class="listlog">
-					<image src="../../images/empty/noAddress.png" mode=""></image>
-					<p style='text-align: center;'>暂无承运商</p>
-				</view>
-			</view>
 			</view>
 			<u-button type="primary" shape="circle"
 				style="width: 90%;position: fixed; bottom: 20px; left: 50%;transform: translateX(-50%);" @click="toadd">
@@ -57,7 +52,11 @@
 <script>
 	let timer = null
 	import api from '@/api/api.js';
+	// import MescrollUni from "@/components/mescroll-uni/mescroll-uni.vue";
 	export default {
+		// components:{
+		// 	MescrollUni
+		// },
 		data(){
 			return{
 				// 承运端列表
@@ -73,6 +72,19 @@
 				page:1,
 				status: 'loadmore',
 				showloading:null,
+				upOption: {
+					page: {
+						num: 0, // 当前页码,默认0,回调之前会加1,即callback(page)会从1开始
+						size: 10 // 每页数据的数量
+					},
+					empty: {
+						icon: "https://www.mescroll.com/img/mescroll-empty.png", //图标,默认null
+						fixed: true, // 是否使用fixed定位,默认false; 配置fixed为true,以下的top和zIndex才生效 (transform会使fixed失效,最终会降级为absolute)
+						top: "300rpx", // fixed定位的top值 (完整的单位值,如 "10%"; "100rpx")
+						tip: '~ 暂无承运商 ~', // 提示
+						zIndex: 99 // fixed定位z-index值
+					}
+				},
 			}
 		},
 		onLoad() {
@@ -94,21 +106,34 @@
 		onShow() {
 			this.loaddata(1)
 		},
-		onPullDownRefresh() {
-			// this.api_address_addressPage(page)
-			this.loaddata(1)
-		},
+		// onPullDownRefresh() {
+		// 	// // this.api_address_addressPage(page)
+		// 	// this.loaddata(1)
+		// 	var page=1
+		// 	this.loaddata(page)
+		// },
 		//上拉加载
-		onReachBottom() {
-			var that = this;
-			console.log(that.page)
-			// 阻止重复加载
-			if (this.timer !== null) {
-				clearTimeout(timer)
-			}
-			timer = setTimeout(() => this.loaddata(that.page), 500)
-		},
+		// onReachBottom() {
+		// 	var that = this;
+		// 	console.log(that.page)
+		// 	// 阻止重复加载
+		// 	if (this.timer !== null) {
+		// 		clearTimeout(timer)
+		// 	}
+		// 	timer = setTimeout(() => this.loaddata(that.page), 500)
+		// },
 		methods:{
+			// mescrollInit(mescroll) {
+			// 	this.mescroll = mescroll
+			// },
+			// // 下拉刷新
+			// downCallback: function(mescroll) {
+			// 	mescroll.resetUpScroll()
+			// },
+			// // 上拉回调
+			// upCallback(mescroll) {
+			// 	this.loaddata(mescroll.num)
+			// },
 			//返回主页
 			toindex(){
 				uni.switchTab({
@@ -130,27 +155,20 @@
 						var lis = res.data.items;
 						// this.carriers=res.data.items
 						console.log("加载数据成功")
-						if(lis==''){
-							this.status = 'nomore';
-							return false
-						}
 						if (lis.length == 10) {
 							this.status = 'loadmore';
 						} else {
 							this.status = 'nomore';
 						}
 						if (page == 1) {
-							this.carriers = lis;
-						} else {
-							console.log('1234')
-							this.carriers = this.carriers.concat(lis)
-						}
+							this.carriers =[];
+						} 
+						this.carriers = this.carriers.concat(lis)
 						this.page = ++page;
 						// setTimeout(function () {
 						// 		  uni.hideLoading();
 						// }, 200);
 						console.log(this.carriers)
-						console.log(this.page)
 					}else{
 						this.$refs.uToast.show({
 							title: res.msg,
@@ -227,12 +245,10 @@
 	}
 	.content {
 		width: 95%;
-		margin: 0px auto 0px;
-		margin-top: 5px;
 		padding-bottom: 80px;
 		// background-color: white;
 		border-radius: 10px;
-	
+		margin: 10px auto 0px;
 		.wrap {
 			.u-view {}
 			

@@ -283,6 +283,9 @@
 					return false
 				}
 				var projecttype=uni.getStorageSync("project_type")
+				console.log(projecttype)
+				var group_code=uni.getStorageSync('group_code')//获取当前登录用户的公司
+				console.log(group_code)
 				var submitdata={
 						token:"",
 						control: this.control,
@@ -292,7 +295,7 @@
 						car_type_id:this.cartypeid,
 						contacts:this.form.contacts,
 						tel:this.form.tel,
-						group_code:this.group_code
+						group_code:group_code,
 				}
 				if(projecttype == 'user' || projecttype == 'carriage'){
 					console.log('submitData' + JSON.stringify(submitdata))
@@ -305,7 +308,7 @@
 						}else{
 							this.$refs.uToast.show({
 								title: res.msg,
-								type: 'default',
+								type: 'error',
 								position: 'bottom'
 							})
 							return false
@@ -377,9 +380,7 @@
 			// var a=this.$store.state.a1
 			// this.self_id=a.self_id
 			var p=this.$store.state.caradd
-			this.group_code=p.addgroup_code
-			console.log(this.group_code)
-			// this.group_code=caredit.group_code
+			// this.group_code=p.addgroup_code
 			// console.log(this.group_code)
 			this.loadcartype()
 		}

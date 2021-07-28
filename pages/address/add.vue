@@ -318,7 +318,7 @@
 							type: 'default',
 							position: 'bottom'
 						})
-						uni.$emit('address')
+						// uni.$emit('address')
 						uni.navigateBack()
 						
 					} else {

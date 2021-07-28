@@ -204,7 +204,7 @@
 						this.back()
 					}else{
 						this.$refs.uToast.show({
-							title: "添加失败",
+							title: res.msg,
 							type:'error'
 						})
 					}

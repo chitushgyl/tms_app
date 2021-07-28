@@ -7,7 +7,7 @@
 				</view>
 			</u-navbar>
 			<view class="content">
-			<view class="wrap" v-if="customer!=''">
+			<view class="wrap" v-if="this.customer!=''">
 				<!-- <view class="wrap"> -->
 				<u-row gutter="16" v-for="(item,index) in customer" :key='index'
 					style="background-color: white;padding-top: 10px;padding-bottom: 10px;margin-bottom: 15px;"
@@ -37,8 +37,8 @@
 				<u-toast ref="uToast" />
 			</view>
 			<!-- 没有请求到数据时显示页面 -->
-			<view v-if="loadfalse">
-				<view class="listlog">
+			<view v-else>
+				<view class="listlog" >
 					<image src="../../images/empty/noAddress.png" mode=""></image>
 					<p style='text-align: center;'>暂无客户</p>
 				</view>
@@ -144,33 +144,29 @@
 				api.tms_group_groupPage(data).then(res=>{
 					uni.stopPullDownRefresh();
 					uni.hideNavigationBarLoading();
+					console.log(JSON.stringify(res))
 					if(res.code==200){
 						var lis = res.data.items;
 						// this.carriers=res.data.items
 						console.log("加载数据成功")
-						if(lis==''){
-							this.status = 'nomore';
-							return false
-						}
+						// if(lis==''){
+						// 	this.loadfalse=true
+						// 	this.status = 'nomore';
+						// 	// return false
+						// }
 						if (lis.length == 10) {
 							this.status = 'loadmore';
 						} else {
 							this.status = 'nomore';
 						}
 						if (page == 1) {
-							this.customer = lis;
-						} else {
-							console.log('1234')
-							this.customer = this.customer.concat(lis)
-						}
+							this.customer = [];
+						} 
+						this.customer = this.customer.concat(lis)
 						this.page = ++page;
 						console.log(this.customer)
-						console.log(this.page)
 					}
 				})
-				if(this.customer==[]){
-					this.loadfalse=true
-				}
 			},
 			//跳转添加页面
 			toadd(){

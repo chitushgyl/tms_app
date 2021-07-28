@@ -137,7 +137,7 @@
 		created() {
 			var caredit=this.$store.state.caredit
 			this.self_id=caredit.self_id,
-			this.group_code=caredit.group_code
+			// this.group_code=caredit.group_code
 			this.loadcardata()
 			this.loadcartype()
 		},
@@ -332,6 +332,8 @@
 					return false
 				}
 				var projecttype1=uni.getStorageSync("project_type")
+				var group_code=uni.getStorageSync('group_code')//获取当前登录用户的公司
+				console.log(group_code)
 				var data={
 					token:"",
 					self_id:this.self_id,
@@ -342,7 +344,7 @@
 					car_type_id:this.cartypeid,
 					contacts:this.form.name,
 					tel:this.form.phone,
-					group_code:this.group_code
+					group_code:group_code
 				}
 				if(projecttype1 == 'user' || projecttype1 == 'carriage'){
 					api.api_car_addCar(data).then(res=>{

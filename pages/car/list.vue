@@ -9,7 +9,7 @@
 			<view class="content">
 			<!-- <page> -->
 			<!-- <u-loading mode="circle" :show="showloading"></u-loading> -->
-			<view class="wrap" >
+			<view class="wrap" v-if="this.cars!=''" >
 				<!-- <view class="wrap"> -->
 				<u-row gutter="16" v-for="(item,index) in cars" :key='index'
 					style="background-color: white;padding-top: 10px;padding-bottom: 10px;margin-bottom: 15px;"
@@ -40,9 +40,9 @@
 			</view>
 			<!-- </page> -->
 			<!-- 没有请求到数据时显示页面 -->
-			<view v-if="showfalse">
+			<view v-else>
 				<view class="listlog">
-					<image src="../../images/empty/noAddress.png" mode=""></image>
+					<image src="../../images/empty/car.png" mode=""></image>
 					<p style='text-align: center;'>暂无车辆</p>
 				</view>
 			</view>
@@ -155,7 +155,7 @@
 						if(res.code==200){
 							console.log(JSON.stringify(res.data.info));
 						}else{
-							this.showfalse=true
+							
 						}
 					})
 				}else{
@@ -164,27 +164,23 @@
 						uni.stopPullDownRefresh();
 						uni.hideNavigationBarLoading();
 						if(res.code==200){
-							this.addgroupcode=res.data.items[0].group_code
 							var lis=res.data.items
-							if(lis==''){
-								this.status = 'nomore';
-								return false
-							}
 							if (lis.length == 10) {
 								this.status = 'loadmore';
 							} else {
 								this.status = 'nomore';
 							}
 							if (page == 1) {
-								this.cars = lis;
-							} else {
-								console.log('1234')
-								this.cars = this.cars.concat(lis)
-							}
+								this.cars = [];
+							} 
+							this.cars = this.cars.concat(lis)
+							// else {
+							// 	console.log('1234')
+							// 	this.cars = this.cars.concat(lis)
+							// }
 							this.page = ++page;
 							console.log("加载数据成功")
 						}else{
-							this.showfalse=true
 							this.$refs.uToast.show({
 								title: res.msg,
 								type: 'default',

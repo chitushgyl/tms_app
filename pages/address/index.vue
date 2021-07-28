@@ -6,40 +6,36 @@
 			</view>
 		</u-navbar>
 		<view class="content">
-			<view class="wrap" v-if="adressList!=''">
-				<!-- <view class="wrap"> -->
-				<u-row gutter="16" v-for="(item,index) in adressList" :key='index'
-					style="background-color: white;padding-top: 10px;padding-bottom: 10px;margin-bottom: 15px;"
-					@click='adr(item,index)'>
-					<u-col span="8">
-						<view class="demo-layout bg-purple" style="margin-left: 10px;">
-							<p style='margin-bottom: 10px;'>{{item.contacts}}&nbsp;{{item.tel}}</p>
-							<p>{{item.sheng_name}}&nbsp;{{item.shi_name}}&nbsp;{{item.qu_name}}&nbsp;{{item.address}}
-							</p>
-						</view>
-					</u-col>
-					<u-col span="2">
-						<view class="demo-layout bg-purple-light" @click="dele(item,index)">
-							<image src="../../images/tool/delete.png" mode=""
-								style="width: 15px;height: 15px;vertical-align:sub;"></image>
-							<span style='color: red;'>删除</span>
-						</view>
-					</u-col>
-					<u-col span="2">
-						<view class="demo-layout bg-purple-dark" @click="editor(item,index)">
-							<image src="../../images/tool/edit.png" mode=""
-								style="width: 15px;height: 15px;vertical-align:sub;"></image>
-							<span style='color:#0088F4;'>编辑</span>
-						</view>
-					</u-col>
-				</u-row>
-				<u-loadmore :status="status" />
-			</view>
-			<view v-else>
-				<view class="listlog">
-					<image src="../../images/empty/noAddress.png" mode=""></image>
-					<p style='text-align: center;'>暂无可用地址</p>
-				</view>
+			<view class="scroll-container">
+				<mescroll-uni @init="mescrollInit" top="120" bottom="80" @down="downCallback" @up="upCallback"
+					:up="upOption">
+					<view class="wrap" style="width: 95%;margin-left: 2.5%;">
+						<u-row gutter="16" v-for="(item,index) in adressList" :key='index'
+							style="background-color: white;padding-top: 10px;padding-bottom: 10px;margin-bottom: 15px;">
+							<u-col span="8" @click='adr(item,index)'>
+								<view class="demo-layout bg-purple" style="margin-left: 10px;">
+									<p style='margin-bottom: 10px;'>{{item.contacts}}&nbsp;{{item.tel}}</p>
+									<p>{{item.sheng_name}}&nbsp;{{item.shi_name}}&nbsp;{{item.qu_name}}&nbsp;{{item.address}}
+									</p>
+								</view>
+							</u-col>
+							<u-col span="2">
+								<view class="demo-layout bg-purple-light" @click="dele(item,index)">
+									<image src="../../images/tool/delete.png" mode=""
+										style="width: 15px;height: 15px;vertical-align:sub;"></image>
+									<span style='color: red;'>删除</span>
+								</view>
+							</u-col>
+							<u-col span="2">
+								<view class="demo-layout bg-purple-dark" @click="editor(item,index)">
+									<image src="../../images/tool/edit.png" mode=""
+										style="width: 15px;height: 15px;vertical-align:sub;"></image>
+									<span style='color:#0088F4;'>编辑</span>
+								</view>
+							</u-col>
+						</u-row>
+					</view>
+				</mescroll-uni>
 			</view>
 		</view>
 		<u-button type="primary" shape="circle"
@@ -56,192 +52,8 @@
 	export default {
 		data() {
 			return {
-				adressList: [
-					{
-						"self_id": "address_202107171315071793989499",
-						"sheng_name": "安徽省",
-						"shi_name": "芜湖市",
-						"qu_name": "鸠江区",
-						"qu": 2237,
-						"address": "政通路66号",
-						"particular": null,
-						"create_time": "2021-07-17 13:15:07",
-						"company_name": null,
-						"group_name": "东风快递",
-						"use_flag": "Y",
-						"contacts": "21",
-						"tel": "12",
-						"total_user_id": null,
-						"button_info": [{
-							"id": 612,
-							"img": null,
-							"name": "编辑",
-							"jump_url": null,
-							"use_type": "edit",
-							"color": "#00B8FF",
-							"but_type": "primary",
-							"flag": "delete_flag",
-							"show_flag": "text",
-							"an_name": null
-						}, {
-							"id": 609,
-							"img": null,
-							"name": "详情",
-							"jump_url": null,
-							"use_type": "details",
-							"color": "#00B8FF",
-							"but_type": "primary",
-							"flag": "create",
-							"show_flag": "text",
-							"an_name": null
-						}, {
-							"id": 610,
-							"img": null,
-							"name": "启用/禁用",
-							"jump_url": null,
-							"use_type": "ajax",
-							"color": "#00B8FF",
-							"but_type": "info",
-							"flag": "use_flag",
-							"show_flag": "text",
-							"an_name": null
-						}, {
-							"id": 611,
-							"img": null,
-							"name": "删除",
-							"jump_url": null,
-							"use_type": "ajax",
-							"color": "#ed5565",
-							"but_type": "danger",
-							"flag": "delete_flag",
-							"show_flag": "text",
-							"an_name": null
-						}],
-						"user_total": null
-					}, {
-						"self_id": "address_202107171315072442766996",
-						"sheng_name": "安徽省",
-						"shi_name": "芜湖市",
-						"qu_name": "鸠江区",
-						"qu": 2237,
-						"address": "中江大道010县",
-						"particular": null,
-						"create_time": "2021-07-17 13:15:07",
-						"company_name": null,
-						"group_name": "东风快递",
-						"use_flag": "Y",
-						"contacts": "12",
-						"tel": "12",
-						"total_user_id": null,
-						"button_info": [{
-							"id": 612,
-							"img": null,
-							"name": "编辑",
-							"jump_url": null,
-							"use_type": "edit",
-							"color": "#00B8FF",
-							"but_type": "primary",
-							"flag": "delete_flag",
-							"show_flag": "text",
-							"an_name": null
-						}, {
-							"id": 609,
-							"img": null,
-							"name": "详情",
-							"jump_url": null,
-							"use_type": "details",
-							"color": "#00B8FF",
-							"but_type": "primary",
-							"flag": "create",
-							"show_flag": "text",
-							"an_name": null
-						}, {
-							"id": 610,
-							"img": null,
-							"name": "启用/禁用",
-							"jump_url": null,
-							"use_type": "ajax",
-							"color": "#00B8FF",
-							"but_type": "info",
-							"flag": "use_flag",
-							"show_flag": "text",
-							"an_name": null
-						}, {
-							"id": 611,
-							"img": null,
-							"name": "删除",
-							"jump_url": null,
-							"use_type": "ajax",
-							"color": "#ed5565",
-							"but_type": "danger",
-							"flag": "delete_flag",
-							"show_flag": "text",
-							"an_name": null
-						}],
-						"user_total": null
-					}, {
-						"self_id": "address_202107171144588727414296",
-						"sheng_name": "安徽省",
-						"shi_name": "芜湖市",
-						"qu_name": "镜湖区",
-						"qu": 2236,
-						"address": "5",
-						"particular": null,
-						"create_time": "2021-07-17 11:44:58",
-						"company_name": null,
-						"group_name": "东风快递",
-						"use_flag": "Y",
-						"contacts": "1",
-						"tel": "5",
-						"total_user_id": null,
-						"button_info": [{
-							"id": 612,
-							"img": null,
-							"name": "编辑",
-							"jump_url": null,
-							"use_type": "edit",
-							"color": "#00B8FF",
-							"but_type": "primary",
-							"flag": "delete_flag",
-							"show_flag": "text",
-							"an_name": null
-						}, {
-							"id": 609,
-							"img": null,
-							"name": "详情",
-							"jump_url": null,
-							"use_type": "details",
-							"color": "#00B8FF",
-							"but_type": "primary",
-							"flag": "create",
-							"show_flag": "text",
-							"an_name": null
-						}, {
-							"id": 610,
-							"img": null,
-							"name": "启用/禁用",
-							"jump_url": null,
-							"use_type": "ajax",
-							"color": "#00B8FF",
-							"but_type": "info",
-							"flag": "use_flag",
-							"show_flag": "text",
-							"an_name": null
-						}, {
-							"id": 611,
-							"img": null,
-							"name": "删除",
-							"jump_url": null,
-							"use_type": "ajax",
-							"color": "#ed5565",
-							"but_type": "danger",
-							"flag": "delete_flag",
-							"show_flag": "text",
-							"an_name": null
-						}],
-						"user_total": null
-					}
-				],
+				type:"",
+				adressList:[],
 				page: 1,
 				status: 'loadmore',
 				show: false,
@@ -250,63 +62,135 @@
 					borderRight: '1px solid #e4e7ed'
 				},
 				self_id: '',
-				index: 0
+				index: 0,
+				upOption: {
+					page: {
+						num: 0, // 当前页码,默认0,回调之前会加1,即callback(page)会从1开始
+						size: 10 // 每页数据的数量
+					},
+					empty: {
+						icon: "https://www.mescroll.com/img/mescroll-empty.png", //图标,默认null
+						fixed: true, // 是否使用fixed定位,默认false; 配置fixed为true,以下的top和zIndex才生效 (transform会使fixed失效,最终会降级为absolute)
+						top: "300rpx", // fixed定位的top值 (完整的单位值,如 "10%"; "100rpx")
+						tip: '~ 暂无地址 ~', // 提示
+						zIndex: 99 // fixed定位z-index值
+					}
+				},
 			}
 		},
-		onLoad() {
-			uni.$on('address', () => {
-				this.api_address_addressPage(1)
-			})
+		onLoad(e) {
+			// uni.$on('address', () => {
+			// 	// this.api_address_addressPage(1)
+			// })
 			var pages = getCurrentPages(); //当前页
 			var beforePage = pages[pages.length - 2]; //上个页面路由
 			this.froute = beforePage.route
-		},
-		created() {
-			this.api_address_addressPage(1)
-		},
-		// 下拉刷新
-		onPullDownRefresh() {
-			var page = 1
-			this.api_address_addressPage(page)
-		},
-		//上拉加载
-		onReachBottom() {
-			var that = this;
-			// 阻止重复加载
-			if (timer !== null) {
-				clearTimeout(timer)
+			if(e.data){
+				this.type=e.data
+				console.log(this.type)
 			}
-			timer = setTimeout(() => this.api_address_addressPage(that.page), 500)
 		},
+		// created() {
+		// 	this.api_address_addressPage(1)
+		// },
+		// 下拉刷新
+		// onPullDownRefresh() {
+		// 	var page = 1
+		// 	this.api_address_addressPage(page)
+		// },
+		// //上拉加载
+		// onReachBottom() {
+		// 	var that = this;
+		// 	// 阻止重复加载
+		// 	if (timer !== null) {
+		// 		clearTimeout(timer)
+		// 	}
+		// 	timer = setTimeout(() => this.api_address_addressPage(that.page), 500)
+		// },
 		methods: {
+			mescrollInit(mescroll) {
+				this.mescroll = mescroll
+			},
+			// 下拉回调
+			downCallback(mescroll) {
+				mescroll.resetUpScroll()
+			},
+			// 上拉回调
+			upCallback(mescroll) {
+				this.api_address_addressPage(mescroll.num)
+			},
 			//列表数据
 			api_address_addressPage(page) {
 				var data = {
 					page: page
 				}
-				uni.showNavigationBarLoading()
-				api.api_address_addressPage(data).then(res => {
-					uni.stopPullDownRefresh();
-					uni.hideNavigationBarLoading();
-					var lis = res.data.info;
-					if (lis == '') {
-						this.status = 'nomore';
-						return false
-					}
-					if (lis.length == 10) {
-						this.status = 'loadmore';
-					} else {
-						this.status = 'nomore';
-					}
-					if (page == 1) {
-						this.adressList = lis;
-					} else {
-						console.log('1234')
-						this.adressList = this.adressList.concat(lis)
-					}
-					this.page = ++page;
-
-				})
+				var project_type = uni.getStorageSync("project_type");
+				console.log(project_type)
+				if (project_type == 'company' || project_type=='TMS3PL') {
+					// uni.showNavigationBarLoading()
+					api.tms_address_addressPage(data).then(res => {
+						if (res.code == 200) {
+							var lis = res.data.items;
+							this.mescroll.endSuccess(res.data.items.length);
+							if (page == 1) {
+								console.log(page)
+								this.adressList = [];
+							}
+							this.adressList = this.adressList.concat(res.data.items);
+						}
+						// uni.stopPullDownRefresh();
+						// uni.hideNavigationBarLoading();
+						// var lis = res.data.info;
+						// if (lis == '') {
+						// 	this.status = 'nomore';
+						// 	return falses
+						// }
+						// if (lis.length == 10) {
+						// 	this.status = 'loadmore';
+						// } else {
+						// 	this.status = 'nomore';
+						// }
+						// if (page == 1) {
+						// 	this.adressList = lis;
+						// } else {
+						// 	console.log('1234')
+						// 	this.adressList = this.adressList.concat(lis)
+						// }
+						// this.page = ++page;
+					})
+				} else {
+					// uni.showNavigationBarLoading()
+					api.api_address_addressPage(data).then(res => {
+						// uni.stopPullDownRefresh();
+						// uni.hideNavigationBarLoading();
+						if (res.code == 200) {
+							var lis = res.data.info;
+							this.mescroll.endSuccess(res.data.info.length);
+							if (page == 1) {
+								console.log(page)
+								this.adressList = [];
+							}
+							this.adressList = this.adressList.concat(res.data.info);
+						}
+						// var lis = res.data.info;
+						// if (lis == '') {
+						// 	this.status = 'nomore';
+						// 	return false
+						// }
+						// if (lis.length == 10) {
+						// 	this.status = 'loadmore';
+						// } else {
+						// 	this.status = 'nomore';
+						// }
+						// if (page == 1) {
+						// 	this.adressList = lis;
+						// } else {
+						// 	console.log('1234')
+						// 	this.adressList = this.adressList.concat(lis)
+						// }
+						// this.page = ++page;
+					})
+				}
 			},
 			//删除
 			dele(item, index) {
@@ -340,13 +224,21 @@
 				})
 			},
 			adr(item, index) {
-				// console.log(item)
-				// console.log(index)
-				if (this.froute == 'pages/3pl_user/car_info') {
-					this.$store.commit("addcar_info", item)
-					var pages = getCurrentPages(); //当前页
-					var beforePage = pages[pages.length - 2]; //上个页面路由
-					beforePage.$vm.shiQu()
+				console.log(item)
+				console.log(index)
+				// if (this.froute != 'pages/user/user') {
+				// 	this.$store.commit("addcar_info", item)
+				// 	var pages = getCurrentPages(); //当前页
+				// 	var beforePage = pages[pages.length - 2]; //上个页面路由
+				// 	beforePage.$vm.shiQu()
+				// 	uni.navigateBack()
+				// }
+				if(this.type==1){
+					this.$store.commit("linesendadd", item)
+					uni.navigateBack()
+				}
+				if(this.type==2){
+					this.$store.commit("linegatadd", item)
 					uni.navigateBack()
 				}
 			}
@@ -361,11 +253,11 @@
 </style>
 <style lang="scss" scoped>
 	.content {
-		width: 90%;
-		margin: 10px auto 0px;
-		padding-bottom: 80px;
-		// background-color: white;
-		border-radius: 10px;
+		// width: 90%;
+		// margin: 10px auto 0px;
+		// padding-bottom: 80px;
+		// // background-color: white;
+		// border-radius: 10px;
 
 		.wrap {
 			.u-view {}

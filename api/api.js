@@ -124,4 +124,40 @@ module.exports = {
 	 api_car_carDelFlag(data){
 	 		return request('/api/car/carDelFlag',data) 
 	 },
+	 // // 线路发布 - 3PL
+	 // tms_line_linePage: '/tms/line/linePage', //线路列表
+	 // tms_line_createLine: '/tms/line/createLine', //线路添加
+	 // tms_line_addLine: '/tms/line/addLine', //线路添加
+	 // tms_line_lineDelFlag: '/tms/line/lineDelFlag', //线路删除
+	 tms_line_linePage(data){
+	 		return request('/tms/line/linePage',data) 
+	 },
+	 tms_line_createLine(data){
+	 		return request('/tms/line/createLine',data) 
+	 },
+	 tms_line_addLine(data){
+	 		return request('/tms/line/addLine',data) 
+	 },
+	 
+	 tms_line_lineDelFlag(data){
+	 		return request('/tms/line/lineDelFlag',data) 
+	 },
+	 
+	 // // 地址-联系人 -3pl
+	 // tms_address_addressPage: '/tms/address/addressPage', //列表
+	 // tms_address_createAddress: '/tms/address/createAddress', //添加
+	 // tms_address_addAddress: '/tms/address/addAddress', //添加
+	 // tms_address_addressDelFlag: '/tms/address/addressDelFlag', //删除
+	 tms_address_addressPage(data){
+	 		return request('/tms/address/addressPage',data) 
+	 },
+	 tms_address_createAddress(data){
+	 		return request('/tms/address/createAddress',data) 
+	 },
+	 tms_address_addAddress(data){
+	 		return request('/tms/address/addAddress',data) 
+	 },
+	 tms_address_addressDelFlag(data){
+	 		return request('/tms/address/addressDelFlag',data) 
+	 },
 }
