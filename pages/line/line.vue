@@ -1,8 +1,8 @@
 <template>
 	<view>
 		<u-navbar  :is-back="false" title="发布列表">
-			<view class="slot-wrap" style="margin-left: 10px;" @click="gotabpolice">
-				<u-icon name="arrow-leftward" size="28"></u-icon>
+			<view class="slot-wrap" style="margin-left: 10px;">
+				<u-icon @click="back" name="arrow-leftward" size="28"></u-icon>
 			</view>
 		</u-navbar>
 		<view class="content" >
@@ -136,7 +136,7 @@
 			}
 		},
 		created() {
-			this.getline()
+			// this.getline()
 		},
 		onShow() {
 			uni.$on('loadlist', () => {
@@ -145,16 +145,16 @@
 		},
 		methods:{
 			//获取线路信息
-			getline(){
-				var data={
-					self_id:''
-				}
-				api.tms_line_createLine(data).then(res=>{
-					if(res.code==200){
-						console.log(JSON.stringify(res))
-					}
-				})
-			},
+			// getline(){
+			// 	var data={
+			// 		self_id:''
+			// 	}
+			// 	api.tms_line_createLine(data).then(res=>{
+			// 		if(res.code==200){
+			// 			console.log(JSON.stringify(res))
+			// 		}
+			// 	})
+			// },
 			// 加载列表数据
 			loadlist(pageNum){
 				var data = {
@@ -168,6 +168,7 @@
 				var project_type=uni.getStorageSync("project_type")
 				console.log(project_type)
 				api.tms_line_linePage(data).then(res=>{
+					console.log(JSON.stringify(res))
 					// if(res.code==200){
 					// 	this.linelist = res.data.items;
 					// }
@@ -221,8 +222,9 @@
 			},
 			editr(item,index){
 				console.log(JSON.stringify(item))
+				this.$store.commit("lineedit",item)
 				uni.navigateTo({
-					url:'/pages/line/edit?self_id='+item.self_id
+					url:'/pages/line/edit'
 				})
 			},
 			mescrollInit(mescroll) {
@@ -248,7 +250,7 @@
 					status: status
 				}
 			},
-			gotabpolice() {
+			back(){
 				uni.navigateBack()
 			},
 			// 详情

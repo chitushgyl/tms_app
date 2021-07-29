@@ -1,11 +1,12 @@
 <template>
 	<view>
 		<u-navbar :is-back="false" title="落地配价格">
-			<view class="slot-wrap" style="margin-left: 10px;" @click="gotabpolice">
+			<view class="slot-wrap" style="margin-left: 10px;" >
 				<u-icon @click="back" name="arrow-leftward" size="28"></u-icon>
 			</view>
 		</u-navbar>
 		<view class="content">
+		<u-toast ref="uToast" />
 		<view style="margin: 10px;background-color: white;padding:16px;border-radius: 15px;">
 			<u-row gutter="16">
 				<u-col span="6" class="left">
@@ -16,7 +17,7 @@
 				</u-col>
 				<u-col style="text-align: right;" span="5">
 					<!-- <u-switch v-model="checked1"></u-switch> -->
-					<input v-model="qibujianshu" placeholder="请输入"/>
+					<input type="number" v-model="qibujianshu" placeholder="请输入"/>
 				</u-col>
 				<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 			</u-row>
@@ -30,7 +31,7 @@
 				<u-col style="text-align: right;" span="5">
 					<!-- <u-switch v-model="checked1"></u-switch> -->
 					
-					<input v-model="qibujiage"  placeholder="请输入"/>
+					<input type="number" v-model="qibujiage"  placeholder="请输入"/>
 				</u-col>
 				<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 			</u-row>	
@@ -43,7 +44,7 @@
 				</u-col>
 				<u-col style="text-align: right;" span="5">
 					<!-- <u-switch v-model="checked1"></u-switch> -->
-					<input  v-model="chaochujianshudanjia" placeholder="请输入"/>
+					<input type="number" v-model="chaochujianshudanjia" placeholder="请输入"/>
 				</u-col>
 				<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 			</u-row>	
@@ -56,7 +57,7 @@
 				</u-col>
 				<u-col style="text-align: right;" span="5">
 					<!-- <u-switch v-model="checked1"></u-switch> -->
-					<input v-model="fengdingjiage" placeholder="请输入"/>
+					<input type="number" v-model="fengdingjiage" placeholder="请输入"/>
 				</u-col>
 				<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 			</u-row>
@@ -80,6 +81,30 @@
 		},
 		methods:{
 			ok(){
+				if(this.qibujianshu=='' || this.qibujianshu==null){
+					this.$refs.uToast.show({
+						title: '请输入起步件数',
+						type: 'error',
+					})
+				}
+				if(this.qibujiage=='' || this.qibujiage==null){
+					this.$refs.uToast.show({
+						title: '请输入起步价格',
+						type: 'error',
+					})
+				}
+				if(this.chaochujianshudanjia=='' || this.chaochujianshudanjia==null){
+					this.$refs.uToast.show({
+						title: '请输入超出件数单价',
+						type: 'error',
+					})
+				}
+				if(this.fengdingjiage=='' ||this.fengdingjiage== null){
+					this.$refs.uToast.show({
+						title: '请输入封顶价格',
+						type: 'error',
+					})
+				}
 				var data={
 					qibujianshu:this.qibujianshu,
 					qibujiage:this.qibujiage,
@@ -89,6 +114,10 @@
 					// fengdingjiage=this.fengdingjiage
 				}
 				console.log(data)
+				this.$refs.uToast.show({
+					title: '添加成功',
+					type: 'error',
+				})
 				this.$store.commit('luodipeijiage',data)
 				uni.navigateBack()
 			},

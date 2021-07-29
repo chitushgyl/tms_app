@@ -47,7 +47,7 @@
 						<span id="leftspan">提货费</span>
 					</u-col>
 					<u-col style="text-align: right;" span="6">
-						<input v-model="form.tihuofei"  placeholder="提货费(元)" />
+						<input type="number" v-model="form.tihuofei"  placeholder="提货费(元)" />
 					</u-col>
 					<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 				</u-row>
@@ -66,7 +66,7 @@
 					</u-col>
 					<u-col style="text-align: right;" span="6">
 						<!-- <u-keyboard ref="uKeyboard" @change="peisongfei_change" mode="number" v-model="show2" :mask="false" @confirm="peisongfei_confirm" @backspace="peisongfei_back"></u-keyboard> -->
-						<input v-model="form.peisongfei" placeholder="配送费(元)" />
+						<input type="number" v-model="form.peisongfei" placeholder="配送费(元)" />
 					</u-col>
 					<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 				</u-row>
@@ -105,7 +105,7 @@
 					<u-col style="text-align: right;" span="6">
 						<!-- <u-keyboard ref="uKeyboard" @change="shixiao_change" mode="number" v-model="show1" :mask="false" @confirm="shixiao_comfirm" @backspace="shixiao_back"></u-keyboard> -->
 						<!-- <span @click="pickup(2)">{{form.date}}天</span> -->
-						<input placeholder="时效(天)"  @click="pickup(2)" v-model="form.date" />
+						<input type="number" placeholder="时效(天)"  @click="pickup(2)" v-model="form.date" />
 					</u-col>
 					<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 				</u-row>
@@ -150,7 +150,7 @@
 						<span id="leftspan">单价(元/公斤)</span>
 					</u-col>
 					<u-col style="text-align: right;" span="6">
-						<input v-model="form.danjiaprice" placeholder="请输入单价"/>
+						<input type="number" v-model="form.danjiaprice" placeholder="请输入单价"/>
 					</u-col>
 					<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 				</u-row>
@@ -159,7 +159,7 @@
 						<span id="leftspan">多点提货费(元/每点)</span>
 					</u-col>
 					<u-col style="text-align: right;" span="6">
-						<input v-model="form.duodianprice" placeholder="请输入多点提货费(元/每点)"/>
+						<input type="number" v-model="form.duodianprice" placeholder="请输入多点提货费(元/每点)"/>
 					</u-col>
 					<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 				</u-row>
@@ -168,7 +168,7 @@
 						<span id="leftspan">最低干线费(元)</span>
 					</u-col>
 					<u-col style="text-align: right;" span="6">
-						<input v-model="form.zuidiprice" placeholder="请输入最低干线费(元)"/>
+						<input type="number" v-model="form.zuidiprice" placeholder="请输入最低干线费(元)"/>
 					</u-col>
 					<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 				</u-row>
@@ -291,7 +291,9 @@
 				fengdingjiage:null,
 				qibujiage:null,
 				number:null, //随机数
-				special:null
+				special:null,
+				picktype:'',//是否提货
+				sendtype:'',
 			}
 		},
 		created() {
@@ -580,10 +582,10 @@
 			// 提交
 			sumbuit1(){
 				if(this.checked1){
-					var picktype="pick"
+					this.picktype="pick"
 				}
 				if(this.checked2){
-					var sendtype="send"
+					this.sendtype="send"
 				}
 				
 				if(this.sumbuit.gather_address_id==''){
@@ -600,13 +602,13 @@
 				}
 				if(this.peisongfei==''){
 					this.$refs.uToast.show({
-						title: '请输入提货费',
+						title: '请输入配送费费',
 						type: 'error',
 					})
 				}
 				if(this.tihuofei==''){
 					this.$refs.uToast.show({
-						title: '请输入配送费',
+						title: '请输入提货费',
 						type: 'error',
 					})
 				}
@@ -662,10 +664,10 @@
 					type:"alone",//线路类型
 					price:this.form.danjiaprice,//单价
 					min_money:this.form.zuidiprice,//最低干线费用
-					pick_type:picktype,//是否提货
-					send_type:sendtype,//是否配送
-					pick_price:this.peisongfei,//提货费
-					send_price:this.tihuofei,//配送费
+					pick_type:this.picktype,//是否提货
+					send_type:this.sendtype,//是否配送
+					pick_price:this.form.tihuofei,//提货费
+					send_price:this.form.peisongfei,//配送费
 					depart_time:this.form.datetime,//发车时间
 					control:this.controller,//温度
 					group_code:this.group_code,//公司
@@ -682,6 +684,7 @@
 					shift_number:this.number,//班次号
 					trunking:this.form.date,//时效
 					more_price:this.form.duodianprice,//多点提货费
+					
 					//1是落地配价格 2是配送费
 					special:this.special,
 					time1:this.time1,//周一
@@ -697,7 +700,7 @@
 					unit_price:this.chaochujianshudanjia,
 					max_price:this.fengdingjiage,
 				}
-				// console.log(JSON.stringify(data))
+				console.log(JSON.stringify(data))
 				api.tms_line_addLine(data).then(res=>{
 					// console.log(JSON.stringify(res))
 					if(res.code==200){
