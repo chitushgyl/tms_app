@@ -46,8 +46,7 @@
 						<span id="leftspan">提货费</span>
 					</u-col>
 					<u-col style="text-align: right;" span="6">
-						<!-- <u-keyboard ref="uKeyboard" @change="tihuofei_change" mode="number" v-model="show3" :mask="false" @confirm="tihuofei_confirm" @backspace="tihuofei_back"></u-keyboard> -->
-						<input v-model="this.tihuofei"  placeholder="提货费(元)" />
+						<input v-model="form.tihuofei"  placeholder="提货费(元)" />
 					</u-col>
 					<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 				</u-row>
@@ -66,7 +65,7 @@
 					</u-col>
 					<u-col style="text-align: right;" span="6">
 						<!-- <u-keyboard ref="uKeyboard" @change="peisongfei_change" mode="number" v-model="show2" :mask="false" @confirm="peisongfei_confirm" @backspace="peisongfei_back"></u-keyboard> -->
-						<input v-model="peisongfei" placeholder="配送费(元)" />
+						<input v-model="form.peisongfei" placeholder="配送费(元)" />
 					</u-col>
 					<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 				</u-row>
@@ -103,9 +102,9 @@
 						<span id="leftspan">时效</span>
 					</u-col>
 					<u-col style="text-align: right;" span="6">
-						<u-keyboard ref="uKeyboard" @change="shixiao_change" mode="number" v-model="show1" :mask="false" @confirm="shixiao_comfirm" @backspace="shixiao_back"></u-keyboard>
-						<span @click="pickup(2)">{{form.date}}天</span>
-						<!-- <input  @click="pickup(2)" v-model="form.date"/> -->
+						<!-- <u-keyboard ref="uKeyboard" @change="shixiao_change" mode="number" v-model="show1" :mask="false" @confirm="shixiao_comfirm" @backspace="shixiao_back"></u-keyboard> -->
+						<!-- <span @click="pickup(2)">{{form.date}}天</span> -->
+						<input placeholder="时效(天)"  @click="pickup(2)" v-model="form.date" />
 					</u-col>
 					<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 				</u-row>
@@ -129,7 +128,7 @@
 						<span id="leftspan">干线周期</span>
 					</u-col>
 				</u-row>
-				<u-row gutter="16" class="row" >
+				<u-row gutter="16" class="row" style="display: flex;">
 					<u-col span="12" class="left">
 						<u-button style="margin-left: 15px;" size="mini" :type="btncolor1" @click="day(1)">星期一</u-button>
 						<u-button style="margin-left: 30px;" size="mini" :type="btncolor2" @click="day(2)">星期二</u-button>
@@ -165,10 +164,10 @@
 				</u-row>
 				<u-row gutter="16" class="row">
 					<u-col span="6" class="left">
-						<span id="leftspan">最低工钱费(元)</span>
+						<span id="leftspan">最低干线费(元)</span>
 					</u-col>
 					<u-col style="text-align: right;" span="6">
-						<input v-model="form.zuidiprice" placeholder="请输入最低工钱费(元)"/>
+						<input v-model="form.zuidiprice" placeholder="请输入最低干线费(元)"/>
 					</u-col>
 					<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 				</u-row>
@@ -231,15 +230,19 @@
 				show3:false,
 				form:{
 					// 单价
-					danjiaprice:null,
+					danjiaprice:'',
 					// 多点
-					duodianprice:null,
+					duodianprice:'',
 					// 最低
-					zuidiprice:null,
+					zuidiprice:'',
 					// 时效
-					date:1,
+					date:'',
 					//发车时间
 					datetime:'请选择发车时间',
+					// 提货费
+					tihuofei:'',
+					//配送费
+					peisongfei:'',
 				},
 				address_list: {
 					send_info: '添加装车地址',
@@ -256,10 +259,6 @@
 					clod: "",
 					clod_name: '',
 				},
-				// 提货费
-				tihuofei:0,
-				//配送费
-				peisongfei:0,
 				//温控
 				controller:"",
 				sumbuit:{
@@ -322,7 +321,6 @@
 			var b=this.$store.state.linegatadd
 			console.log(b)
 			if(b!=null){
-				
 				// 收货地址地址
 				this.address_list.gather_info=b.sheng_name+b.shi_name+b.qu_name+b.address
 				console.log(this.address_list.gather_info)
@@ -497,11 +495,11 @@
 					min_money:this.form.zuidiprice,//最低干线费用
 					pick_type:picktype,//是否提货
 					send_type:sendtype,//是否配送
-					pick_price:this.tihuofei,//提货费
-					send_price:this.peisongfei,//配送费
+					pick_price:this.form.tihuofei,//提货费
+					send_price:this.form.peisongfei,//配送费
 					depart_time:this.form.datetime,//发车时间
 					control:this.controller,//温度
-					group_code:group_code,//公司
+					group_code:this.group_code,//公司
 					gather_address_id:this.sumbuit.gather_address_id,//常用发货地址id
 					send_address_id:this.sumbuit.send_address_id,//常用送货地址id
 					gather_qu:this.sumbuit.gather_qu,
@@ -513,7 +511,7 @@
 					send_contacts_name:this.sumbuit.send_contacts_name,
 					send_contacts_tel:this.sumbuit.send_contacts_tel,
 					shift_number:'',//班次号
-					trunking:"",//时效
+					trunking:this.form.date,//时效
 					more_price:this.form.duodianprice,//多点提货费
 					special:"2",
 					time1:this.time1,//周一
@@ -524,56 +522,78 @@
 					time6:this.time6,//周六
 					time0:this.time0,//周日
 				}
+				api.tms_address_addAddress(data).then(res=>{
+					if(res.code==200){
+						console.log("添加成功")
+						var pages = getCurrentPages(); //当前页
+						var beforePage = pages[pages.length - 2]; //上个页面路由
+						beforePage.$vm.loadlist(1)
+						uni.navigateBack()
+					}
+				})
 				
 			},
 			//去常用地址
 			toaddress(i){
 				console.log(i)
-				uni.navigateTo({
-					url:'/pages/address/index?data='+i+''
-				})
+				if(i==1){
+					uni.navigateTo({
+						url:'/pages/address/index?data='+'1'+''
+					})
+				}
+				if(i==2){
+					uni.navigateTo({
+						url:'/pages/address/index?data='+'2'+''
+					})
+				}
 			},
 			// 配送费
-			peisongfei_back(){},
-			peisongfei_change(val){
+			// peisongfei_back(){},
+			// peisongfei_change(val){
 				
-			},
-			peisongfei_confirm(){},
+			// },
+			// peisongfei_confirm(){},
 			// 时效
-			shixiao_change(val){
-				this.form.date+=val
-			},
-			shixiao_comfirm(item){
-				this.form.date=item
-			},
-			shixiao_back(){
-				// 删除value的最后一个字符
-				if(this.form.date.length) this.form.date = this.form.date.substr(0, this.form.date.length - 1);
-				console.log(this.form.date);
-			},
-			// 提货费选择器
-			tihuofei_change(val){
-				this.tihuofei+=val
-				console.log(this.tihuofei)
-			},
-			tihuofei_back(){
-				// 删除value的最后一个字符
-				if(this.tihuofei.length) this.tihuofei = this.tihuofei.substr(0, this.tihuofei.length - 1);
-				console.log(this.tihuofei);
-			},
-			tihuofei_confirm(){
+			// shixiao_change(val){
+			// 	if(this.form.data<10){
+			// 		this.form.data=val
+			// 	}
+			// 	if(this.form.data>=10){
+			// 		this.form.data+=val
+			// 	}
+			// 	// this.form.date+=val
+			// },
+			// shixiao_comfirm(item){
+			// 	this.form.date=item
+			// },
+			// shixiao_back(){
+			// 	// 删除value的最后一个字符
+			// 	// if(this.form.date.length) this.form.date = this.form.date.substr(0, this.form.date.length - 1);
+			// 	// console.log(this.form.date);
+			// },
+			// // 提货费选择器
+			// tihuofei_change(val){
+			// 	this.tihuofei+=val
+			// 	console.log(this.tihuofei)
+			// },
+			// tihuofei_back(){
+			// 	// 删除value的最后一个字符
+			// 	if(this.tihuofei.length) this.tihuofei = this.tihuofei.substr(0, this.tihuofei.length - 1);
+			// 	console.log(this.tihuofei);
+			// },
+			// tihuofei_confirm(){
 				
-			},
+			// },
 			toprice(){
 				uni.navigateTo({
 					url:'/pages/line/luodipeijiage'
 				})
 			},
-			changeday(val){
-				console.log(val)
-				this.form.date+=val
-				console.log(this.form.date)
-			},
+			// changeday(val){
+			// 	console.log(val)
+			// 	this.form.date+=val
+			// 	console.log(this.form.date)
+			// },
 			backspace() {
 				// 删除value的最后一个字符
 				if(this.form.date.length) this.form.date = this.form.date.substr(0, this.form.date.length - 1);
@@ -585,18 +605,18 @@
 				console.log(this.form.datetime)
 			},
 			// 时效回调
-			shixiaoback(item){
-				console.log(item)
-				this.form.date=item
-			},
-			// 选择器弹起
+			// shixiaoback(item){
+			// 	console.log(item)
+			// 	this.form.date=item
+			// },
+			//选择器弹起
 			pickup(i){
 				if(i==1){
 					this.show=true
 				}
-				if(i==2){
-					this.show1=true
-				}
+				// if(i==2){
+				// 	this.show1=true
+				// }
 			},
 			
 			gotabpolice() {

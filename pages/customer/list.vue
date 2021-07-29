@@ -6,11 +6,13 @@
 					<u-icon @click="toindex" name="arrow-leftward" size="28"></u-icon>
 				</view>
 			</u-navbar>
-			<view class="content">
-			<view class="wrap" v-if="this.customer!=''">
+			<view class="content" >
+			<view class="wrap">
 				<!-- <view class="wrap"> -->
+				<mescroll-uni @init="mescrollInit" top="125" bottom="80" @down="downCallback" @up="upCallback"
+					:up="upOption" >
 				<u-row gutter="16" v-for="(item,index) in customer" :key='index'
-					style="background-color: white;padding-top: 10px;padding-bottom: 10px;margin-bottom: 15px;"
+					style="background-color: white;padding-top: 10px;padding-bottom: 10px;margin-bottom: 15px;width: 95%;margin-left: 10px;"
 						>
 					<u-col span="8">
 						<view class="demo-layout bg-purple" style="margin-left: 10px;">
@@ -33,15 +35,8 @@
 						</view>
 					</u-col>
 				</u-row>
-				<u-loadmore :status="status" />
+				</mescroll-uni>
 				<u-toast ref="uToast" />
-			</view>
-			<!-- 没有请求到数据时显示页面 -->
-			<view v-else>
-				<view class="listlog" >
-					<image src="../../images/empty/noAddress.png" mode=""></image>
-					<p style='text-align: center;'>暂无客户</p>
-				</view>
 			</view>
 			</view>
 			<u-button type="primary" shape="circle"
@@ -68,7 +63,20 @@
 				index: 0,
 				loadfalse:false,
 				page:1,
-				status: 'loadmore',
+				mescroll: null,
+				upOption: {
+					page: {
+						num: 0, // 当前页码,默认0,回调之前会加1,即callback(page)会从1开始
+						size: 10 // 每页数据的数量
+					},
+					empty: {
+						icon: "https://www.mescroll.com/img/mescroll-empty.png", //图标,默认null
+						fixed: true, // 是否使用fixed定位,默认false; 配置fixed为true,以下的top和zIndex才生效 (transform会使fixed失效,最终会降级为absolute)
+						top: "300rpx", // fixed定位的top值 (完整的单位值,如 "10%"; "100rpx")
+						tip: '~ 暂无客户 ~', // 提示
+						zIndex: 99 // fixed定位z-index值
+					}
+				},
 			}
 		},
 		onLoad() {
@@ -77,23 +85,34 @@
 		// created() {
 		// 	this.loaddata()
 		// },
-		onShow() {
-			this.loaddata(1)
-		},
-		onPullDownRefresh() {
-			this.loaddata(1)
-		},
-		//上拉加载
-		onReachBottom() {
-			var that = this;
-			console.log(that.page)
-			// 阻止重复加载
-			if (this.timer !== null) {
-				clearTimeout(timer)
-			}
-			timer = setTimeout(() => this.loaddata(that.page), 500)
-		},
+		// onShow() {
+		// 	this.loaddata(1)
+		// },
+		// onPullDownRefresh() {
+		// 	this.loaddata(1)
+		// },
+		// //上拉加载
+		// onReachBottom() {
+		// 	var that = this;
+		// 	console.log(that.page)
+		// 	// 阻止重复加载
+		// 	if (this.timer !== null) {
+		// 		clearTimeout(timer)
+		// 	}
+		// 	timer = setTimeout(() => this.loaddata(that.page), 500)
+		// },
 		methods:{
+			mescrollInit(mescroll) {
+				this.mescroll = mescroll
+			},
+			// 下拉回调
+			downCallback(mescroll) {
+				mescroll.resetUpScroll()
+			},
+			// 上拉回调
+			upCallback(mescroll) {
+				this.loaddata(mescroll.num)
+			},
 			//返回主页
 			toindex(){
 				uni.switchTab({
@@ -140,30 +159,16 @@
 					page: page,
 					type:'customer'
 				}
-				uni.showNavigationBarLoading()
 				api.tms_group_groupPage(data).then(res=>{
-					uni.stopPullDownRefresh();
-					uni.hideNavigationBarLoading();
 					console.log(JSON.stringify(res))
 					if(res.code==200){
 						var lis = res.data.items;
-						// this.carriers=res.data.items
 						console.log("加载数据成功")
-						// if(lis==''){
-						// 	this.loadfalse=true
-						// 	this.status = 'nomore';
-						// 	// return false
-						// }
-						if (lis.length == 10) {
-							this.status = 'loadmore';
-						} else {
-							this.status = 'nomore';
+						this.mescroll.endSuccess(lis.length);
+						if(page==1){
+							this.customer=[];
 						}
-						if (page == 1) {
-							this.customer = [];
-						} 
-						this.customer = this.customer.concat(lis)
-						this.page = ++page;
+						this.customer=this.customer.concat(lis)
 						console.log(this.customer)
 					}
 				})

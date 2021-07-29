@@ -7,12 +7,12 @@
 				</view>
 			</u-navbar>
 			<view class="content">
-			<!-- <u-loading size="36" :show="showloading"></u-loading> -->
-			<!-- <mescroll-uni top="100" bottom="100" @down="downCallback" @up="upCallback" :up="upOption"> -->
-			<view class="wrap" v-if="this.carriers!=''">
+			<view class="wrap">
 				<!-- <view class="wrap"> -->
+				<mescroll-uni @init="mescrollInit" top="125" bottom="80" @down="downCallback" @up="upCallback"
+					:up="upOption">
 				<u-row gutter="16" v-for="(item,index) in carriers" :key='index'
-					style="background-color: white;padding-top: 10px;padding-bottom: 10px;margin-bottom: 15px;"
+					style="background-color: white;padding-top: 10px;padding-bottom: 10px;margin-bottom: 15px;width: 95%;margin-left: 10px;"
 						>
 					<u-col span="8">
 						<view class="demo-layout bg-purple" style="margin-left: 10px;">
@@ -35,7 +35,8 @@
 						</view>
 					</u-col>
 				</u-row>
-				<u-loadmore :status="status" />
+				</mescroll-uni>
+				<!-- <u-loadmore :status="status" /> -->
 				<u-toast ref="uToast" />
 			</view>
 			<!-- </mescroll-uni> -->
@@ -52,11 +53,7 @@
 <script>
 	let timer = null
 	import api from '@/api/api.js';
-	// import MescrollUni from "@/components/mescroll-uni/mescroll-uni.vue";
 	export default {
-		// components:{
-		// 	MescrollUni
-		// },
 		data(){
 			return{
 				// 承运端列表
@@ -70,7 +67,8 @@
 				index: 0,
 				loadfalse:false,
 				page:1,
-				status: 'loadmore',
+				status: '',
+				mescroll: null,
 				showloading:null,
 				upOption: {
 					page: {
@@ -92,49 +90,18 @@
 			// 			    title: '加载中,请稍等。。。'
 			// });
 		},
-		// onLaunch(){
-		// 	uni.showLoading({
-		// 		title: '加载中,请稍等'
-		// 	});
-		// 	setTimeout(function () {
-		// 			  uni.hideLoading();
-		// 	}, 200);
-		// },
-		// created() {
-			
-		// },
-		onShow() {
-			this.loaddata(1)
-		},
-		// onPullDownRefresh() {
-		// 	// // this.api_address_addressPage(page)
-		// 	// this.loaddata(1)
-		// 	var page=1
-		// 	this.loaddata(page)
-		// },
-		//上拉加载
-		// onReachBottom() {
-		// 	var that = this;
-		// 	console.log(that.page)
-		// 	// 阻止重复加载
-		// 	if (this.timer !== null) {
-		// 		clearTimeout(timer)
-		// 	}
-		// 	timer = setTimeout(() => this.loaddata(that.page), 500)
-		// },
 		methods:{
-			// mescrollInit(mescroll) {
-			// 	this.mescroll = mescroll
-			// },
-			// // 下拉刷新
-			// downCallback: function(mescroll) {
-			// 	mescroll.resetUpScroll()
-			// },
-			// // 上拉回调
-			// upCallback(mescroll) {
-			// 	this.loaddata(mescroll.num)
-			// },
-			//返回主页
+			mescrollInit(mescroll) {
+				this.mescroll = mescroll
+			},
+			// 下拉回调
+			downCallback(mescroll) {
+				mescroll.resetUpScroll()
+			},
+			// 上拉回调
+			upCallback(mescroll) {
+				this.loaddata(mescroll.num)
+			},
 			toindex(){
 				uni.switchTab({
 					url:'/pages/user/index'
@@ -147,27 +114,16 @@
 					type: "carriers"
 				}
 				console.log(data.page)
-				uni.showNavigationBarLoading()
 				api.tms_group_groupPage(data).then(res=>{
-					uni.stopPullDownRefresh();
-					uni.hideNavigationBarLoading();
 					if(res.code==200){
 						var lis = res.data.items;
 						// this.carriers=res.data.items
 						console.log("加载数据成功")
-						if (lis.length == 10) {
-							this.status = 'loadmore';
-						} else {
-							this.status = 'nomore';
+						this.mescroll.endSuccess(lis.length);
+						if(page==1){
+							this.carriers=[];
 						}
-						if (page == 1) {
-							this.carriers =[];
-						} 
-						this.carriers = this.carriers.concat(lis)
-						this.page = ++page;
-						// setTimeout(function () {
-						// 		  uni.hideLoading();
-						// }, 200);
+						this.carriers=this.carriers.concat(lis)
 						console.log(this.carriers)
 					}else{
 						this.$refs.uToast.show({

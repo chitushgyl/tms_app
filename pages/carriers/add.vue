@@ -9,22 +9,23 @@
 		<u-toast ref="uToast" />
 		<!-- 主体 -->
 		<view class="content">
-			<view class="wrap" style="margin-left: 5px;">
+			<view class="wrap">
 				<!-- 公司 -->
-				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0;background-color: #FFFFFF;">
+				<u-row gutter="16" style="height: 50px;background-color: #FFFFFF;border-bottom: 1px solid #C0C0C0;">
 					<u-col span="7" class="left">
-						<span>公司</span>
+						<span  style="margin-left: -4px;">公司</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="show1" mode="selector" :default-selector="[0]" :range="selector_companyName" @confirm="returndata"></u-picker>
 						<span @click="openpicker(1)">{{form.group_code}}</span>
 					<!-- <input @click="openpicker(1)" v-model="form.companyname" id="all_name" type="text" style="" :placeholder="form.companyname" style="color: #1D2026;float: right;"  > -->
 					</u-col>
+					
 				</u-row>
 				<!-- 公司类型 -->
-				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
+				<u-row gutter="16" style="height: 50px; background-color: #FFFFFF;border-bottom: 1px solid #C0C0C0;">
 					<u-col span="7" class="left">
-						<span >公司类型</span>
+						<span  style="margin-left: -4px;">公司类型</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="show2" mode="selector" :default-selector="[0]" :range="selector_companyType" @confirm="returncompanydata"></u-picker>
@@ -33,18 +34,18 @@
 					</u-col>
 				</u-row>
 				<!-- 客户名称 -->
-				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
+				<u-row gutter="16" style="height: 50px; background-color: #FFFFFF;border-bottom: 1px solid #C0C0C0;">
 					<u-col span="7" class="left">
-						<span >客户名称</span>
+						<span  style="margin-left: -4px;">客户名称</span>
 					</u-col>
 					<u-col span="5" style="text-align: right;padding-right: 10px;">
 						<input v-model="form.company_name" id="all_name" type="text" style="" placeholder="请输入" style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
 				<!-- 结算方式 -->
-				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
+				<u-row gutter="16" style="height: 50px; background-color: #FFFFFF;border-bottom: 1px solid #C0C0C0;">
 					<u-col span="7" class="left">
-						<span >结算方式</span>
+						<span  style="margin-left: -4px;">结算方式</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="show3" mode="selector" :default-selector="[0]" :range="paymethod" @confirm="returnpaymethoddata"></u-picker>
@@ -52,25 +53,25 @@
 					<!-- <input @click="openpicker(3)" v-model="form.pay" id="all_name" type="text" style="" :placeholder="form.pay" style="color: #1D2026;float: right;"  > -->
 					</u-col>
 				</u-row>
-				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
+				<u-row gutter="16" style="height: 50px; background-color: #FFFFFF;border-bottom: 1px solid #C0C0C0;">
 					<u-col span="7" class="left">
-						<span>联系人</span>
+						<span  style="margin-left: -4px;">联系人</span>
 					</u-col>
 					<u-col span="5" style="text-align: right;padding-right: 10px;">
 						<input v-model="form.contacts" id="all_name" type="text" style="" placeholder="请输入" style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
-				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
+				<u-row gutter="16" style="height: 50px; background-color: #FFFFFF;border-bottom: 1px solid #C0C0C0;">
 					<u-col span="7" class="left">
-						<span >联系电话</span>
+						<span  style="margin-left: -3px;">联系电话</span>
 					</u-col>
 					<u-col span="5" style="text-align: right;padding-right: 10px;">
 						<input v-model="form.tel" id="all_name" type="text" style="" placeholder="请输入" style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
-				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
+				<u-row gutter="16" style="height: 50px; background-color: #FFFFFF;border-bottom: 1px solid #C0C0C0;">
 					<u-col span="7" class="left">
-						<span >联系地址</span>
+						<span  style="margin-left: -4px;">联系地址</span>
 					</u-col>
 					<u-col span="5" style="text-align: right;padding-right: 10px;">
 						<input v-model="form.address" id="all_name" type="text" style="" placeholder="请输入" style="color: #1D2026;float: right;"  >
@@ -201,6 +202,9 @@
 							type: 'success',
 							position: 'bottom',
 						})
+						var pages = getCurrentPages(); //当前页
+						var beforePage = pages[pages.length - 2]; //上个页面路由
+						beforePage.$vm.loaddata(1)
 						this.back()
 					}else{
 						this.$refs.uToast.show({

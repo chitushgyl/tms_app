@@ -11,9 +11,9 @@
 		<view class="content">
 			<view class="wrap">
 				<!-- 车辆 -->
-				<u-row @click="openpicker(1)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
+				<u-row @click="openpicker(1)" gutter="16" style="height: 50px; background-color: #FFFFFF;border-bottom: 1px solid #C0C0C0;">
 					<u-col span="7"   class="left">
-						<span>车辆号码</span>
+						<div style="margin-left: -4px;">车牌号码</div>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-keyboard :mask="false" @change="valChange" @backspace="backspace" ref="uKeyboard" mode="car" v-model="show1" ></u-keyboard>
@@ -23,9 +23,9 @@
 					</u-col>
 				</u-row>
 				<!-- 车辆类型 -->
-				<u-row  @click="openpicker(5)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
-					<u-col span="7"  class="left">
-						<span>车辆类型</span>
+				<u-row  @click="openpicker(5)" gutter="16" style="height: 50px; background-color: #FFFFFF;border-bottom: 1px solid #C0C0C0;">
+					<u-col span="7"  class="left" style="float: left;">
+						<span style="margin-left: -4px;">车辆类型</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="showcartype" mode="selector" :default-selector="[0]" :range="selectortype" @confirm="returncartypedata"></u-picker>
@@ -34,9 +34,9 @@
 					</u-col>
 				</u-row>
 				<!-- 温控类型 -->
-				<u-row  @click="openpicker(4)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
+				<u-row  @click="openpicker(4)" gutter="16" style="height: 50px; background-color: #FFFFFF;border-bottom: 1px solid #C0C0C0;">
 					<u-col span="7"   class="left">
-						<span>温控类型</span>
+						<span  style="margin-left: -4px;">温控类型</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="showwenkongtype" mode="selector" :default-selector="[0]" :range="Temperaturecontroltype" @confirm="returnTemperaturecontroltype"></u-picker>
@@ -45,9 +45,9 @@
 					</u-col>
 				</u-row>
 				<!-- 车辆属性 -->
-				<u-row  @click="openpicker(6)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
+				<u-row  @click="openpicker(6)" gutter="16" style="height: 50px; background-color: #FFFFFF;border-bottom: 1px solid #C0C0C0;">
 					<u-col span="7"  class="left">
-						<span>车辆属性</span>
+						<span  style="margin-left: -4px;">车辆属性</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="showcheliangshuxing" mode="selector" :default-selector="[0]" :range="cheliangshuxing" @confirm="returncheliangshuxing"></u-picker>
@@ -56,9 +56,9 @@
 					</u-col>
 				</u-row>
 				<!-- 车辆注册日期 -->
-				<u-row @click="openpicker(7)" gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
+				<u-row @click="openpicker(7)" gutter="16" style="height: 50px; background-color: #FFFFFF;border-bottom: 1px solid #C0C0C0;">
 					<u-col span="7"   class="left">
-						<span>车辆注册日期</span>
+						<span  style="margin-left: -4px;">车辆注册日期</span>
 					</u-col>
 					<u-col span="5" class="a" style="text-align: right;padding-right: 10px;">
 						<u-picker v-model="showcardate" mode="time" :default-selector="[0]" @confirm="returncardate"></u-picker>
@@ -67,18 +67,18 @@
 					</u-col>
 				</u-row>
 				<!-- 司机姓名 -->
-				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
+				<u-row gutter="16" style="height: 50px; background-color: #FFFFFF;border-bottom: 1px solid #C0C0C0;">
 					<u-col span="7"   class="left">
-						<span>司机姓名</span>
+						<span  style="margin-left: -4px;">司机姓名</span>
 					</u-col>
 					<u-col span="5" style="text-align: right;padding-right: 10px;">
 						<input v-model="form.name" id="all_name" type="text" style=""  style="color: #1D2026;float: right;"  >
 					</u-col>
 				</u-row>
 				<!-- 司机电话 -->
-				<u-row gutter="16" style="height: 50px;border-bottom: 1px solid #C0C0C0; background-color: #FFFFFF;">
+				<u-row gutter="16" style="height: 50px; background-color: #FFFFFF;border-bottom: 1px solid #C0C0C0;">
 					<u-col span="7"   class="left">
-						<span >司机电话</span>
+						<span  style="margin-left: -4px;">司机电话</span>
 					</u-col>
 					<u-col span="5" style="text-align: right;padding-right: 10px;">
 						<input v-model="form.phone" id="all_name" type="text" style=""  style="color: #1D2026;float: right;"  >
@@ -350,6 +350,9 @@
 					api.api_car_addCar(data).then(res=>{
 						if(res.code==200){
 							console.log("编辑成功")
+							var pages = getCurrentPages(); //当前页
+							var beforePage = pages[pages.length - 2]; //上个页面路由
+							beforePage.$vm.loadcarlist(1)
 							this.$refs.uToast.show({
 								title: res.msg,
 								type: 'default',
@@ -369,6 +372,9 @@
 					api.tms_car_addCar(data).then(res=>{
 						if(res.code==200){
 							console.log("编辑成功")
+							var pages = getCurrentPages(); //当前页
+							var beforePage = pages[pages.length - 2]; //上个页面路由
+							beforePage.$vm.loadcarlist(1)
 							this.$refs.uToast.show({
 								title: "编辑成功",
 								type: 'default',
@@ -405,6 +411,8 @@
 	
 		.wrap {
 			.u-view {}
+			display:flex;
+			overflow: hidden;
 		}
 	
 		/* .listlog {
