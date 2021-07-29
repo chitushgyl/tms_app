@@ -85,10 +85,15 @@
 				},
 			}
 		},
-		onLoad() {
-			// uni.showLoading({
-			// 			    title: '加载中,请稍等。。。'
-			// });
+		// onLoad() {
+		// 	uni.$on('loaddata', () => {
+		// 	    this.mescroll.resetUpScroll()
+		// 	   })
+		// },
+		onShow() {
+			uni.$on('loaddata', () => {
+			    this.mescroll.resetUpScroll()
+			   })
 		},
 		methods:{
 			mescrollInit(mescroll) {

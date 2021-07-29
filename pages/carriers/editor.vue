@@ -228,9 +228,10 @@
 							title: res.msg,
 							type: 'success',
 						})
-						var pages = getCurrentPages(); //当前页
-						var beforePage = pages[pages.length - 2]; //上个页面路由
-						beforePage.$vm.loaddata(1)
+						// var pages = getCurrentPages(); //当前页
+						// var beforePage = pages[pages.length - 2]; //上个页面路由
+						// beforePage.$vm.loaddata(1)
+						uni.$emit('loaddata');		
 						console.log("編輯成功")
 						this.$refs.uToast.show({
 							title: "编辑成功",

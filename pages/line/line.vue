@@ -38,6 +38,7 @@
 										</u-col>
 										<u-col span="4">
 											<view class="demo-layout bg-purple-light u-text-center">
+												<div class="set_center_day" >{{item.trunking}}天</div>
 												<image src="../../images/driver/line_line.png" class="set_center_img">
 												</image>
 											</view>
@@ -134,13 +135,26 @@
 				},
 			}
 		},
-		// created() {
-		// 	this.loadlist()
-		// },
-		// onShow() {
-		// 	this.loadlist(1)
-		// },
+		created() {
+			this.getline()
+		},
+		onShow() {
+			uni.$on('loadlist', () => {
+				this.mescroll.resetUpScroll()
+			})
+		},
 		methods:{
+			//获取线路信息
+			getline(){
+				var data={
+					self_id:''
+				}
+				api.tms_line_createLine(data).then(res=>{
+					if(res.code==200){
+						console.log(JSON.stringify(res))
+					}
+				})
+			},
 			// 加载列表数据
 			loadlist(pageNum){
 				var data = {

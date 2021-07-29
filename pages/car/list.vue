@@ -82,8 +82,15 @@
 				},
 			}
 		},
-		onLoad() {
-			
+		// onLoad() {
+		// 	uni.$on('loadcarlist', () => {
+		// 		this.mescroll.resetUpScroll()
+		// 	})
+		// },
+		onShow() {
+			uni.$on('loadcarlist', () => {
+				this.mescroll.resetUpScroll()
+			})
 		},
 		methods:{
 			mescrollInit(mescroll) {

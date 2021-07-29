@@ -350,9 +350,10 @@
 					api.api_car_addCar(data).then(res=>{
 						if(res.code==200){
 							console.log("编辑成功")
-							var pages = getCurrentPages(); //当前页
-							var beforePage = pages[pages.length - 2]; //上个页面路由
-							beforePage.$vm.loadcarlist(1)
+							// var pages = getCurrentPages(); //当前页
+							// var beforePage = pages[pages.length - 2]; //上个页面路由
+							// beforePage.$vm.loadcarlist(1)
+							uni.$emit('loadcarlist');
 							this.$refs.uToast.show({
 								title: res.msg,
 								type: 'default',
@@ -372,9 +373,10 @@
 					api.tms_car_addCar(data).then(res=>{
 						if(res.code==200){
 							console.log("编辑成功")
-							var pages = getCurrentPages(); //当前页
-							var beforePage = pages[pages.length - 2]; //上个页面路由
-							beforePage.$vm.loadcarlist(1)
+							// var pages = getCurrentPages(); //当前页
+							// var beforePage = pages[pages.length - 2]; //上个页面路由
+							// beforePage.$vm.loadcarlist(1)
+							uni.$emit('loadcarlist');
 							this.$refs.uToast.show({
 								title: "编辑成功",
 								type: 'default',

@@ -202,9 +202,11 @@
 							type: 'success',
 							position: 'bottom',
 						})
-						var pages = getCurrentPages(); //当前页
-						var beforePage = pages[pages.length - 2]; //上个页面路由
-						beforePage.$vm.loaddata(1)
+						// var pages = getCurrentPages(); //当前页
+						// var beforePage = pages[pages.length - 2]; //上个页面路由
+						// beforePage.$vm.loaddata(1)
+						
+					uni.$emit('loaddata');			
 						this.back()
 					}else{
 						this.$refs.uToast.show({

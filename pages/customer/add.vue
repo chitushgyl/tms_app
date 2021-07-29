@@ -226,9 +226,10 @@
 					if(res.code==200){
 						console.log(res)
 						console.log("添加成功")
-						var pages = getCurrentPages(); //当前页
-						var beforePage = pages[pages.length - 2]; //上个页面路由
-						beforePage.$vm.loaddata(1)
+						// var pages = getCurrentPages(); //当前页
+						// var beforePage = pages[pages.length - 2]; //上个页面路由
+						// beforePage.$vm.loaddata(1)
+						uni.$emit('loaddata');
 						this.$refs.uToast.show({
 							title: "添加成功",
 							type: 'success',

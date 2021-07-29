@@ -304,9 +304,10 @@
 						console.log(res.code)
 						if(res.code == 200){
 							console.log("添加成功")
-							var pages = getCurrentPages(); //当前页
-							var beforePage = pages[pages.length - 2]; //上个页面路由
-							beforePage.$vm.loadcarlist(1)
+							// var pages = getCurrentPages(); //当前页
+							// var beforePage = pages[pages.length - 2]; //上个页面路由
+							// beforePage.$vm.loadcarlist(1)
+							uni.$emit('loadcarlist');
 							this.back()
 						}else{
 							this.$refs.uToast.show({
@@ -336,9 +337,10 @@
 								position: 'bottom'
 							})
 							console.log("添加成功")
-							var pages = getCurrentPages(); //当前页
-							var beforePage = pages[pages.length - 2]; //上个页面路由
-							beforePage.$vm.loadcarlist(1)
+							// var pages = getCurrentPages(); //当前页
+							// var beforePage = pages[pages.length - 2]; //上个页面路由
+							// beforePage.$vm.loadcarlist(1)
+							uni.$emit('loadcarlist');
 							this.back()
 						}else{
 							this.$refs.uToast.show({

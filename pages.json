@@ -187,13 +187,13 @@
 			"style": {
 				"navigationBarTitleText": "uni-app"
 			}
+		},
+		{ //落地配价格列表
+			"path": "pages/line/luodipeijiage",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
 		}
-		// { //落地配价格列表
-		// 	"path": "pages/line/luodipeijiage",
-		// 	"style": {
-		// 		"navigationBarTitleText": "uni-app"
-		// 	}
-		// }
 	],
 	"tabBar": {
 		"color": "#333",

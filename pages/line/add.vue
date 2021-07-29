@@ -5,6 +5,7 @@
 				<u-icon name="arrow-leftward" size="28"></u-icon>
 			</view>
 		</u-navbar>
+		<u-toast ref="uToast" />
 		<view class="content">
 			<!-- 添加地址 -->
 			<view style="margin: 10px;background-color: white;padding:16px;border-radius: 15px;">
@@ -18,7 +19,7 @@
 							<p class='adds'>{{this.address_list.send_info_tel}}</p>
 						</view>
 					</view>
-					<view class="address clearfix" style="float: left;" @click="toaddress" >
+					<view class="address clearfix" style="float: left;">
 						<image src="../../images/s.png" mode=""
 							style="width: 25px;height: 25px;padding-top: 10px;padding-right: 10px;"></image>
 						<view class="send_ad" @click="toaddress(2)">
@@ -55,7 +56,7 @@
 						<span id="leftspan">配送服务(直配)</span>
 					</u-col>
 					<u-col style="text-align: right;" span="6">
-						<u-switch v-model="checked2"></u-switch>
+						<u-switch @change="check2" :disabled="dis2" v-model="checked2"></u-switch>
 					</u-col>
 					<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 				</u-row>
@@ -74,7 +75,7 @@
 						<span id="leftspan">配送服务(共配)</span>
 					</u-col>
 					<u-col style="text-align: right;" span="6">
-						<u-switch v-model="checked3"></u-switch>
+						<u-switch @change="check3" :disabled="this.dis3" v-model="checked3"></u-switch>
 					</u-col>
 					<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 				</u-row>
@@ -92,7 +93,7 @@
 						<span id="leftspan">发车时间</span>
 					</u-col>
 					<u-col style="text-align: right;" span="6">
-						<u-picker mode="time" v-model="show"  @confirm="datetimeback"></u-picker>
+						<u-picker  mode="time" v-model="show"  @confirm="datetimeback" :params="params"></u-picker>
 						<input  :placeholder="form.datetime"  @click="pickup(1)"/>
 					</u-col>
 					<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
@@ -195,6 +196,8 @@
 	export default{
 		data(){
 			return{
+				dis3:false,
+				dis2:false,
 				controllerbtn1:"default",
 				controllerbtn2:"default",
 				controllerbtn3:"default",
@@ -272,8 +275,23 @@
 					send_address:"",
 					send_contacts_name:"",
 					send_contacts_tel:"",
-				}
-				
+				},
+				getquid:"",
+				sendquid:"",
+				params: {
+						year: false,
+						month: false,
+						day: false,
+						hour: true,
+						minute: true,
+						second: false,
+				},
+				qibujianshu:null,
+				chaochujianshudanjia:null,
+				fengdingjiage:null,
+				qibujiage:null,
+				number:null, //随机数
+				special:null
 			}
 		},
 		created() {
@@ -289,6 +307,8 @@
 			//当前登录用户的公司
 			this.group_code=uni.getStorageSync("group_code")
 			console.log(this.group_code)
+			this.number=this.getProjectNum() + Math.floor(Math.random()* 1000000000000000)
+			console.log(this.number)
 		},
 		onShow() {
 			// console.log(this.address_list.send_info)
@@ -304,37 +324,113 @@
 			// send_address:"",
 			// send_contacts_name:"",
 			// send_contacts_tel:"",
+			var luodipei=this.$store.state.luodipeijiage
+			if(luodipei!=null){
+				this.qibujianshu=luodipei.qibujianshu
+				this.qibujiage=luodipei.qibujiage
+				this.chaochujianshudanjia=luodipei.chaochujianshudanjia
+				this.fengdingjiage=luodipei.fengdingjiage
+			}
 			
 			if(a!=null){
 				// 装车地址地址
 				this.address_list.send_info=a.sheng_name+a.shi_name+a.qu_name+a.address
+				console.log(JSON.stringify(a))
 				console.log(this.address_list.send_info)
 				// 装车联系人
 				this.address_list.send_info_tel=a.contacts
 				console.log(this.address_list.send_info_tel)
+				console.log(a.qu)
 				this.sumbuit.gather_address_id=a.self_id
 				this.sumbuit.gather_qu=a.qu_name
 				this.sumbuit.gather_address=a.address
 				this.sumbuit.gather_contacts_name=a.contacts
 				this.sumbuit.gather_contacts_tel=a.tel
+				this.getquid=a.qu
+				console.log(this.getquid)
 			}
 			var b=this.$store.state.linegatadd
 			console.log(b)
 			if(b!=null){
 				// 收货地址地址
+				console.log(JSON.stringify(b))
+				console.log(b.qu)
 				this.address_list.gather_info=b.sheng_name+b.shi_name+b.qu_name+b.address
 				console.log(this.address_list.gather_info)
 				// 收货地联系人
+				
 				this.address_list.gather_info_tel=b.contacts
 				console.log(this.address_list.gather_info_tel)
-				this.sumbuit.send_address_id=a.self_id
-				this.sumbuit.send_qu=a.qu_name
-				this.sumbuit.send_address=a.address
-				this.sumbuit.send_contacts_name=a.contacts
-				this.sumbuit.send_contacts_tel=a.tel
+				this.sumbuit.send_address_id=b.self_id
+				this.sumbuit.send_qu=b.qu_name
+				this.sumbuit.send_address=b.address
+				this.sumbuit.send_contacts_name=b.contacts
+				this.sumbuit.send_contacts_tel=b.tel
+				this.sendquid=b.qu
+				console.log(this.sendquid)
+			}
+		},
+		watch:{
+			checked(val){
+				
 			}
 		},
 		methods:{
+			check2(val){
+				if(val){
+					this.dis3=true
+					this.special=2
+				}
+				if(val==false){
+					this.dis3=false
+				}
+				console.log(this.special)
+			},
+			check3(val){
+				if(val){
+					this.dis2=true
+					this.special=1
+				}
+				if(val==false){
+					this.dis2=false
+				}
+				console.log(this.special)
+			},
+			// swich(i){
+			// 	console.log(i)
+			// 	if(i==1){
+			// 		this.checked2=false
+			// 		this.checked3=true
+			// 		this.special=2
+			// 		console.log(this.special)
+			// 	}
+			// 	if(i==2){
+			// 		this.checked3=false
+			// 		this.checked2=true
+			// 		this.special=1
+			// 		console.log(this.special)
+			// 	}
+			// },
+			
+			// 生成随机数
+			getProjectNum(){
+				const projectTime = new Date() // 当前中国标准时间
+				 const Year = projectTime.getFullYear() // 获取当前年份 支持IE和火狐浏览器.
+				      const Month = projectTime.getMonth() + 1 // 获取中国区月份
+				      const Day = projectTime.getDate() // 获取几号
+				      var CurrentDate = Year
+				      if (Month >= 10) { // 判断月份和几号是否大于10或者小于10
+				        CurrentDate += Month
+				      } else {
+				        CurrentDate += '0' + Month
+				      }
+				      if (Day >= 10) {
+				        CurrentDate += Day
+				      } else {
+				        CurrentDate += '0' + Day
+				      }
+				      return CurrentDate
+			},
 			//温控按钮变色
 			control(a){
 				console.log(a)
@@ -469,11 +565,11 @@
 				}
 				if(i==0){
 					count0++
-					if(count%2==1){
+					if(count0%2==1){
 						this.time0="Y"
 						this.btncolor0="primary"
 					}
-					if(count%2==0){
+					if(count0%2==0){
 						this.time0="N"
 						this.btncolor0="default"
 					}
@@ -489,31 +585,105 @@
 				if(this.checked2){
 					var sendtype="send"
 				}
+				
+				if(this.sumbuit.gather_address_id==''){
+					this.$refs.uToast.show({
+						title: '请选择装车地址',
+						type: 'error',
+					})
+				}
+				if(this.sumbuit.send_address_id==''){
+					this.$refs.uToast.show({
+						title: '请选择目的地址',
+						type: 'error',
+					})
+				}
+				if(this.peisongfei==''){
+					this.$refs.uToast.show({
+						title: '请输入提货费',
+						type: 'error',
+					})
+				}
+				if(this.tihuofei==''){
+					this.$refs.uToast.show({
+						title: '请输入配送费',
+						type: 'error',
+					})
+				}
+				if(this.qibujianshu=='' || this.qibujiage=='' ||this.chaochujianshudanjia=='' || this.fengdingjiage==''){
+					this.$refs.uToast.show({
+						title: '请选择落地配价格',
+						type: 'error',
+					})
+				}
+				if(this.form.datetime==''){
+					this.$refs.uToast.show({
+						title: '请选择发车时间',
+						type: 'error',
+					})
+				}
+				if(this.form.date==''){
+					this.$refs.uToast.show({
+						title: '请输入时效',
+						type: 'error',
+					})
+				}
+				if(this.controller==''){
+					this.$refs.uToast.show({
+						title: '请选择温控类型',
+						type: 'error',
+					})
+				}
+				if(this.time1=="N" && this.time2=="N" && this.time3=="N" && this.time4=="N" && this.time5=="N" &&this.time6=="N" && this.time0=="N"){
+					this.$refs.uToast.show({
+						title: '请选择干线周期',
+						type: 'error',
+					})
+				}
+				if(this.form.danjiaprice== '' || this.form.danjiaprice== null ){
+					this.$refs.uToast.show({
+						title: '请输入单价',
+						type: 'error',
+					})
+				}
+				if(this.form.duodianprice=='' || this.form.duodianprice==null){
+					this.$refs.uToast.show({
+						title: '请输入多点提货费',
+						type: 'error',
+					})
+				}
+				if(this.form.zuidiprice=='' || this.form.zuidiprice==null){
+					this.$refs.uToast.show({
+						title: '请输入最低干线费',
+						type: 'error',
+					})
+				}
 				var data={
 					type:"alone",//线路类型
 					price:this.form.danjiaprice,//单价
 					min_money:this.form.zuidiprice,//最低干线费用
 					pick_type:picktype,//是否提货
 					send_type:sendtype,//是否配送
-					pick_price:this.form.tihuofei,//提货费
-					send_price:this.form.peisongfei,//配送费
+					pick_price:this.peisongfei,//提货费
+					send_price:this.tihuofei,//配送费
 					depart_time:this.form.datetime,//发车时间
 					control:this.controller,//温度
 					group_code:this.group_code,//公司
 					gather_address_id:this.sumbuit.gather_address_id,//常用发货地址id
 					send_address_id:this.sumbuit.send_address_id,//常用送货地址id
-					gather_qu:this.sumbuit.gather_qu,
+					gather_qu:this.getquid,
 					gather_address:this.sumbuit.gather_address,
 					gather_contacts_name:this.sumbuit.gather_contacts_name,
 					gather_contacts_tel:this.sumbuit.gather_contacts_tel,
-					send_qu:this.sumbuit.send_qu,
+					send_qu:this.sendquid,
 					send_address:this.sumbuit.send_address,
 					send_contacts_name:this.sumbuit.send_contacts_name,
 					send_contacts_tel:this.sumbuit.send_contacts_tel,
-					shift_number:'',//班次号
+					shift_number:this.number,//班次号
 					trunking:this.form.date,//时效
 					more_price:this.form.duodianprice,//多点提货费
-					special:"2",
+					//1是落地配价格 2是配送费
+					special:this.special,
 					time1:this.time1,//周一
 					time2:this.time2,//周二
 					time3:this.time3,//周三
@@ -521,14 +691,32 @@
 					time5:this.time5,//周五
 					time6:this.time6,//周六
 					time0:this.time0,//周日
+					
+					min_number:this.qibujianshu,
+					start_price:this.qibujiage,
+					unit_price:this.chaochujianshudanjia,
+					max_price:this.fengdingjiage,
 				}
-				api.tms_address_addAddress(data).then(res=>{
+				// console.log(JSON.stringify(data))
+				api.tms_line_addLine(data).then(res=>{
+					// console.log(JSON.stringify(res))
 					if(res.code==200){
 						console.log("添加成功")
-						var pages = getCurrentPages(); //当前页
-						var beforePage = pages[pages.length - 2]; //上个页面路由
-						beforePage.$vm.loadlist(1)
+						// var pages = getCurrentPages(); //当前页
+						// var beforePage = pages[pages.length - 2]; //上个页面路由
+						// beforePage.$vm.loadlist(1)
+						uni.$emit('loadlist');
+						this.$refs.uToast.show({
+							title: '添加成功',
+							type: 'success',
+						})
 						uni.navigateBack()
+					}
+					else{
+						this.$refs.uToast.show({
+							title: res.msg,
+							type: 'error',
+						})
 					}
 				})
 				
@@ -601,7 +789,7 @@
 			},
 			// 日期回调
 			datetimeback(item){
-				this.form.datetime=item.year+"-"+item.month+"-"+item.day
+				this.form.datetime=item.hour+":"+item.minute
 				console.log(this.form.datetime)
 			},
 			// 时效回调

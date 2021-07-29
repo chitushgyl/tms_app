@@ -2,7 +2,7 @@
 	<view class="address">
 		<u-navbar :is-back="false" :border-bottom='false' title="常用地址">
 			<view class="slot-wrap" style="margin-left: 10px;">
-				<u-icon name="arrow-leftward" size="28"></u-icon>
+				<u-icon @click="back" name="arrow-leftward" size="28"></u-icon>
 			</view>
 		</u-navbar>
 		<view class="content">
@@ -84,7 +84,7 @@
 			// })
 			var pages = getCurrentPages(); //当前页
 			var beforePage = pages[pages.length - 2]; //上个页面路由
-			this.froute = beforePage.route
+			// this.froute = beforePage.route
 			if(e.data){
 				this.type=e.data
 				console.log(this.type)
@@ -108,6 +108,9 @@
 		// 	timer = setTimeout(() => this.api_address_addressPage(that.page), 500)
 		// },
 		methods: {
+			back(){
+				uni.navigateBack()
+			},
 			mescrollInit(mescroll) {
 				this.mescroll = mescroll
 			},
@@ -131,9 +134,9 @@
 					api.tms_address_addressPage(data).then(res => {
 						if (res.code == 200) {
 							var lis = res.data.items;
+							// console.log(JSON.stringify(lis))
 							this.mescroll.endSuccess(res.data.items.length);
 							if (page == 1) {
-								console.log(page)
 								this.adressList = [];
 							}
 							this.adressList = this.adressList.concat(res.data.items);
@@ -165,6 +168,7 @@
 						// uni.hideNavigationBarLoading();
 						if (res.code == 200) {
 							var lis = res.data.info;
+							// console.log(JSON.stringify(lis))
 							this.mescroll.endSuccess(res.data.info.length);
 							if (page == 1) {
 								console.log(page)
@@ -233,12 +237,15 @@
 				// 	beforePage.$vm.shiQu()
 				// 	uni.navigateBack()
 				// }
+				console.log(this.type)
 				if(this.type==1){
 					this.$store.commit("linesendadd", item)
+					console.log(item)
 					uni.navigateBack()
 				}
 				if(this.type==2){
 					this.$store.commit("linegatadd", item)
+					console.log(item)
 					uni.navigateBack()
 				}
 			}

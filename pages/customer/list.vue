@@ -79,15 +79,19 @@
 				},
 			}
 		},
-		onLoad() {
-			
-		},
+		// onLoad() {
+		// 	uni.$on('loaddata', () => {
+		// 	    this.mescroll.resetUpScroll()
+		// 	})
+		// },
 		// created() {
 		// 	this.loaddata()
 		// },
-		// onShow() {
-		// 	this.loaddata(1)
-		// },
+		onShow() {
+			uni.$on('loaddata', () => {
+			    this.mescroll.resetUpScroll()
+			})
+		},
 		// onPullDownRefresh() {
 		// 	this.loaddata(1)
 		// },

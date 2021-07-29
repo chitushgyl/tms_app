@@ -31,6 +31,9 @@ const store = new Vuex.Store({
 		linegatadd(state,provider){
 			state.linegatadd = provider
 		},
+		luodipeijiage(state,provider){
+			state.luodipeijiage = provider
+		},
 	},
 	actions: {}
 })
