@@ -104,6 +104,7 @@
 	export default{
 		data() {
 			return {
+				item_self_id:"",
 				list: [],
 				current: 0,
 				status: '',
@@ -133,6 +134,7 @@
 						zIndex: 99 // fixed定位z-index值
 					}
 				},
+				editdata:[],
 			}
 		},
 		created() {
@@ -168,7 +170,10 @@
 				var project_type=uni.getStorageSync("project_type")
 				console.log(project_type)
 				api.tms_line_linePage(data).then(res=>{
-					console.log(JSON.stringify(res))
+					// min_number:this.qibujianshu,
+					// start_price:this.qibujiage,
+					// unit_price:this.chaochujianshudanjia,
+					// max_price:this.fengdingjiage,
 					// if(res.code==200){
 					// 	this.linelist = res.data.items;
 					// }
@@ -179,7 +184,6 @@
 						this.linelist = [];
 					}
 					this.linelist = this.linelist.concat(res.data.items);
-					
 					
 				})
 			},
@@ -209,7 +213,7 @@
 							type: 'default',
 							position: 'bottom'
 						})
-						this.loadlist(1)	
+						uni.$emit('loadlist');	
 					}else{
 						this.$refs.uToast.show({
 							title: res.msg,
@@ -221,8 +225,23 @@
 						
 			},
 			editr(item,index){
-				console.log(JSON.stringify(item))
-				this.$store.commit("lineedit",item)
+				// console.log(item.self_id)
+				// this.item_self_id=item.self_id
+				// console.log(this.item_self_id)
+				// var data={
+				// 	self_id:this.item_self_id
+				// }
+				// console.log(data.self_id)
+				// 	api.tms_line_createLine(data).then(res=>{
+				// 		if(res.code==200){
+				// 			console.log(JSON.stringify(res))
+				// 			console.log(res.data.info)
+				// 			this.editdata=res.data.info
+				// 			console.log(JSON.stringify(this.editdata))
+				// 			this.$store.commit("lineedit",this.editdata)
+				// 		}
+				// 	})
+					this.$store.commit("lineedit",item)
 				uni.navigateTo({
 					url:'/pages/line/edit'
 				})

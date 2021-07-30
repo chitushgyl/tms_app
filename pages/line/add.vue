@@ -5,7 +5,6 @@
 				<u-icon name="arrow-leftward" size="28"></u-icon>
 			</view>
 		</u-navbar>
-		<u-toast ref="uToast" />
 		<view class="content">
 			<!-- 添加地址 -->
 			<view style="margin: 10px;background-color: white;padding:16px;border-radius: 15px;">
@@ -159,7 +158,7 @@
 						<span id="leftspan">多点提货费(元/每点)</span>
 					</u-col>
 					<u-col style="text-align: right;" span="6">
-						<input type="number" v-model="form.duodianprice" placeholder="请输入多点提货费(元/每点)"/>
+						<input  v-model="form.duodianprice" placeholder="请输入多点提货费(元/每点)"/>
 					</u-col>
 					<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 				</u-row>
@@ -173,6 +172,7 @@
 					<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 				</u-row>
 				<u-button @click="sumbuit1" style="margin-top: 30px;" type="primary" size="default" shape="circle">发布</u-button>
+				<u-toast ref="uToast" />
 			</view>
 		</view>
 	</view>
@@ -308,14 +308,17 @@
 			// }
 			//当前登录用户的公司
 			this.group_code=uni.getStorageSync("group_code")
-			console.log(this.group_code)
 			this.number=this.getProjectNum() + Math.floor(Math.random()* 1000000000000000)
-			console.log(this.number)
 		},
 		onShow() {
 			// console.log(this.address_list.send_info)
 			var a=this.$store.state.linesendadd
-			console.log(a)
+			if(a!=null){
+				console.log(a.qibujianshu)
+				console.log(a.qibujiage)
+				console.log(a.chaochujianshudanjia)
+				console.log(a.fengdingjiage)
+			}
 			// gather_address_id:"",//常用发货地址id
 			// send_address_id:"",//常用送货地址id
 			// gather_qu:"",
@@ -341,15 +344,12 @@
 				console.log(this.address_list.send_info)
 				// 装车联系人
 				this.address_list.send_info_tel=a.contacts
-				console.log(this.address_list.send_info_tel)
-				console.log(a.qu)
 				this.sumbuit.gather_address_id=a.self_id
 				this.sumbuit.gather_qu=a.qu_name
 				this.sumbuit.gather_address=a.address
 				this.sumbuit.gather_contacts_name=a.contacts
 				this.sumbuit.gather_contacts_tel=a.tel
 				this.getquid=a.qu
-				console.log(this.getquid)
 			}
 			var b=this.$store.state.linegatadd
 			console.log(b)
@@ -379,6 +379,7 @@
 		},
 		methods:{
 			check2(val){
+				console.log(val)
 				if(val){
 					this.dis3=true
 					this.special=2
@@ -389,6 +390,7 @@
 				console.log(this.special)
 			},
 			check3(val){
+				console.log(val)
 				if(val){
 					this.dis2=true
 					this.special=1
@@ -593,20 +595,23 @@
 						title: '请选择装车地址',
 						type: 'error',
 					})
+					return false
 				}
-				if(this.sumbuit.send_address_id==''){
+				if(this.sumbuit.send_address_id=='' ){
 					this.$refs.uToast.show({
 						title: '请选择目的地址',
 						type: 'error',
 					})
+					return false
 				}
 				if(this.peisongfei==''){
 					this.$refs.uToast.show({
 						title: '请输入配送费费',
 						type: 'error',
 					})
+					return false
 				}
-				if(this.tihuofei==''){
+				if(this.tihuofei=='' ){
 					this.$refs.uToast.show({
 						title: '请输入提货费',
 						type: 'error',
@@ -617,48 +622,56 @@
 						title: '请选择落地配价格',
 						type: 'error',
 					})
+					return false
 				}
-				if(this.form.datetime==''){
+				if(this.form.datetime=='' ||this.form.datetime==null){
 					this.$refs.uToast.show({
 						title: '请选择发车时间',
 						type: 'error',
 					})
+					return false
 				}
 				if(this.form.date==''){
 					this.$refs.uToast.show({
 						title: '请输入时效',
 						type: 'error',
 					})
+					return false
 				}
 				if(this.controller==''){
 					this.$refs.uToast.show({
 						title: '请选择温控类型',
 						type: 'error',
 					})
+					return false
 				}
 				if(this.time1=="N" && this.time2=="N" && this.time3=="N" && this.time4=="N" && this.time5=="N" &&this.time6=="N" && this.time0=="N"){
 					this.$refs.uToast.show({
 						title: '请选择干线周期',
 						type: 'error',
 					})
+					return false
 				}
 				if(this.form.danjiaprice== '' || this.form.danjiaprice== null ){
 					this.$refs.uToast.show({
 						title: '请输入单价',
 						type: 'error',
 					})
+					return false
 				}
 				if(this.form.duodianprice=='' || this.form.duodianprice==null){
 					this.$refs.uToast.show({
 						title: '请输入多点提货费',
 						type: 'error',
 					})
+					return false
 				}
 				if(this.form.zuidiprice=='' || this.form.zuidiprice==null){
 					this.$refs.uToast.show({
 						title: '请输入最低干线费',
 						type: 'error',
 					})
+					return false
 				}
 				var data={
 					type:"alone",//线路类型
@@ -701,18 +714,19 @@
 					max_price:this.fengdingjiage,
 				}
 				console.log(JSON.stringify(data))
+				
 				api.tms_line_addLine(data).then(res=>{
 					// console.log(JSON.stringify(res))
 					if(res.code==200){
 						console.log("添加成功")
-						// var pages = getCurrentPages(); //当前页
-						// var beforePage = pages[pages.length - 2]; //上个页面路由
-						// beforePage.$vm.loadlist(1)
-						uni.$emit('loadlist');
 						this.$refs.uToast.show({
 							title: '添加成功',
 							type: 'success',
 						})
+						// var pages = getCurrentPages(); //当前页
+						// var beforePage = pages[pages.length - 2]; //上个页面路由
+						// beforePage.$vm.loadlist(1)
+						uni.$emit('loadlist');
 						uni.navigateBack()
 					}
 					else{
@@ -738,53 +752,12 @@
 					})
 				}
 			},
-			// 配送费
-			// peisongfei_back(){},
-			// peisongfei_change(val){
-				
-			// },
-			// peisongfei_confirm(){},
-			// 时效
-			// shixiao_change(val){
-			// 	if(this.form.data<10){
-			// 		this.form.data=val
-			// 	}
-			// 	if(this.form.data>=10){
-			// 		this.form.data+=val
-			// 	}
-			// 	// this.form.date+=val
-			// },
-			// shixiao_comfirm(item){
-			// 	this.form.date=item
-			// },
-			// shixiao_back(){
-			// 	// 删除value的最后一个字符
-			// 	// if(this.form.date.length) this.form.date = this.form.date.substr(0, this.form.date.length - 1);
-			// 	// console.log(this.form.date);
-			// },
-			// // 提货费选择器
-			// tihuofei_change(val){
-			// 	this.tihuofei+=val
-			// 	console.log(this.tihuofei)
-			// },
-			// tihuofei_back(){
-			// 	// 删除value的最后一个字符
-			// 	if(this.tihuofei.length) this.tihuofei = this.tihuofei.substr(0, this.tihuofei.length - 1);
-			// 	console.log(this.tihuofei);
-			// },
-			// tihuofei_confirm(){
-				
-			// },
 			toprice(){
 				uni.navigateTo({
 					url:'/pages/line/luodipeijiage'
 				})
 			},
-			// changeday(val){
-			// 	console.log(val)
-			// 	this.form.date+=val
-			// 	console.log(this.form.date)
-			// },
+			
 			backspace() {
 				// 删除value的最后一个字符
 				if(this.form.date.length) this.form.date = this.form.date.substr(0, this.form.date.length - 1);
@@ -795,11 +768,7 @@
 				this.form.datetime=item.hour+":"+item.minute
 				console.log(this.form.datetime)
 			},
-			// 时效回调
-			// shixiaoback(item){
-			// 	console.log(item)
-			// 	this.form.date=item
-			// },
+			
 			//选择器弹起
 			pickup(i){
 				if(i==1){

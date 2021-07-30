@@ -34,6 +34,12 @@ const store = new Vuex.Store({
 		luodipeijiage(state,provider){
 			state.luodipeijiage = provider
 		},
+		lineedit(state,provider){
+			state.lineedit = provider
+		},
+		luodipeijiageedit(state,provider){
+			state.luodipeijiageedit = provider
+		},
 	},
 	actions: {}
 })

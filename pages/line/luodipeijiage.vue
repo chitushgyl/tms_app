@@ -17,7 +17,7 @@
 				</u-col>
 				<u-col style="text-align: right;" span="5">
 					<!-- <u-switch v-model="checked1"></u-switch> -->
-					<input type="number" v-model="qibujianshu" placeholder="请输入"/>
+					<input  v-model="qibujianshu" placeholder="请输入"/>
 				</u-col>
 				<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 			</u-row>
@@ -31,7 +31,7 @@
 				<u-col style="text-align: right;" span="5">
 					<!-- <u-switch v-model="checked1"></u-switch> -->
 					
-					<input type="number" v-model="qibujiage"  placeholder="请输入"/>
+					<input  v-model="qibujiage"  placeholder="请输入"/>
 				</u-col>
 				<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 			</u-row>	
@@ -44,7 +44,7 @@
 				</u-col>
 				<u-col style="text-align: right;" span="5">
 					<!-- <u-switch v-model="checked1"></u-switch> -->
-					<input type="number" v-model="chaochujianshudanjia" placeholder="请输入"/>
+					<input  v-model="chaochujianshudanjia" placeholder="请输入"/>
 				</u-col>
 				<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 			</u-row>	
@@ -57,7 +57,7 @@
 				</u-col>
 				<u-col style="text-align: right;" span="5">
 					<!-- <u-switch v-model="checked1"></u-switch> -->
-					<input type="number" v-model="fengdingjiage" placeholder="请输入"/>
+					<input  v-model="fengdingjiage" placeholder="请输入"/>
 				</u-col>
 				<u-line class="u-line" border-style="solid" color="#e4e7ed" style="margin-top:5px"></u-line>
 			</u-row>
@@ -79,6 +79,35 @@
 				
 			}
 		},
+		// created() {
+		// 	var luodipeijiageedit=this.$store.state.luodipeijiageedit
+		// 	console.log(luodipeijiageedit)
+		// 	if(luodipeijiageedit!=''||luodipeijiageedit!=null){
+		// 		this.qibujianshu=luodipeijiageedit.qibujianshu
+		// 		this.qibujiage=luodipeijiageedit.qibujiage
+		// 		this.chaochujianshudanjia=luodipeijiageedit.chaochujianshudanjia
+		// 		this.fengdingjiage=luodipeijiageedit.fengdingjiage
+		// 		console.log(this.qibujianshu)
+		// 		console.log(this.qibujiage)
+		// 		console.log(this.chaochujianshudanjia)
+		// 		console.log(this.fengdingjiage)
+		// 	}
+		// },
+		created() {
+			var luodipeijiageedit=this.$store.state.luodipeijiageedit
+			console.log(JSON.stringify(luodipeijiageedit))
+			if(luodipeijiageedit!=''||luodipeijiageedit!=null){
+				this.qibujianshu=luodipeijiageedit.qibujianshu
+				this.qibujiage=luodipeijiageedit.qibujiage
+				this.chaochujianshudanjia=luodipeijiageedit.chaochujianshudanjia
+				this.fengdingjiage=luodipeijiageedit.fengdingjiage
+				// console.log(this.qibujianshu)
+				// 		console.log(this.qibujiage)
+				// 		console.log(this.chaochujianshudanjia)
+				// 		console.log(this.fengdingjiage)
+				
+			}
+		},
 		methods:{
 			ok(){
 				if(this.qibujianshu=='' || this.qibujianshu==null){
@@ -86,24 +115,28 @@
 						title: '请输入起步件数',
 						type: 'error',
 					})
+					return false
 				}
 				if(this.qibujiage=='' || this.qibujiage==null){
 					this.$refs.uToast.show({
 						title: '请输入起步价格',
 						type: 'error',
 					})
+					return false
 				}
 				if(this.chaochujianshudanjia=='' || this.chaochujianshudanjia==null){
 					this.$refs.uToast.show({
 						title: '请输入超出件数单价',
 						type: 'error',
 					})
+					return false
 				}
 				if(this.fengdingjiage=='' ||this.fengdingjiage== null){
 					this.$refs.uToast.show({
 						title: '请输入封顶价格',
 						type: 'error',
 					})
+					return false
 				}
 				var data={
 					qibujianshu:this.qibujianshu,
@@ -114,10 +147,13 @@
 					// fengdingjiage=this.fengdingjiage
 				}
 				console.log(data)
-				this.$refs.uToast.show({
-					title: '添加成功',
-					type: 'error',
-				})
+				if(data!=null){
+					console.log("添加成功")
+					this.$refs.uToast.show({
+						title: '添加成功',
+						type: 'success',
+					})
+				}
 				this.$store.commit('luodipeijiage',data)
 				uni.navigateBack()
 			},

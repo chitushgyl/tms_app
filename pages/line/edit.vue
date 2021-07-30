@@ -295,6 +295,7 @@
 				picktype:"",
 				sendtype:"",
 				self_id:"",
+				createline:'',
 			}
 			
 		},
@@ -303,101 +304,127 @@
 			console.log(this.group_code)
 			var lineedit=this.$store.state.lineedit
 			console.log(JSON.stringify(lineedit))
-			this.self_id=lineedit.self_id
+			var data={
+				self_id:lineedit.self_id
+			}
+			api.tms_line_createLine(data).then(res=>{
+				console.log(JSON.stringify(res.data.info))
+				this.createline=res.data.info
+				console.log(JSON.stringify(this.createline))
+				this.self_id=this.createline.self_id
+				console.log(this.self_id)
+				this.address_list.send_info=this.createline.send_sheng_name+this.createline.send_shi_name+this.createline.send_qu_name
+				this.address_list.gather_info=this.createline.gather_sheng_name+this.createline.gather_shi_name+this.createline.gather_qu_name
+				this.sendquid=this.createline.send_qu //区id
+				this.sumbuit.send_address=this.createline.send_address //发货地址
+				this.form.duodianprice=this.createline.more_price//多点提货费
+				console.log(this.form.duodianprice)
+				this.form.danjiaprice=this.createline.price//单价
+				this.form.zuidiprice=this.createline.min_money//最低干线费
+				this.picktype=this.createline.pick_type
+				this.sendtype=this.createline.send_type
+				this.form.peisongfei=this.createline.send_price
+				this.form.tihuofei=this.createline.pick_price //提货费
+				console.log(this.form.peisongfei)
+				console.log(this.form.tihuofei)
+				this.form.datetime=this.createline.depart_time //发车时间
+				this.controller=this.createline.control//温度
+				this.sumbuit.gather_address_id=this.createline.gather_address_id
+				this.sumbuit.send_address_id=this.createline.send_address_id
+				this.getquid=this.createline.gather_qu
+				this.sumbuit.gather_address=this.createline.gather_address
+				this.sumbuit.gather_contacts_name=this.createline.gather_contacts_name
+				this.sumbuit.gather_contacts_tel=this.createline.gather_contacts_tel
+				this.sumbuit.send_contacts_name=this.createline.send_contacts_name
+				this.sumbuit.send_contacts_tel=this.createline.send_contacts_tel
+				this.form.date=this.createline.trunking
+				this.number=this.createline.shift_number
+				console.log(this.number)
+				this.address_list.send_info_tel=this.createline.send_name
+				this.address_list.gather_info_tel=this.createline.gather_name
+				this.time1=this.createline.time1
+				this.time2=this.createline.time2
+				this.time3=this.createline.time3
+				this.time4=this.createline.time4
+				this.time5=this.createline.time5
+				this.time6=this.createline.time6
+				this.time0=this.createline.time0
+				if(this.time1=="Y"){
+					this.btncolor1="primary"
+				}
+				if(this.time2=="Y"){
+					this.btncolor2="primary"
+				}
+				if(this.time3=="Y"){
+					this.btncolor2="primary"
+				}
+				if(this.time4=="Y"){
+					this.btncolor4="primary"
+				}
+				if(this.time5=="Y"){
+					this.btncolor5="primary"
+				}
+				if(this.time6=="Y"){
+					this.btncolor6="primary"
+				}
+				if(this.time0=="Y"){
+					this.btncolor0="primary"
+				}
+				if(this.form.tihuofei!=null || this.form.tihuofei!= ''){
+					this.checked1=true
+				}
+				if(this.form.peisongfei!=null || this.form.peisongfei!=''){
+					this.checked2=true
+					
+				}
+				if(this.controller=="freeze"){
+					this.controllerbtn1="primary"
+				}
+				if(this.controller=="refrigeration"){
+					this.controllerbtn2="primary"
+				}
+				if(this.controller=="normal"){
+					this.controllerbtn3="primary"
+				}
+				
+				if(this.controller=="constant"){
+					this.controllerbtn4="primary"
+				}
+				if(this.controller=="cold"){
+					this.controllerbtn5="primary"
+				}
+				if(this.createline.special==1){
+					this.special=1
+					this.checked3=true
+					this.checked2=false
+					this.qibujianshu=this.createline.min_number
+					this.qibujiage=this.createline.start_price
+					this.chaochujianshudanjia=this.createline.unit_price
+					this.fengdingjiage=this.createline.max_price
+					var data1={
+						qibujianshu:this.qibujianshu,
+						qibujiage:this.qibujiage,
+						chaochujianshudanjia:this.chaochujianshudanjia,
+						fengdingjiage:this.fengdingjiage
+					}
+					console.log(data1)
+					this.$store.commit('luodipeijiageedit',data1)
+				}
+				if(this.createline.special==2){
+					this.checked2=true
+					this.checked3=false
+					this.special=2
+				}
+			})
+			// this.lineloadedit()
 			//装车地址
-			this.address_list.send_info=lineedit.send_sheng_name+lineedit.send_shi_name+lineedit.send_qu_name
+			// this.address_list.send_info=lineedit.send_sheng_name+lineedit.send_shi_name+lineedit.send_qu_name
 			//目的地址
-			this.address_list.gather_info=lineedit.gather_sheng_name+lineedit.gather_shi_name+lineedit.gather_qu_name
+			// this.address_list.gather_info=lineedit.gather_sheng_name+lineedit.gather_shi_name+lineedit.gather_qu_name
 			// 班次号
-			this.number=lineedit.shift_number
-			this.address_list.send_info_tel=lineedit.send_name
-			this.address_list.gather_info_tel=lineedit.gather_name
 			// //1是落地配价格 2是配送费
 			// special:this.special=,
-			this.special=lineedit.special
-			if(this.special==2){
-				this.checked2=true
-			}
-			if(this.special==1){
-				this.checked3=true
-				this.qibujianshu=lineedit.min_number
-				this.qibujiage=lineedit.start_price
-				this.chaochujianshudanjia=lineedit.unit_price
-				this.fengdingjiage=lineedit.max_price
-			}
-			this.time1=lineedit.time1
-			this.time2=lineedit.time2
-			this.time3=lineedit.time3
-			this.time4=lineedit.time4
-			this.time5=lineedit.time5
-			this.time6=lineedit.time6
-			this.time0=lineedit.time0
-			if(this.time1=="Y"){
-				this.btncolor1="primary"
-			}
-			if(this.time2=="Y"){
-				this.btncolor2="primary"
-			}
-			if(this.time3=="Y"){
-				this.btncolor2="primary"
-			}
-			if(this.time4=="Y"){
-				this.btncolor4="primary"
-			}
-			if(this.time5=="Y"){
-				this.btncolor5="primary"
-			}
-			if(this.time6=="Y"){
-				this.btncolor6="primary"
-			}
-			if(this.time0=="Y"){
-				this.btncolor0="primary"
-			}
-			this.sendquid=lineedit.send_qu //区id
-			this.sumbuit.send_address=lineedit.send_address //发货地址
-			this.form.duodianprice=lineedit.more_price//多点提货费
-			console.log(this.form.duodianprice)
-			this.form.danjiaprice=lineedit.price//单价
-			this.form.zuidiprice=lineedit.min_money//最低干线费
-			this.picktype=lineedit.pick_type
-			this.sendtype=lineedit.send_type
-			this.form.peisongfei=lineedit.send_price
-			this.form.tihuofei=lineedit.pick_price //提货费
-			console.log(this.peisongfei)
-			console.log(this.tihuofei)
-			this.form.datetime=lineedit.depart_time //发车时间
-			this.controller=lineedit.control//温度
-			this.sumbuit.gather_address_id=lineedit.gather_address_id
-			this.sumbuit.send_address_id=lineedit.send_address_id
-			this.getquid=lineedit.gather_qu
-			this.sumbuit.gather_address=lineedit.gather_address
-			this.sumbuit.gather_contacts_name=lineedit.gather_contacts_name
-			this.sumbuit.gather_contacts_tel=lineedit.gather_contacts_tel
-			this.sumbuit.send_contacts_name=lineedit.send_contacts_name
-			this.sumbuit.send_contacts_tel=lineedit.send_contacts_tel
-			this.form.date=lineedit.trunking
-			if(this.form.tihuofei!=null || this.form.tihuofei!= ''){
-				this.checked1=true
-			}
-			if(this.form.peisongfei!=null || this.form.peisongfei!=''){
-				this.checked2=true
-			}
-			if(this.controller=="freeze"){
-				this.controllerbtn1="primary"
-			}
-			if(this.controller=="refrigeration"){
-				this.controllerbtn2="primary"
-			}
-			if(this.controller=="normal"){
-				this.controllerbtn3="primary"
-			}
 			
-			if(this.controller=="constant"){
-				this.controllerbtn4="primary"
-			}
-			if(this.controller=="cold"){
-				this.controllerbtn5="primary"
-			}
 		},
 		onShow() {
 			// console.log(this.address_list.send_info)
@@ -752,14 +779,14 @@
 					// console.log(JSON.stringify(res))
 					if(res.code==200){
 						console.log("编辑成功")
-						// var pages = getCurrentPages(); //当前页
-						// var beforePage = pages[pages.length - 2]; //上个页面路由
-						// beforePage.$vm.loadlist(1)
-						uni.$emit('loadlist');
 						this.$refs.uToast.show({
 							title: '编辑成功',
 							type: 'success',
 						})
+						// var pages = getCurrentPages(); //当前页
+						// var beforePage = pages[pages.length - 2]; //上个页面路由
+						// beforePage.$vm.loadlist(1)
+						uni.$emit('loadlist');
 						uni.navigateBack()
 					}
 					else{
